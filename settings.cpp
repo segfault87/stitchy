@@ -20,6 +20,16 @@ Settings::~Settings()
   delete settings_;
 }
 
+QString Settings::defaultPalette() const
+{
+  return settings_->value("colors/default_palette", QString()).toString();
+}
+
+void Settings::setDefaultPalette(const QString &data)
+{
+  settings_->setValue("colors/default_palette", data);
+}
+
 QByteArray Settings::state() const
 {
   return settings_->value("general/state", QByteArray()).toByteArray();

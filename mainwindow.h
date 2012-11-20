@@ -8,7 +8,6 @@ class QCloseEvent;
 class QMenu;
 
 class Canvas;
-class ColorManager;
 class Document;
 class GlobalState;
 class MetaColorManager;
@@ -56,7 +55,6 @@ class MainWindow : public QMainWindow
 
   Canvas *graphicsView_;
   MetaColorManager *colorManager_;
-  ColorManager *activeColorManager_;
   Settings *settings_;
   GlobalState *state_;
 

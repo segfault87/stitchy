@@ -10,7 +10,7 @@ class ColorManager;
 class PaletteModel : public QAbstractItemModel
 {
  public:
-  PaletteModel(ColorManager *cm, QObject *parent = NULL);
+  PaletteModel(QObject *parent = NULL);
   ~PaletteModel();
 
   void setColorManager(ColorManager *cm);

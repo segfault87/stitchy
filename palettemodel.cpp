@@ -6,10 +6,10 @@
 #define COLUMN_ID 0
 #define COLUMN_NAME 1
 
-PaletteModel::PaletteModel(ColorManager *cm, QObject *parent)
+PaletteModel::PaletteModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-  setColorManager(cm);
+
 }
 
 PaletteModel::~PaletteModel()

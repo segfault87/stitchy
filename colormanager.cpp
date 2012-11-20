@@ -50,14 +50,16 @@ ColorManager::ColorManager()
 
 }
 
-ColorManager::ColorManager(const QString &name, QObject *parent)
-    : QObject(parent), name_(name)
+ColorManager::ColorManager(const QString &id, const QString &name,
+                           QObject *parent)
+    : QObject(parent), id_(id), name_(name)
 {
 
 }
 
-ColorManager::ColorManager(const QString &name, const QString &path, QObject *parent)
-    : QObject(parent), name_(name)
+ColorManager::ColorManager(const QString &id, const QString &name,
+                           const QString &path, QObject *parent)
+    : QObject(parent), id_(id), name_(name)
 {
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly))
@@ -87,11 +89,12 @@ void ColorManager::load(const QVariant &l)
   foreach(const QVariant &i, list) {
     const QMap<QString, QVariant> &map = i.toMap();
 
-    add(Color(map["name"].toString(),
-              map["id"].toString(),
-              map["red"].toInt(),
-              map["green"].toInt(),
-              map["blue"].toInt()));
+    Color c(map["name"].toString(),
+            map["id"].toString(),
+            QColor(map["color"].toString()));
+    c.setParent(this);
+    
+    add(c);
   }
 }
 
@@ -179,7 +182,8 @@ const Color* MetaColorManager::get(const QString &category, const QString &id)
   return it.value()->get(id);
 }
 
-ColorManager* MetaColorManager::createColorManager(const QString &id, const QString &name)
+ColorManager* MetaColorManager::createColorManager(const QString &id,
+                                                   const QString &name)
 {
   QHash<QString, ColorManager *>::Iterator it = colorManagers_.find(id);
 
@@ -188,7 +192,7 @@ ColorManager* MetaColorManager::createColorManager(const QString &id, const QStr
     delete it.value();
   }
 
-  ColorManager *cm = new ColorManager(name);
+  ColorManager *cm = new ColorManager(id, name);
   colorManagers_[id] = cm;
   colorManagerList_.append(cm);
 

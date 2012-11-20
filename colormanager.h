@@ -36,13 +36,16 @@ class ColorManager : public QObject
 
  public:
   ColorManager();
-  ColorManager(const QString &name, QObject *parent = NULL);
-  ColorManager(const QString &name, const QString &path, QObject *parent = NULL);
+  ColorManager(const QString &id, const QString &name,
+               QObject *parent = NULL);
+  ColorManager(const QString &id, const QString &name,
+               const QString &path, QObject *parent = NULL);
   ~ColorManager();
 
   void load(const QVariant &list);
 
   const QString& name() const { return name_; }
+  const QString& id() const { return id_; }
 
   void add(const Color &c);
   void remove(const QString &key);
@@ -54,6 +57,7 @@ class ColorManager : public QObject
   void listChanged();
 
  private:
+  QString id_;
   QString name_;
   QHash<QString, Color> colorMap_;
   QVector<const Color *> colorList_;
@@ -70,13 +74,13 @@ class MetaColorManager : public QObject
 
   ColorManager* createColorManager(const QString &id, const QString &name);
   ColorManager* colorManager(const QString &id);
-  ColorManager* localSwatches() { return &localSwatches_; }
-  const QList<ColorManager *>& colorManagers() const { return colorManagerList_; }
+  ColorManager* localSwatch() { return &localSwatch_; }
+  QList<ColorManager *>& colorManagers() { return colorManagerList_; }
 
  private:
   QList<ColorManager *> colorManagerList_;
   QHash<QString, ColorManager *> colorManagers_;
-  ColorManager localSwatches_;
+  ColorManager localSwatch_;
 };
 
 #endif

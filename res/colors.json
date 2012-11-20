@@ -1,3193 +1,2283 @@
 [
   {
-    "id": "dmc", 
-    "name": "DMC",
     "colors": [
       {
-        "blue": 255, 
-        "green": 255, 
-        "id": "BLANC", 
-        "red": 255, 
-        "name": " White"
+        "color": "#ffffff", 
+        "name": " White", 
+        "id": "BLANC"
       }, 
       {
-        "blue": 231, 
-        "green": 247, 
-        "id": "ECRU", 
-        "red": 255, 
-        "name": "Ecru"
+        "color": "#fff7e7", 
+        "name": "Ecru", 
+        "id": "ECRU"
       }, 
       {
-        "blue": 83, 
-        "green": 0, 
-        "id": "150", 
-        "red": 207, 
-        "name": "Bright Red "
+        "color": "#cf0053", 
+        "name": "Bright Red ", 
+        "id": "150"
       }, 
       {
-        "blue": 215, 
-        "green": 203, 
-        "id": "151", 
-        "red": 255, 
-        "name": "Pink "
+        "color": "#ffcbd7", 
+        "name": "Pink ", 
+        "id": "151"
       }, 
       {
-        "blue": 161, 
-        "green": 161, 
-        "id": "152 ", 
-        "red": 225, 
-        "name": "Flesh - DK "
+        "color": "#e1a1a1", 
+        "name": "Flesh - DK ", 
+        "id": "152 "
       }, 
       {
-        "blue": 235, 
-        "green": 197, 
-        "id": "153", 
-        "red": 234, 
-        "name": "Lilac "
+        "color": "#eac5eb", 
+        "name": "Lilac ", 
+        "id": "153"
       }, 
       {
-        "blue": 58, 
-        "green": 35, 
-        "id": "154", 
-        "red": 75, 
-        "name": "Red - VY DK "
+        "color": "#4b233a", 
+        "name": "Red - VY DK ", 
+        "id": "154"
       }, 
       {
-        "blue": 182, 
-        "green": 116, 
-        "id": "155", 
-        "red": 151, 
-        "name": "Forget-me-not Blue "
+        "color": "#9774b6", 
+        "name": "Forget-me-not Blue ", 
+        "id": "155"
       }, 
       {
-        "blue": 180, 
-        "green": 119, 
-        "id": "156", 
-        "red": 133, 
-        "name": "Blue - MED "
+        "color": "#8577b4", 
+        "name": "Blue - MED ", 
+        "id": "156"
       }, 
       {
-        "blue": 234, 
-        "green": 184, 
-        "id": "157 ", 
-        "red": 181, 
-        "name": "Blue - LT "
+        "color": "#b5b8ea", 
+        "name": "Blue - LT ", 
+        "id": "157 "
       }, 
       {
-        "blue": 104, 
-        "green": 48, 
-        "id": "158", 
-        "red": 57, 
-        "name": "Blue - DK "
+        "color": "#393068", 
+        "name": "Blue - DK ", 
+        "id": "158"
       }, 
       {
-        "blue": 222, 
-        "green": 181, 
-        "id": "159", 
-        "red": 188, 
-        "name": "Petrol Blue - LT "
+        "color": "#bcb5de", 
+        "name": "Petrol Blue - LT ", 
+        "id": "159"
       }, 
       {
-        "blue": 169, 
-        "green": 120, 
-        "id": "160", 
-        "red": 129, 
-        "name": "Petrol Blue - MED "
+        "color": "#8178a9", 
+        "name": "Petrol Blue - MED ", 
+        "id": "160"
       }, 
       {
-        "blue": 139, 
-        "green": 86, 
-        "id": "161", 
-        "red": 96, 
-        "name": "Petrol Blue - DK "
+        "color": "#60568b", 
+        "name": "Petrol Blue - DK ", 
+        "id": "161"
       }, 
       {
-        "blue": 240, 
-        "green": 231, 
-        "id": "162", 
-        "red": 202, 
-        "name": "Baby Blue - LT"
+        "color": "#cae7f0", 
+        "name": "Baby Blue - LT", 
+        "id": "162"
       }, 
       {
-        "blue": 96, 
-        "green": 122, 
-        "id": "163", 
-        "red": 85, 
-        "name": "Green "
+        "color": "#557a60", 
+        "name": "Green ", 
+        "id": "163"
       }, 
       {
-        "blue": 182, 
-        "green": 228, 
-        "id": "164", 
-        "red": 186, 
-        "name": "Green - LT "
+        "color": "#bae4b6", 
+        "name": "Green - LT ", 
+        "id": "164"
       }, 
       {
-        "blue": 119, 
-        "green": 244, 
-        "id": "165", 
-        "red": 225, 
-        "name": "Green - BRIGHT "
+        "color": "#e1f477", 
+        "name": "Green - BRIGHT ", 
+        "id": "165"
       }, 
       {
-        "blue": 56, 
-        "green": 194, 
-        "id": "166", 
-        "red": 173, 
-        "name": "Lime Green"
+        "color": "#adc238", 
+        "name": "Lime Green", 
+        "id": "166"
       }, 
       {
-        "blue": 49, 
-        "green": 93, 
-        "id": "167", 
-        "red": 133, 
-        "name": "Khaki Brown "
+        "color": "#855d31", 
+        "name": "Khaki Brown ", 
+        "id": "167"
       }, 
       {
-        "blue": 183, 
-        "green": 174, 
-        "id": "168", 
-        "red": 177, 
-        "name": "Silver Grey "
+        "color": "#b1aeb7", 
+        "name": "Silver Grey ", 
+        "id": "168"
       }, 
       {
-        "blue": 125, 
-        "green": 125, 
-        "id": "169", 
-        "red": 130, 
-        "name": "Pewter Grey "
+        "color": "#827d7d", 
+        "name": "Pewter Grey ", 
+        "id": "169"
       }, 
       {
-        "blue": 128, 
-        "green": 91, 
-        "id": "208", 
-        "red": 148, 
-        "name": "Lavender - VY DK"
+        "color": "#945b80", 
+        "name": "Lavender - VY DK", 
+        "id": "208"
       }, 
       {
-        "blue": 186, 
-        "green": 148, 
-        "id": "209", 
-        "red": 206, 
-        "name": "Lavender - DK"
+        "color": "#ce94ba", 
+        "name": "Lavender - DK", 
+        "id": "209"
       }, 
       {
-        "blue": 225, 
-        "green": 207, 
-        "id": "210", 
-        "red": 236, 
-        "name": "Lavender - MED"
+        "color": "#eccfe1", 
+        "name": "Lavender - MED", 
+        "id": "210"
       }, 
       {
-        "blue": 228, 
-        "green": 218, 
-        "id": "211", 
-        "red": 243, 
-        "name": "Lavender - LT"
+        "color": "#f3dae4", 
+        "name": "Lavender - LT", 
+        "id": "211"
       }, 
       {
-        "blue": 74, 
-        "green": 41, 
-        "id": "221", 
-        "red": 156, 
-        "name": "Shell Pink - VY DK"
+        "color": "#9c294a", 
+        "name": "Shell Pink - VY DK", 
+        "id": "221"
       }, 
       {
-        "blue": 115, 
-        "green": 128, 
-        "id": "223", 
-        "red": 219, 
-        "name": "Shell Pink - LT"
+        "color": "#db8073", 
+        "name": "Shell Pink - LT", 
+        "id": "223"
       }, 
       {
-        "blue": 176, 
-        "green": 199, 
-        "id": "224", 
-        "red": 255, 
-        "name": "Shell Pink - VY LT"
+        "color": "#ffc7b0", 
+        "name": "Shell Pink - VY LT", 
+        "id": "224"
       }, 
       {
-        "blue": 228, 
-        "green": 240, 
-        "id": "225", 
-        "red": 255, 
-        "name": "Shell Pink - ULT VY LT"
+        "color": "#fff0e4", 
+        "name": "Shell Pink - ULT VY LT", 
+        "id": "225"
       }, 
       {
-        "blue": 38, 
-        "green": 57, 
-        "id": "300", 
-        "red": 143, 
-        "name": "Mahogany - VY DK"
+        "color": "#8f3926", 
+        "name": "Mahogany - VY DK", 
+        "id": "300"
       }, 
       {
-        "blue": 84, 
-        "green": 102, 
-        "id": "301", 
-        "red": 209, 
-        "name": "Mahogany - MED"
+        "color": "#d16654", 
+        "name": "Mahogany - MED", 
+        "id": "301"
       }, 
       {
-        "blue": 97, 
-        "green": 0, 
-        "id": "304", 
-        "red": 188, 
-        "name": "Christmas Red - MED"
+        "color": "#bc0061", 
+        "name": "Christmas Red - MED", 
+        "id": "304"
       }, 
       {
-        "blue": 109, 
-        "green": 231, 
-        "id": "307", 
-        "red": 255, 
-        "name": "Lemon"
+        "color": "#ffe76d", 
+        "name": "Lemon", 
+        "id": "307"
       }, 
       {
-        "blue": 91, 
-        "green": 43, 
-        "id": "309", 
-        "red": 214, 
-        "name": "Rose - DEEP"
+        "color": "#d62b5b", 
+        "name": "Rose - DEEP", 
+        "id": "309"
       }, 
       {
-        "blue": 0, 
-        "green": 0, 
-        "id": "310", 
-        "red": 0, 
-        "name": "Black"
+        "color": "#000000", 
+        "name": "Black", 
+        "id": "310"
       }, 
       {
-        "blue": 97, 
-        "green": 79, 
-        "id": "311", 
-        "red": 0, 
-        "name": "Navy Blue - MED"
+        "color": "#004f61", 
+        "name": "Navy Blue - MED", 
+        "id": "311"
       }, 
       {
-        "blue": 103, 
-        "green": 84, 
-        "id": "312", 
-        "red": 58, 
-        "name": "Navy Blue - LT"
+        "color": "#3a5467", 
+        "name": "Navy Blue - LT", 
+        "id": "312"
       }, 
       {
-        "blue": 91, 
-        "green": 90, 
-        "id": "315", 
-        "red": 163, 
-        "name": "Antique Mauve - VY DK"
+        "color": "#a35a5b", 
+        "name": "Antique Mauve - VY DK", 
+        "id": "315"
       }, 
       {
-        "blue": 141, 
-        "green": 141, 
-        "id": "316", 
-        "red": 220, 
-        "name": "Antique Mauve - MED"
+        "color": "#dc8d8d", 
+        "name": "Antique Mauve - MED", 
+        "id": "316"
       }, 
       {
-        "blue": 136, 
-        "green": 139, 
-        "id": "317", 
-        "red": 167, 
-        "name": "Pewter Grey"
+        "color": "#a78b88", 
+        "name": "Pewter Grey", 
+        "id": "317"
       }, 
       {
-        "blue": 190, 
-        "green": 198, 
-        "id": "318", 
-        "red": 197, 
-        "name": "Steel Grey - LT"
+        "color": "#c5c6be", 
+        "name": "Steel Grey - LT", 
+        "id": "318"
       }, 
       {
-        "blue": 82, 
-        "green": 95, 
-        "id": "319", 
-        "red": 85, 
-        "name": "Pistachio Green - VY DK"
+        "color": "#555f52", 
+        "name": "Pistachio Green - VY DK", 
+        "id": "319"
       }, 
       {
-        "blue": 120, 
-        "green": 153, 
-        "id": "320", 
-        "red": 138, 
-        "name": "Pistachio Green - MED"
+        "color": "#8a9978", 
+        "name": "Pistachio Green - MED", 
+        "id": "320"
       }, 
       {
-        "blue": 97, 
-        "green": 18, 
-        "id": "321", 
-        "red": 231, 
-        "name": "Christmas Red"
+        "color": "#e71261", 
+        "name": "Christmas Red", 
+        "id": "321"
       }, 
       {
-        "blue": 135, 
-        "green": 109, 
-        "id": "322", 
-        "red": 81, 
-        "name": "Navy Blue - VY LT"
+        "color": "#516d87", 
+        "name": "Navy Blue - VY LT", 
+        "id": "322"
       }, 
       {
-        "blue": 65, 
-        "green": 22, 
-        "id": "326", 
-        "red": 188, 
-        "name": "Rose - VY DEEP"
+        "color": "#bc1641", 
+        "name": "Rose - VY DEEP", 
+        "id": "326"
       }, 
       {
-        "blue": 103, 
-        "green": 0, 
-        "id": "327", 
-        "red": 61, 
-        "name": "Violet - DK"
+        "color": "#3d0067", 
+        "name": "Violet - DK", 
+        "id": "327"
       }, 
       {
-        "blue": 130, 
-        "green": 84, 
-        "id": "333", 
-        "red": 127, 
-        "name": "Blue Violet - VY DK"
+        "color": "#7f5482", 
+        "name": "Blue Violet - VY DK", 
+        "id": "333"
       }, 
       {
-        "blue": 170, 
-        "green": 140, 
-        "id": "334", 
-        "red": 115, 
-        "name": "Baby Blue - MED"
+        "color": "#738caa", 
+        "name": "Baby Blue - MED", 
+        "id": "334"
       }, 
       {
-        "blue": 79, 
-        "green": 36, 
-        "id": "335", 
-        "red": 219, 
-        "name": "Rose"
+        "color": "#db244f", 
+        "name": "Rose", 
+        "id": "335"
       }, 
       {
-        "blue": 103, 
-        "green": 73, 
-        "id": "336", 
-        "red": 36, 
-        "name": "Navy Blue"
+        "color": "#244967", 
+        "name": "Navy Blue", 
+        "id": "336"
       }, 
       {
-        "blue": 164, 
-        "green": 121, 
-        "id": "340", 
-        "red": 162, 
-        "name": "Blue Violet - MED"
+        "color": "#a279a4", 
+        "name": "Blue Violet - MED", 
+        "id": "340"
       }, 
       {
-        "blue": 197, 
-        "green": 180, 
-        "id": "341", 
-        "red": 145, 
-        "name": "Blue Violet - LT"
+        "color": "#91b4c5", 
+        "name": "Blue Violet - LT", 
+        "id": "341"
       }, 
       {
-        "blue": 67, 
-        "green": 36, 
-        "id": "347", 
-        "red": 194, 
-        "name": "Salmon - VY DK"
+        "color": "#c22443", 
+        "name": "Salmon - VY DK", 
+        "id": "347"
       }, 
       {
-        "blue": 91, 
-        "green": 61, 
-        "id": "349", 
-        "red": 220, 
-        "name": "Coral - DK"
+        "color": "#dc3d5b", 
+        "name": "Coral - DK", 
+        "id": "349"
       }, 
       {
-        "blue": 90, 
-        "green": 69, 
-        "id": "350", 
-        "red": 237, 
-        "name": "Coral - MED"
+        "color": "#ed455a", 
+        "name": "Coral - MED", 
+        "id": "350"
       }, 
       {
-        "blue": 135, 
-        "green": 128, 
-        "id": "351", 
-        "red": 255, 
-        "name": "Coral"
+        "color": "#ff8087", 
+        "name": "Coral", 
+        "id": "351"
       }, 
       {
-        "blue": 144, 
-        "green": 157, 
-        "id": "352", 
-        "red": 255, 
-        "name": "Coral - LT"
+        "color": "#ff9d90", 
+        "name": "Coral - LT", 
+        "id": "352"
       }, 
       {
-        "blue": 184, 
-        "green": 196, 
-        "id": "353", 
-        "red": 255, 
-        "name": "Peach Flesh"
+        "color": "#ffc4b8", 
+        "name": "Peach Flesh", 
+        "id": "353"
       }, 
       {
-        "blue": 47, 
-        "green": 73, 
-        "id": "355", 
-        "red": 189, 
-        "name": "Terracotta - DK"
+        "color": "#bd492f", 
+        "name": "Terracotta - DK", 
+        "id": "355"
       }, 
       {
-        "blue": 91, 
-        "green": 114, 
-        "id": "356", 
-        "red": 226, 
-        "name": "Terracotta - MED"
+        "color": "#e2725b", 
+        "name": "Terracotta - MED", 
+        "id": "356"
       }, 
       {
-        "blue": 91, 
-        "green": 112, 
-        "id": "367", 
-        "red": 95, 
-        "name": "Pistachio Green - DK"
+        "color": "#5f705b", 
+        "name": "Pistachio Green - DK", 
+        "id": "367"
       }, 
       {
-        "blue": 162, 
-        "green": 206, 
-        "id": "368", 
-        "red": 181, 
-        "name": "Pistachio Green - LT"
+        "color": "#b5cea2", 
+        "name": "Pistachio Green - LT", 
+        "id": "368"
       }, 
       {
-        "blue": 209, 
-        "green": 250, 
-        "id": "369", 
-        "red": 243, 
-        "name": "Pistachio Green - VY LT"
+        "color": "#f3fad1", 
+        "name": "Pistachio Green - VY LT", 
+        "id": "369"
       }, 
       {
-        "blue": 87, 
-        "green": 138, 
-        "id": "370", 
-        "red": 184, 
-        "name": "Mustard - MED"
+        "color": "#b88a57", 
+        "name": "Mustard - MED", 
+        "id": "370"
       }, 
       {
-        "blue": 100, 
-        "green": 155, 
-        "id": "371", 
-        "red": 196, 
-        "name": "Mustard"
+        "color": "#c49b64", 
+        "name": "Mustard", 
+        "id": "371"
       }, 
       {
-        "blue": 107, 
-        "green": 162, 
-        "id": "372", 
-        "red": 203, 
-        "name": "Mustard - LT"
+        "color": "#cba26b", 
+        "name": "Mustard - LT", 
+        "id": "372"
       }, 
       {
-        "blue": 39, 
-        "green": 60, 
-        "id": "400", 
-        "red": 157, 
-        "name": "Mahogany - DK"
+        "color": "#9d3c27", 
+        "name": "Mahogany - DK", 
+        "id": "400"
       }, 
       {
-        "blue": 164, 
-        "green": 190, 
-        "id": "402", 
-        "red": 255, 
-        "name": "Mahogany - VY LT"
+        "color": "#ffbea4", 
+        "name": "Mahogany - VY LT", 
+        "id": "402"
       }, 
       {
-        "blue": 76, 
-        "green": 101, 
-        "id": "407", 
-        "red": 194, 
-        "name": "Sportsman Flesh - VY DK"
+        "color": "#c2654c", 
+        "name": "Sportsman Flesh - VY DK", 
+        "id": "407"
       }, 
       {
-        "blue": 95, 
-        "green": 95, 
-        "id": "413", 
-        "red": 109, 
-        "name": "Pewter Grey - DK"
+        "color": "#6d5f5f", 
+        "name": "Pewter Grey - DK", 
+        "id": "413"
       }, 
       {
-        "blue": 136, 
-        "green": 139, 
-        "id": "414", 
-        "red": 167, 
-        "name": "Steel Grey - DK"
+        "color": "#a78b88", 
+        "name": "Steel Grey - DK", 
+        "id": "414"
       }, 
       {
-        "blue": 218, 
-        "green": 221, 
-        "id": "415", 
-        "red": 221, 
-        "name": "Pearl Grey"
+        "color": "#ddddda", 
+        "name": "Pearl Grey", 
+        "id": "415"
       }, 
       {
-        "blue": 43, 
-        "green": 91, 
-        "id": "420", 
-        "red": 140, 
-        "name": "Hazelnut Brown - DK"
+        "color": "#8c5b2b", 
+        "name": "Hazelnut Brown - DK", 
+        "id": "420"
       }, 
       {
-        "blue": 123, 
-        "green": 172, 
-        "id": "422", 
-        "red": 237, 
-        "name": "Hazelnut Brown - LT"
+        "color": "#edac7b", 
+        "name": "Hazelnut Brown - LT", 
+        "id": "422"
       }, 
       {
-        "blue": 20, 
-        "green": 84, 
-        "id": "433", 
-        "red": 151, 
-        "name": "Brown - MED"
+        "color": "#975414", 
+        "name": "Brown - MED", 
+        "id": "433"
       }, 
       {
-        "blue": 70, 
-        "green": 103, 
-        "id": "434", 
-        "red": 178, 
-        "name": "Brown - LT"
+        "color": "#b26746", 
+        "name": "Brown - LT", 
+        "id": "434"
       }, 
       {
-        "blue": 57, 
-        "green": 107, 
-        "id": "435", 
-        "red": 187, 
-        "name": "Brown - VY LT"
+        "color": "#bb6b39", 
+        "name": "Brown - VY LT", 
+        "id": "435"
       }, 
       {
-        "blue": 115, 
-        "green": 152, 
-        "id": "436", 
-        "red": 231, 
-        "name": "Tan"
+        "color": "#e79873", 
+        "name": "Tan", 
+        "id": "436"
       }, 
       {
-        "blue": 121, 
-        "green": 171, 
-        "id": "437", 
-        "red": 238, 
-        "name": "Tan - LT"
+        "color": "#eeab79", 
+        "name": "Tan - LT", 
+        "id": "437"
       }, 
       {
-        "blue": 0, 
-        "green": 176, 
-        "id": "444", 
-        "red": 255, 
-        "name": "Lemon - DK"
+        "color": "#ffb000", 
+        "name": "Lemon - DK", 
+        "id": "444"
       }, 
       {
-        "blue": 190, 
-        "green": 255, 
-        "id": "445", 
-        "red": 255, 
-        "name": "Lemon - LT"
+        "color": "#ffffbe", 
+        "name": "Lemon - LT", 
+        "id": "445"
       }, 
       {
-        "blue": 143, 
-        "green": 151, 
-        "id": "451", 
-        "red": 179, 
-        "name": "Shell Grey - DK"
+        "color": "#b3978f", 
+        "name": "Shell Grey - DK", 
+        "id": "451"
       }, 
       {
-        "blue": 175, 
-        "green": 185, 
-        "id": "452", 
-        "red": 210, 
-        "name": "Shell Grey - MED"
+        "color": "#d2b9af", 
+        "name": "Shell Grey - MED", 
+        "id": "452"
       }, 
       {
-        "blue": 185, 
-        "green": 207, 
-        "id": "453", 
-        "red": 235, 
-        "name": "Shell Grey - LT"
+        "color": "#ebcfb9", 
+        "name": "Shell Grey - LT", 
+        "id": "453"
       }, 
       {
-        "blue": 92, 
-        "green": 114, 
-        "id": "469", 
-        "red": 116, 
-        "name": "Avocado Green"
+        "color": "#74725c", 
+        "name": "Avocado Green", 
+        "id": "469"
       }, 
       {
-        "blue": 108, 
-        "green": 143, 
-        "id": "470", 
-        "red": 133, 
-        "name": "Avocado Green - LT"
+        "color": "#858f6c", 
+        "name": "Avocado Green - LT", 
+        "id": "470"
       }, 
       {
-        "blue": 140, 
-        "green": 187, 
-        "id": "471", 
-        "red": 176, 
-        "name": "Avocado Green - VY LT"
+        "color": "#b0bb8c", 
+        "name": "Avocado Green - VY LT", 
+        "id": "471"
       }, 
       {
-        "blue": 182, 
-        "green": 255, 
-        "id": "472", 
-        "red": 238, 
-        "name": "Avocado Green - ULT LT"
+        "color": "#eeffb6", 
+        "name": "Avocado Green - ULT LT", 
+        "id": "472"
       }, 
       {
-        "blue": 97, 
-        "green": 0, 
-        "id": "498", 
-        "red": 187, 
-        "name": "Christmas Red - LT"
+        "color": "#bb0061", 
+        "name": "Christmas Red - LT", 
+        "id": "498"
       }, 
       {
-        "blue": 41, 
-        "green": 57, 
-        "id": "500", 
-        "red": 43, 
-        "name": "Blue Green - VY DK"
+        "color": "#2b3929", 
+        "name": "Blue Green - VY DK", 
+        "id": "500"
       }, 
       {
-        "blue": 73, 
-        "green": 85, 
-        "id": "501", 
-        "red": 67, 
-        "name": "Blue Green - DK"
+        "color": "#435549", 
+        "name": "Blue Green - DK", 
+        "id": "501"
       }, 
       {
-        "blue": 134, 
-        "green": 158, 
-        "id": "502", 
-        "red": 134, 
-        "name": "Blue Green"
+        "color": "#869e86", 
+        "name": "Blue Green", 
+        "id": "502"
       }, 
       {
-        "blue": 183, 
-        "green": 206, 
-        "id": "503", 
-        "red": 195, 
-        "name": "Blue Green - MED"
+        "color": "#c3ceb7", 
+        "name": "Blue Green - MED", 
+        "id": "503"
       }, 
       {
-        "blue": 193, 
-        "green": 221, 
-        "id": "504", 
-        "red": 206, 
-        "name": "Blue Green - LT "
+        "color": "#ceddc1", 
+        "name": "Blue Green - LT ", 
+        "id": "504"
       }, 
       {
-        "blue": 64, 
-        "green": 99, 
-        "id": "505", 
-        "red": 58, 
-        "name": "Grass Green - DK"
+        "color": "#3a6340", 
+        "name": "Grass Green - DK", 
+        "id": "505"
       }, 
       {
-        "blue": 135, 
-        "green": 127, 
-        "id": "517", 
-        "red": 16, 
-        "name": "Wedgwood - MED"
+        "color": "#107f87", 
+        "name": "Wedgwood - MED", 
+        "id": "517"
       }, 
       {
-        "blue": 154, 
-        "green": 148, 
-        "id": "518", 
-        "red": 102, 
-        "name": "Wedgwood - LT"
+        "color": "#66949a", 
+        "name": "Wedgwood - LT", 
+        "id": "518"
       }, 
       {
-        "blue": 207, 
-        "green": 209, 
-        "id": "519", 
-        "red": 194, 
-        "name": "Sky Blue"
+        "color": "#c2d1cf", 
+        "name": "Sky Blue", 
+        "id": "519"
       }, 
       {
-        "blue": 18, 
-        "green": 73, 
-        "id": "520", 
-        "red": 55, 
-        "name": "Fern Green - DK"
+        "color": "#374912", 
+        "name": "Fern Green - DK", 
+        "id": "520"
       }, 
       {
-        "blue": 142, 
-        "green": 169, 
-        "id": "522", 
-        "red": 159, 
-        "name": "Fern Green"
+        "color": "#9fa98e", 
+        "name": "Fern Green", 
+        "id": "522"
       }, 
       {
-        "blue": 142, 
-        "green": 183, 
-        "id": "523", 
-        "red": 172, 
-        "name": "Fern Green - LT"
+        "color": "#acb78e", 
+        "name": "Fern Green - LT", 
+        "id": "523"
       }, 
       {
-        "blue": 158, 
-        "green": 182, 
-        "id": "524", 
-        "red": 205, 
-        "name": "Fern Green - VY LT"
+        "color": "#cdb69e", 
+        "name": "Fern Green - VY LT", 
+        "id": "524"
       }, 
       {
-        "blue": 89, 
-        "green": 85, 
-        "id": "535", 
-        "red": 85, 
-        "name": "Ash Grey - VY LT"
+        "color": "#555559", 
+        "name": "Ash Grey - VY LT", 
+        "id": "535"
       }, 
       {
-        "blue": 188, 
-        "green": 214, 
-        "id": "543", 
-        "red": 239, 
-        "name": "Beige Brown - ULT VY LT"
+        "color": "#efd6bc", 
+        "name": "Beige Brown - ULT VY LT", 
+        "id": "543"
       }, 
       {
-        "blue": 97, 
-        "green": 18, 
-        "id": "550", 
-        "red": 109, 
-        "name": "Violet - VY LT"
+        "color": "#6d1261", 
+        "name": "Violet - VY LT", 
+        "id": "550"
       }, 
       {
-        "blue": 130, 
-        "green": 85, 
-        "id": "552", 
-        "red": 146, 
-        "name": "Violet - MED"
+        "color": "#925582", 
+        "name": "Violet - MED", 
+        "id": "552"
       }, 
       {
-        "blue": 146, 
-        "green": 100, 
-        "id": "553", 
-        "red": 160, 
-        "name": "Violet"
+        "color": "#a06492", 
+        "name": "Violet", 
+        "id": "553"
       }, 
       {
-        "blue": 225, 
-        "green": 206, 
-        "id": "554", 
-        "red": 243, 
-        "name": "Violet - LT"
+        "color": "#f3cee1", 
+        "name": "Violet - LT", 
+        "id": "554"
       }, 
       {
-        "blue": 76, 
-        "green": 96, 
-        "id": "561", 
-        "red": 59, 
-        "name": "Jade - VY DK"
+        "color": "#3b604c", 
+        "name": "Jade - VY DK", 
+        "id": "561"
       }, 
       {
-        "blue": 97, 
-        "green": 134, 
-        "id": "562", 
-        "red": 97, 
-        "name": "Jade - MED"
+        "color": "#618661", 
+        "name": "Jade - MED", 
+        "id": "562"
       }, 
       {
-        "blue": 180, 
-        "green": 212, 
-        "id": "563", 
-        "red": 182, 
-        "name": "Jade - LT"
+        "color": "#b6d4b4", 
+        "name": "Jade - LT", 
+        "id": "563"
       }, 
       {
-        "blue": 204, 
-        "green": 230, 
-        "id": "564", 
-        "red": 214, 
-        "name": "Jade - VY LT"
+        "color": "#d6e6cc", 
+        "name": "Jade - VY LT", 
+        "id": "564"
       }, 
       {
-        "blue": 0, 
-        "green": 103, 
-        "id": "580", 
-        "red": 0, 
-        "name": "Moss Green - DK"
+        "color": "#006700", 
+        "name": "Moss Green - DK", 
+        "id": "580"
       }, 
       {
-        "blue": 49, 
-        "green": 152, 
-        "id": "581", 
-        "red": 151, 
-        "name": "Moss Green"
+        "color": "#979831", 
+        "name": "Moss Green", 
+        "id": "581"
       }, 
       {
-        "blue": 132, 
-        "green": 151, 
-        "id": "597", 
-        "red": 128, 
-        "name": "Turquoise"
+        "color": "#809784", 
+        "name": "Turquoise", 
+        "id": "597"
       }, 
       {
-        "blue": 205, 
-        "green": 223, 
-        "id": "598", 
-        "red": 208, 
-        "name": "Turquoise - LT"
+        "color": "#d0dfcd", 
+        "name": "Turquoise - LT", 
+        "id": "598"
       }, 
       {
-        "blue": 106, 
-        "green": 57, 
-        "id": "600", 
-        "red": 208, 
-        "name": "Cranberry - VY DK"
+        "color": "#d0396a", 
+        "name": "Cranberry - VY DK", 
+        "id": "600"
       }, 
       {
-        "blue": 105, 
-        "green": 57, 
-        "id": "601", 
-        "red": 222, 
-        "name": "Cranberry - DK"
+        "color": "#de3969", 
+        "name": "Cranberry - DK", 
+        "id": "601"
       }, 
       {
-        "blue": 122, 
-        "green": 84, 
-        "id": "602", 
-        "red": 231, 
-        "name": "Cranberry - MED"
+        "color": "#e7547a", 
+        "name": "Cranberry - MED", 
+        "id": "602"
       }, 
       {
-        "blue": 140, 
-        "green": 115, 
-        "id": "603", 
-        "red": 255, 
-        "name": "Cranberry"
+        "color": "#ff738c", 
+        "name": "Cranberry", 
+        "id": "603"
       }, 
       {
-        "blue": 202, 
-        "green": 189, 
-        "id": "604", 
-        "red": 255, 
-        "name": "Cranberry - LT"
+        "color": "#ffbdca", 
+        "name": "Cranberry - LT", 
+        "id": "604"
       }, 
       {
-        "blue": 214, 
-        "green": 207, 
-        "id": "605", 
-        "red": 255, 
-        "name": "Cranberry - VY LT"
+        "color": "#ffcfd6", 
+        "name": "Cranberry - VY LT", 
+        "id": "605"
       }, 
       {
-        "blue": 0, 
-        "green": 0, 
-        "id": "606", 
-        "red": 255, 
-        "name": "Bright Orange-Red"
+        "color": "#ff0000", 
+        "name": "Bright Orange-Red", 
+        "id": "606"
       }, 
       {
-        "blue": 0, 
-        "green": 91, 
-        "id": "608", 
-        "red": 255, 
-        "name": "Bright Orange"
+        "color": "#ff5b00", 
+        "name": "Bright Orange", 
+        "id": "608"
       }, 
       {
-        "blue": 84, 
-        "green": 104, 
-        "id": "610", 
-        "red": 151, 
-        "name": "Drab Brown - VY DK"
+        "color": "#976854", 
+        "name": "Drab Brown - VY DK", 
+        "id": "610"
       }, 
       {
-        "blue": 91, 
-        "green": 109, 
-        "id": "611", 
-        "red": 158, 
-        "name": "Drab Brown - DK"
+        "color": "#9e6d5b", 
+        "name": "Drab Brown - DK", 
+        "id": "611"
       }, 
       {
-        "blue": 103, 
-        "green": 152, 
-        "id": "612", 
-        "red": 203, 
-        "name": "Drab Brown - MED"
+        "color": "#cb9867", 
+        "name": "Drab Brown - MED", 
+        "id": "612"
       }, 
       {
-        "blue": 122, 
-        "green": 176, 
-        "id": "613", 
-        "red": 219, 
-        "name": "Drab Brown - LT"
+        "color": "#dbb07a", 
+        "name": "Drab Brown - LT", 
+        "id": "613"
       }, 
       {
-        "blue": 52, 
-        "green": 77, 
-        "id": "632", 
-        "red": 162, 
-        "name": "Negro Flesh - MED"
+        "color": "#a24d34", 
+        "name": "Negro Flesh - MED", 
+        "id": "632"
       }, 
       {
-        "blue": 157, 
-        "green": 163, 
-        "id": "640", 
-        "red": 163, 
-        "name": "Beige Grey - VY DK"
+        "color": "#a3a39d", 
+        "name": "Beige Grey - VY DK", 
+        "id": "640"
       }, 
       {
-        "blue": 170, 
-        "green": 176, 
-        "id": "642", 
-        "red": 174, 
-        "name": "Beige Grey - DK"
+        "color": "#aeb0aa", 
+        "name": "Beige Grey - DK", 
+        "id": "642"
       }, 
       {
-        "blue": 215, 
-        "green": 224, 
-        "id": "644", 
-        "red": 224, 
-        "name": "Beige Grey - MED"
+        "color": "#e0e0d7", 
+        "name": "Beige Grey - MED", 
+        "id": "644"
       }, 
       {
-        "blue": 113, 
-        "green": 113, 
-        "id": "645", 
-        "red": 113, 
-        "name": "Beaver Grey - VY DK"
+        "color": "#717171", 
+        "name": "Beaver Grey - VY DK", 
+        "id": "645"
       }, 
       {
-        "blue": 121, 
-        "green": 121, 
-        "id": "646", 
-        "red": 121, 
-        "name": "Beaver Grey - DK"
+        "color": "#797979", 
+        "name": "Beaver Grey - DK", 
+        "id": "646"
       }, 
       {
-        "blue": 185, 
-        "green": 190, 
-        "id": "647", 
-        "red": 190, 
-        "name": "Beaver Grey - MED"
+        "color": "#bebeb9", 
+        "name": "Beaver Grey - MED", 
+        "id": "647"
       }, 
       {
-        "blue": 202, 
-        "green": 202, 
-        "id": "648", 
-        "red": 202, 
-        "name": "Beaver Grey - LT"
+        "color": "#cacaca", 
+        "name": "Beaver Grey - LT", 
+        "id": "648"
       }, 
       {
-        "blue": 86, 
-        "green": 39, 
-        "id": "666", 
-        "red": 213, 
-        "name": "Christmas Red - LT"
+        "color": "#d52756", 
+        "name": "Christmas Red - LT", 
+        "id": "666"
       }, 
       {
-        "blue": 158, 
-        "green": 206, 
-        "id": "676", 
-        "red": 255, 
-        "name": "Old Gold - LT"
+        "color": "#ffce9e", 
+        "name": "Old Gold - LT", 
+        "id": "676"
       }, 
       {
-        "blue": 182, 
-        "green": 231, 
-        "id": "677", 
-        "red": 255, 
-        "name": "Old Gold - VY LT"
+        "color": "#ffe7b6", 
+        "name": "Old Gold - VY LT", 
+        "id": "677"
       }, 
       {
-        "blue": 103, 
-        "green": 140, 
-        "id": "680", 
-        "red": 209, 
-        "name": "Old Gold - DK"
+        "color": "#d18c67", 
+        "name": "Old Gold - DK", 
+        "id": "680"
       }, 
       {
-        "blue": 6, 
-        "green": 91, 
-        "id": "699", 
-        "red": 0, 
-        "name": "Christmas Green"
+        "color": "#005b06", 
+        "name": "Christmas Green", 
+        "id": "699"
       }, 
       {
-        "blue": 47, 
-        "green": 96, 
-        "id": "700", 
-        "red": 0, 
-        "name": "Christmas Green - BRIGHT"
+        "color": "#00602f", 
+        "name": "Christmas Green - BRIGHT", 
+        "id": "700"
       }, 
       {
-        "blue": 69, 
-        "green": 108, 
-        "id": "701", 
-        "red": 79, 
-        "name": "Christmas Green - LT"
+        "color": "#4f6c45", 
+        "name": "Christmas Green - LT", 
+        "id": "701"
       }, 
       {
-        "blue": 66, 
-        "green": 121, 
-        "id": "702", 
-        "red": 79, 
-        "name": "Kelly Green"
+        "color": "#4f7942", 
+        "name": "Kelly Green", 
+        "id": "702"
       }, 
       {
-        "blue": 76, 
-        "green": 144, 
-        "id": "703", 
-        "red": 121, 
-        "name": "Chartreuse"
+        "color": "#79904c", 
+        "name": "Chartreuse", 
+        "id": "703"
       }, 
       {
-        "blue": 103, 
-        "green": 164, 
-        "id": "704", 
-        "red": 165, 
-        "name": "Chartreuse - BRIGHT"
+        "color": "#a5a467", 
+        "name": "Chartreuse - BRIGHT", 
+        "id": "704"
       }, 
       {
-        "blue": 219, 
-        "green": 240, 
-        "id": "712", 
-        "red": 245, 
-        "name": "Cream"
+        "color": "#f5f0db", 
+        "name": "Cream", 
+        "id": "712"
       }, 
       {
-        "blue": 121, 
-        "green": 55, 
-        "id": "718", 
-        "red": 219, 
-        "name": "Plum"
+        "color": "#db3779", 
+        "name": "Plum", 
+        "id": "718"
       }, 
       {
-        "blue": 43, 
-        "green": 36, 
-        "id": "720", 
-        "red": 200, 
-        "name": "Orange Spice - DK"
+        "color": "#c8242b", 
+        "name": "Orange Spice - DK", 
+        "id": "720"
       }, 
       {
-        "blue": 97, 
-        "green": 115, 
-        "id": "721", 
-        "red": 255, 
-        "name": "Orange Spice - MED"
+        "color": "#ff7361", 
+        "name": "Orange Spice - MED", 
+        "id": "721"
       }, 
       {
-        "blue": 109, 
-        "green": 146, 
-        "id": "722", 
-        "red": 255, 
-        "name": "Orange Spice - LT"
+        "color": "#ff926d", 
+        "name": "Orange Spice - LT", 
+        "id": "722"
       }, 
       {
-        "blue": 124, 
-        "green": 200, 
-        "id": "725", 
-        "red": 255, 
-        "name": "Topaz"
+        "color": "#ffc87c", 
+        "name": "Topaz", 
+        "id": "725"
       }, 
       {
-        "blue": 128, 
-        "green": 224, 
-        "id": "726", 
-        "red": 255, 
-        "name": "Topaz - LT"
+        "color": "#ffe080", 
+        "name": "Topaz - LT", 
+        "id": "726"
       }, 
       {
-        "blue": 168, 
-        "green": 235, 
-        "id": "727", 
-        "red": 255, 
-        "name": "Topaz - VY LT"
+        "color": "#ffeba8", 
+        "name": "Topaz - VY LT", 
+        "id": "727"
       }, 
       {
-        "blue": 63, 
-        "green": 174, 
-        "id": "728", 
-        "red": 242, 
-        "name": "Golden Yellow "
+        "color": "#f2ae3f", 
+        "name": "Golden Yellow ", 
+        "id": "728"
       }, 
       {
-        "blue": 128, 
-        "green": 176, 
-        "id": "729", 
-        "red": 243, 
-        "name": "Old Gold - MED"
+        "color": "#f3b080", 
+        "name": "Old Gold - MED", 
+        "id": "729"
       }, 
       {
-        "blue": 0, 
-        "green": 102, 
-        "id": "730", 
-        "red": 132, 
-        "name": "Olive Green - VY DK"
+        "color": "#846600", 
+        "name": "Olive Green - VY DK", 
+        "id": "730"
       }, 
       {
-        "blue": 0, 
-        "green": 103, 
-        "id": "731", 
-        "red": 140, 
-        "name": "Olive Green - DK"
+        "color": "#8c6700", 
+        "name": "Olive Green - DK", 
+        "id": "731"
       }, 
       {
-        "blue": 0, 
-        "green": 104, 
-        "id": "732", 
-        "red": 145, 
-        "name": "Olive Green"
+        "color": "#916800", 
+        "name": "Olive Green", 
+        "id": "732"
       }, 
       {
-        "blue": 97, 
-        "green": 155, 
-        "id": "733", 
-        "red": 206, 
-        "name": "Olive Green - MED"
+        "color": "#ce9b61", 
+        "name": "Olive Green - MED", 
+        "id": "733"
       }, 
       {
-        "blue": 107, 
-        "green": 166, 
-        "id": "734", 
-        "red": 221, 
-        "name": "Olive Green - LT"
+        "color": "#dda66b", 
+        "name": "Olive Green - LT", 
+        "id": "734"
       }, 
       {
-        "blue": 139, 
-        "green": 195, 
-        "id": "738", 
-        "red": 244, 
-        "name": "Tan - VY LT"
+        "color": "#f4c38b", 
+        "name": "Tan - VY LT", 
+        "id": "738"
       }, 
       {
-        "blue": 202, 
-        "green": 233, 
-        "id": "739", 
-        "red": 244, 
-        "name": "Tan - ULT VY LT"
+        "color": "#f4e9ca", 
+        "name": "Tan - ULT VY LT", 
+        "id": "739"
       }, 
       {
-        "blue": 19, 
-        "green": 131, 
-        "id": "740", 
-        "red": 255, 
-        "name": "Tangerine"
+        "color": "#ff8313", 
+        "name": "Tangerine", 
+        "id": "740"
       }, 
       {
-        "blue": 4, 
-        "green": 142, 
-        "id": "741", 
-        "red": 255, 
-        "name": "Tangerine - MED"
+        "color": "#ff8e04", 
+        "name": "Tangerine - MED", 
+        "id": "741"
       }, 
       {
-        "blue": 85, 
-        "green": 183, 
-        "id": "742", 
-        "red": 255, 
-        "name": "Tangerine - LT"
+        "color": "#ffb755", 
+        "name": "Tangerine - LT", 
+        "id": "742"
       }, 
       {
-        "blue": 146, 
-        "green": 230, 
-        "id": "743", 
-        "red": 255, 
-        "name": "Yellow - MED"
+        "color": "#ffe692", 
+        "name": "Yellow - MED", 
+        "id": "743"
       }, 
       {
-        "blue": 170, 
-        "green": 239, 
-        "id": "744", 
-        "red": 255, 
-        "name": "Yellow - PALE"
+        "color": "#ffefaa", 
+        "name": "Yellow - PALE", 
+        "id": "744"
       }, 
       {
-        "blue": 197, 
-        "green": 240, 
-        "id": "745", 
-        "red": 255, 
-        "name": "Yellow - LT PALE"
+        "color": "#fff0c5", 
+        "name": "Yellow - LT PALE", 
+        "id": "745"
       }, 
       {
-        "blue": 219, 
-        "green": 234, 
-        "id": "746", 
-        "red": 246, 
-        "name": "Off White"
+        "color": "#f6eadb", 
+        "name": "Off White", 
+        "id": "746"
       }, 
       {
-        "blue": 239, 
-        "green": 247, 
-        "id": "747", 
-        "red": 240, 
-        "name": "Sky Blue - VY LT"
+        "color": "#f0f7ef", 
+        "name": "Sky Blue - VY LT", 
+        "id": "747"
       }, 
       {
-        "blue": 209, 
-        "green": 227, 
-        "id": "754", 
-        "red": 251, 
-        "name": "Peach Flesh - LT"
+        "color": "#fbe3d1", 
+        "name": "Peach Flesh - LT", 
+        "id": "754"
       }, 
       {
-        "blue": 147, 
-        "green": 177, 
-        "id": "758", 
-        "red": 255, 
-        "name": "Terracotta - VY LT"
+        "color": "#ffb193", 
+        "name": "Terracotta - VY LT", 
+        "id": "758"
       }, 
       {
-        "blue": 146, 
-        "green": 160, 
-        "id": "760", 
-        "red": 249, 
-        "name": "Salmon"
+        "color": "#f9a092", 
+        "name": "Salmon", 
+        "id": "760"
       }, 
       {
-        "blue": 188, 
-        "green": 201, 
-        "id": "761", 
-        "red": 255, 
-        "name": "Salmon - LT"
+        "color": "#ffc9bc", 
+        "name": "Salmon - LT", 
+        "id": "761"
       }, 
       {
-        "blue": 229, 
-        "green": 232, 
-        "id": "762", 
-        "red": 232, 
-        "name": "Pearl Grey - VY LT"
+        "color": "#e8e8e5", 
+        "name": "Pearl Grey - VY LT", 
+        "id": "762"
       }, 
       {
-        "blue": 203, 
-        "green": 249, 
-        "id": "772", 
-        "red": 231, 
-        "name": "Pine Green - LT"
+        "color": "#e7f9cb", 
+        "name": "Pine Green - LT", 
+        "id": "772"
       }, 
       {
-        "blue": 248, 
-        "green": 246, 
-        "id": "775", 
-        "red": 247, 
-        "name": "Baby Blue - VY LT"
+        "color": "#f7f6f8", 
+        "name": "Baby Blue - VY LT", 
+        "id": "775"
       }, 
       {
-        "blue": 174, 
-        "green": 177, 
-        "id": "776", 
-        "red": 255, 
-        "name": "Pink - MED "
+        "color": "#ffb1ae", 
+        "name": "Pink - MED ", 
+        "id": "776"
       }, 
       {
-        "blue": 66, 
-        "green": 0, 
-        "id": "777", 
-        "red": 155, 
-        "name": "Red - DEEP "
+        "color": "#9b0042", 
+        "name": "Red - DEEP ", 
+        "id": "777"
       }, 
       {
-        "blue": 184, 
-        "green": 199, 
-        "id": "778", 
-        "red": 255, 
-        "name": "Antique Mauve - VY LT"
+        "color": "#ffc7b8", 
+        "name": "Antique Mauve - VY LT", 
+        "id": "778"
       }, 
       {
-        "blue": 45, 
-        "green": 51, 
-        "id": "779", 
-        "red": 83, 
-        "name": "Brown "
+        "color": "#53332d", 
+        "name": "Brown ", 
+        "id": "779"
       }, 
       {
-        "blue": 46, 
-        "green": 98, 
-        "id": "780", 
-        "red": 181, 
-        "name": "Topaz - ULT VY DK"
+        "color": "#b5622e", 
+        "name": "Topaz - ULT VY DK", 
+        "id": "780"
       }, 
       {
-        "blue": 56, 
-        "green": 107, 
-        "id": "781", 
-        "red": 181, 
-        "name": "Topaz - VY DK "
+        "color": "#b56b38", 
+        "name": "Topaz - VY DK ", 
+        "id": "781"
       }, 
       {
-        "blue": 66, 
-        "green": 119, 
-        "id": "782", 
-        "red": 204, 
-        "name": "Topaz - DK"
+        "color": "#cc7742", 
+        "name": "Topaz - DK", 
+        "id": "782"
       }, 
       {
-        "blue": 85, 
-        "green": 146, 
-        "id": "783", 
-        "red": 225, 
-        "name": "Topaz - MED"
+        "color": "#e19255", 
+        "name": "Topaz - MED", 
+        "id": "783"
       }, 
       {
-        "blue": 93, 
-        "green": 55, 
-        "id": "791", 
-        "red": 71, 
-        "name": "Cornflower Blue - VY DK"
+        "color": "#47375d", 
+        "name": "Cornflower Blue - VY DK", 
+        "id": "791"
       }, 
       {
-        "blue": 128, 
-        "green": 97, 
-        "id": "792", 
-        "red": 97, 
-        "name": "Cornflower Blue - DK"
+        "color": "#616180", 
+        "name": "Cornflower Blue - DK", 
+        "id": "792"
       }, 
       {
-        "blue": 164, 
-        "green": 139, 
-        "id": "793", 
-        "red": 147, 
-        "name": "Cornflower Blue - MED"
+        "color": "#938ba4", 
+        "name": "Cornflower Blue - MED", 
+        "id": "793"
       }, 
       {
-        "blue": 218, 
-        "green": 208, 
-        "id": "794", 
-        "red": 187, 
-        "name": "Cornflower Blue - LT"
+        "color": "#bbd0da", 
+        "name": "Cornflower Blue - LT", 
+        "id": "794"
       }, 
       {
-        "blue": 95, 
-        "green": 58, 
-        "id": "796", 
-        "red": 30, 
-        "name": "Royal Blue - DK"
+        "color": "#1e3a5f", 
+        "name": "Royal Blue - DK", 
+        "id": "796"
       }, 
       {
-        "blue": 99, 
-        "green": 66, 
-        "id": "797", 
-        "red": 30, 
-        "name": "Royal Blue"
+        "color": "#1e4263", 
+        "name": "Royal Blue", 
+        "id": "797"
       }, 
       {
-        "blue": 141, 
-        "green": 115, 
-        "id": "798", 
-        "red": 103, 
-        "name": "Delft - DK"
+        "color": "#67738d", 
+        "name": "Delft - DK", 
+        "id": "798"
       }, 
       {
-        "blue": 182, 
-        "green": 156, 
-        "id": "799", 
-        "red": 132, 
-        "name": "Delft - MED"
+        "color": "#849cb6", 
+        "name": "Delft - MED", 
+        "id": "799"
       }, 
       {
-        "blue": 233, 
-        "green": 238, 
-        "id": "800", 
-        "red": 233, 
-        "name": "Delft - PALE"
+        "color": "#e9eee9", 
+        "name": "Delft - PALE", 
+        "id": "800"
       }, 
       {
-        "blue": 20, 
-        "green": 71, 
-        "id": "801", 
-        "red": 123, 
-        "name": "Coffee Brown - DK"
+        "color": "#7b4714", 
+        "name": "Coffee Brown - DK", 
+        "id": "801"
       }, 
       {
-        "blue": 84, 
-        "green": 39, 
-        "id": "803", 
-        "red": 32, 
-        "name": "Blue - DEEP "
+        "color": "#202754", 
+        "name": "Blue - DEEP ", 
+        "id": "803"
       }, 
       {
-        "blue": 133, 
-        "green": 130, 
-        "id": "806", 
-        "red": 30, 
-        "name": "Peacock Blue - DK "
+        "color": "#1e8285", 
+        "name": "Peacock Blue - DK ", 
+        "id": "806"
       }, 
       {
-        "blue": 160, 
-        "green": 167, 
-        "id": "807", 
-        "red": 128, 
-        "name": "Peacock Blue"
+        "color": "#80a7a0", 
+        "name": "Peacock Blue", 
+        "id": "807"
       }, 
       {
-        "blue": 205, 
-        "green": 193, 
-        "id": "809", 
-        "red": 190, 
-        "name": "Delft"
+        "color": "#bec1cd", 
+        "name": "Delft", 
+        "id": "809"
       }, 
       {
-        "blue": 205, 
-        "green": 195, 
-        "id": "813", 
-        "red": 175, 
-        "name": "Blue - LT"
+        "color": "#afc3cd", 
+        "name": "Blue - LT", 
+        "id": "813"
       }, 
       {
-        "blue": 88, 
-        "green": 0, 
-        "id": "814", 
-        "red": 162, 
-        "name": "Garnet - DK"
+        "color": "#a20058", 
+        "name": "Garnet - DK", 
+        "id": "814"
       }, 
       {
-        "blue": 91, 
-        "green": 0, 
-        "id": "815", 
-        "red": 166, 
-        "name": "Garnet - MED"
+        "color": "#a6005b", 
+        "name": "Garnet - MED", 
+        "id": "815"
       }, 
       {
-        "blue": 91, 
-        "green": 0, 
-        "id": "816", 
-        "red": 179, 
-        "name": "Garnet"
+        "color": "#b3005b", 
+        "name": "Garnet", 
+        "id": "816"
       }, 
       {
-        "blue": 85, 
-        "green": 24, 
-        "id": "817", 
-        "red": 219, 
-        "name": "Coral Red - VY DK"
+        "color": "#db1855", 
+        "name": "Coral Red - VY DK", 
+        "id": "817"
       }, 
       {
-        "blue": 235, 
-        "green": 234, 
-        "id": "818", 
-        "red": 255, 
-        "name": "Baby Pink"
+        "color": "#ffeaeb", 
+        "name": "Baby Pink", 
+        "id": "818"
       }, 
       {
-        "blue": 221, 
-        "green": 247, 
-        "id": "819", 
-        "red": 248, 
-        "name": "Baby Pink - LT"
+        "color": "#f8f7dd", 
+        "name": "Baby Pink - LT", 
+        "id": "819"
       }, 
       {
-        "blue": 85, 
-        "green": 54, 
-        "id": "820", 
-        "red": 30, 
-        "name": "Royal Blue - VY DK"
+        "color": "#1e3655", 
+        "name": "Royal Blue - VY DK", 
+        "id": "820"
       }, 
       {
-        "blue": 219, 
-        "green": 234, 
-        "id": "822", 
-        "red": 242, 
-        "name": "Beige Grey - LT"
+        "color": "#f2eadb", 
+        "name": "Beige Grey - LT", 
+        "id": "822"
       }, 
       {
-        "blue": 73, 
-        "green": 0, 
-        "id": "823", 
-        "red": 0, 
-        "name": "Navy Blue - DK"
+        "color": "#000049", 
+        "name": "Navy Blue - DK", 
+        "id": "823"
       }, 
       {
-        "blue": 116, 
-        "green": 97, 
-        "id": "824", 
-        "red": 71, 
-        "name": "Blue - VY DK"
+        "color": "#476174", 
+        "name": "Blue - VY DK", 
+        "id": "824"
       }, 
       {
-        "blue": 128, 
-        "green": 108, 
-        "id": "825", 
-        "red": 85, 
-        "name": "Blue - DK"
+        "color": "#556c80", 
+        "name": "Blue - DK", 
+        "id": "825"
       }, 
       {
-        "blue": 153, 
-        "green": 138, 
-        "id": "826", 
-        "red": 115, 
-        "name": "Blue - MED"
+        "color": "#738a99", 
+        "name": "Blue - MED", 
+        "id": "826"
       }, 
       {
-        "blue": 232, 
-        "green": 231, 
-        "id": "827", 
-        "red": 213, 
-        "name": "Blue - VY LT"
+        "color": "#d5e7e8", 
+        "name": "Blue - VY LT", 
+        "id": "827"
       }, 
       {
-        "blue": 238, 
-        "green": 247, 
-        "id": "828", 
-        "red": 237, 
-        "name": "Blue - ULT VY LT"
+        "color": "#edf7ee", 
+        "name": "Blue - ULT VY LT", 
+        "id": "828"
       }, 
       {
-        "blue": 8, 
-        "green": 90, 
-        "id": "829", 
-        "red": 130, 
-        "name": "Golden Olive - VY DK"
+        "color": "#825a08", 
+        "name": "Golden Olive - VY DK", 
+        "id": "829"
       }, 
       {
-        "blue": 18, 
-        "green": 95, 
-        "id": "830", 
-        "red": 136, 
-        "name": "Golden Olive - DK"
+        "color": "#885f12", 
+        "name": "Golden Olive - DK", 
+        "id": "830"
       }, 
       {
-        "blue": 18, 
-        "green": 103, 
-        "id": "831", 
-        "red": 144, 
-        "name": "Golden Olive - MED"
+        "color": "#906712", 
+        "name": "Golden Olive - MED", 
+        "id": "831"
       }, 
       {
-        "blue": 55, 
-        "green": 119, 
-        "id": "832", 
-        "red": 178, 
-        "name": "Golden Olive"
+        "color": "#b27737", 
+        "name": "Golden Olive", 
+        "id": "832"
       }, 
       {
-        "blue": 128, 
-        "green": 182, 
-        "id": "833", 
-        "red": 219, 
-        "name": "Golden Olive - LT"
+        "color": "#dbb680", 
+        "name": "Golden Olive - LT", 
+        "id": "833"
       }, 
       {
-        "blue": 142, 
-        "green": 209, 
-        "id": "834", 
-        "red": 242, 
-        "name": "Golden Olive - VY LT"
+        "color": "#f2d18e", 
+        "name": "Golden Olive - VY LT", 
+        "id": "834"
       }, 
       {
-        "blue": 27, 
-        "green": 56, 
-        "id": "838", 
-        "red": 94, 
-        "name": "Beige Brown - VY DK"
+        "color": "#5e381b", 
+        "name": "Beige Brown - VY DK", 
+        "id": "838"
       }, 
       {
-        "blue": 39, 
-        "green": 66, 
-        "id": "839", 
-        "red": 109, 
-        "name": "Beige Brown - DK"
+        "color": "#6d4227", 
+        "name": "Beige Brown - DK", 
+        "id": "839"
       }, 
       {
-        "blue": 30, 
-        "green": 85, 
-        "id": "840", 
-        "red": 128, 
-        "name": "Beige Brown - MED"
+        "color": "#80551e", 
+        "name": "Beige Brown - MED", 
+        "id": "840"
       }, 
       {
-        "blue": 107, 
-        "green": 134, 
-        "id": "841", 
-        "red": 188, 
-        "name": "Beige Brown - LT"
+        "color": "#bc866b", 
+        "name": "Beige Brown - LT", 
+        "id": "841"
       }, 
       {
-        "blue": 164, 
-        "green": 194, 
-        "id": "842", 
-        "red": 219, 
-        "name": "Beige Brown - VY LT"
+        "color": "#dbc2a4", 
+        "name": "Beige Brown - VY LT", 
+        "id": "842"
       }, 
       {
-        "blue": 102, 
-        "green": 103, 
-        "id": "844", 
-        "red": 107, 
-        "name": "Beaver Brown - ULT DK"
+        "color": "#6b6766", 
+        "name": "Beaver Brown - ULT DK", 
+        "id": "844"
       }, 
       {
-        "blue": 48, 
-        "green": 92, 
-        "id": "868", 
-        "red": 153, 
-        "name": "Hazelnut Brown - VY DK"
+        "color": "#995c30", 
+        "name": "Hazelnut Brown - VY DK", 
+        "id": "868"
       }, 
       {
-        "blue": 48, 
-        "green": 92, 
-        "id": "869", 
-        "red": 153, 
-        "name": "Hazelnut Brown - VY DK"
+        "color": "#995c30", 
+        "name": "Hazelnut Brown - VY DK", 
+        "id": "869"
       }, 
       {
-        "blue": 76, 
-        "green": 86, 
-        "id": "890", 
-        "red": 79, 
-        "name": "Pistachio Green - ULT DK"
+        "color": "#4f564c", 
+        "name": "Pistachio Green - ULT DK", 
+        "id": "890"
       }, 
       {
-        "blue": 84, 
-        "green": 49, 
-        "id": "891", 
-        "red": 241, 
-        "name": "Carnation - DK"
+        "color": "#f13154", 
+        "name": "Carnation - DK", 
+        "id": "891"
       }, 
       {
-        "blue": 97, 
-        "green": 90, 
-        "id": "892", 
-        "red": 249, 
-        "name": "Carnation - MED"
+        "color": "#f95a61", 
+        "name": "Carnation - MED", 
+        "id": "892"
       }, 
       {
-        "blue": 157, 
-        "green": 149, 
-        "id": "893", 
-        "red": 243, 
-        "name": "Carnation - LT"
+        "color": "#f3959d", 
+        "name": "Carnation - LT", 
+        "id": "893"
       }, 
       {
-        "blue": 191, 
-        "green": 194, 
-        "id": "894", 
-        "red": 255, 
-        "name": "Carnation - VY LT"
+        "color": "#ffc2bf", 
+        "name": "Carnation - VY LT", 
+        "id": "894"
       }, 
       {
-        "blue": 78, 
-        "green": 92, 
-        "id": "895", 
-        "red": 89, 
-        "name": "Hunter Green - VY DK"
+        "color": "#595c4e", 
+        "name": "Hunter Green - VY DK", 
+        "id": "895"
       }, 
       {
-        "blue": 19, 
-        "green": 55, 
-        "id": "898", 
-        "red": 118, 
-        "name": "Coffee Brown - VY DK"
+        "color": "#763713", 
+        "name": "Coffee Brown - VY DK", 
+        "id": "898"
       }, 
       {
-        "blue": 115, 
-        "green": 109, 
-        "id": "899", 
-        "red": 233, 
-        "name": "Rose - MED"
+        "color": "#e96d73", 
+        "name": "Rose - MED", 
+        "id": "899"
       }, 
       {
-        "blue": 0, 
-        "green": 43, 
-        "id": "900", 
-        "red": 206, 
-        "name": "Burnt Orange - DK"
+        "color": "#ce2b00", 
+        "name": "Burnt Orange - DK", 
+        "id": "900"
       }, 
       {
-        "blue": 77, 
-        "green": 24, 
-        "id": "902", 
-        "red": 138, 
-        "name": "Garnet - VY DK"
+        "color": "#8a184d", 
+        "name": "Garnet - VY DK", 
+        "id": "902"
       }, 
       {
-        "blue": 57, 
-        "green": 95, 
-        "id": "904", 
-        "red": 78, 
-        "name": "Parrot Green - VY DK"
+        "color": "#4e5f39", 
+        "name": "Parrot Green - VY DK", 
+        "id": "904"
       }, 
       {
-        "blue": 57, 
-        "green": 119, 
-        "id": "905", 
-        "red": 98, 
-        "name": "Parrot Green - DK"
+        "color": "#627739", 
+        "name": "Parrot Green - DK", 
+        "id": "905"
       }, 
       {
-        "blue": 89, 
-        "green": 163, 
-        "id": "906", 
-        "red": 143, 
-        "name": "Parrot Green - MED"
+        "color": "#8fa359", 
+        "name": "Parrot Green - MED", 
+        "id": "906"
       }, 
       {
-        "blue": 102, 
-        "green": 200, 
-        "id": "907", 
-        "red": 185, 
-        "name": "Parrot Green - LT"
+        "color": "#b9c866", 
+        "name": "Parrot Green - LT", 
+        "id": "907"
       }, 
       {
-        "blue": 85, 
-        "green": 105, 
-        "id": "909", 
-        "red": 49, 
-        "name": "Emerald Green - VY DK"
+        "color": "#316955", 
+        "name": "Emerald Green - VY DK", 
+        "id": "909"
       }, 
       {
-        "blue": 91, 
-        "green": 116, 
-        "id": "910", 
-        "red": 48, 
-        "name": "Emerald Green - DK"
+        "color": "#30745b", 
+        "name": "Emerald Green - DK", 
+        "id": "910"
       }, 
       {
-        "blue": 97, 
-        "green": 128, 
-        "id": "911", 
-        "red": 49, 
-        "name": "Emerald Green - MED"
+        "color": "#318061", 
+        "name": "Emerald Green - MED", 
+        "id": "911"
       }, 
       {
-        "blue": 115, 
-        "green": 158, 
-        "id": "912", 
-        "red": 115, 
-        "name": "Emerald Green - LT"
+        "color": "#739e73", 
+        "name": "Emerald Green - LT", 
+        "id": "912"
       }, 
       {
-        "blue": 149, 
-        "green": 188, 
-        "id": "913", 
-        "red": 153, 
-        "name": "Nile Green - MED"
+        "color": "#99bc95", 
+        "name": "Nile Green - MED", 
+        "id": "913"
       }, 
       {
-        "blue": 91, 
-        "green": 24, 
-        "id": "915", 
-        "red": 170, 
-        "name": "Plum - DK"
+        "color": "#aa185b", 
+        "name": "Plum - DK", 
+        "id": "915"
       }, 
       {
-        "blue": 95, 
-        "green": 22, 
-        "id": "917", 
-        "red": 171, 
-        "name": "Plum - MED"
+        "color": "#ab165f", 
+        "name": "Plum - MED", 
+        "id": "917"
       }, 
       {
-        "blue": 76, 
-        "green": 68, 
-        "id": "918", 
-        "red": 168, 
-        "name": "Red Copper - DK"
+        "color": "#a8444c", 
+        "name": "Red Copper - DK", 
+        "id": "918"
       }, 
       {
-        "blue": 82, 
-        "green": 75, 
-        "id": "919", 
-        "red": 180, 
-        "name": "Red Copper"
+        "color": "#b44b52", 
+        "name": "Red Copper", 
+        "id": "919"
       }, 
       {
-        "blue": 88, 
-        "green": 94, 
-        "id": "920", 
-        "red": 197, 
-        "name": "Copper - MED"
+        "color": "#c55e58", 
+        "name": "Copper - MED", 
+        "id": "920"
       }, 
       {
-        "blue": 91, 
-        "green": 103, 
-        "id": "921", 
-        "red": 206, 
-        "name": "Copper"
+        "color": "#ce675b", 
+        "name": "Copper", 
+        "id": "921"
       }, 
       {
-        "blue": 115, 
-        "green": 134, 
-        "id": "922", 
-        "red": 237, 
-        "name": "Copper - LT"
+        "color": "#ed8673", 
+        "name": "Copper - LT", 
+        "id": "922"
       }, 
       {
-        "blue": 100, 
-        "green": 99, 
-        "id": "924", 
-        "red": 86, 
-        "name": "Grey Green - VY DK"
+        "color": "#566364", 
+        "name": "Grey Green - VY DK", 
+        "id": "924"
       }, 
       {
-        "blue": 115, 
-        "green": 116, 
-        "id": "926", 
-        "red": 96, 
-        "name": "Grey Green - LT"
+        "color": "#607473", 
+        "name": "Grey Green - LT", 
+        "id": "926"
       }, 
       {
-        "blue": 194, 
-        "green": 198, 
-        "id": "927", 
-        "red": 200, 
-        "name": "Grey Green - LT"
+        "color": "#c8c6c2", 
+        "name": "Grey Green - LT", 
+        "id": "927"
       }, 
       {
-        "blue": 216, 
-        "green": 224, 
-        "id": "928", 
-        "red": 225, 
-        "name": "Grey Green - VY LT"
+        "color": "#e1e0d8", 
+        "name": "Grey Green - VY LT", 
+        "id": "928"
       }, 
       {
-        "blue": 140, 
-        "green": 122, 
-        "id": "930", 
-        "red": 102, 
-        "name": "Antique Blue - DK"
+        "color": "#667a8c", 
+        "name": "Antique Blue - DK", 
+        "id": "930"
       }, 
       {
-        "blue": 145, 
-        "green": 135, 
-        "id": "931", 
-        "red": 124, 
-        "name": "Antique Blue - MED"
+        "color": "#7c8791", 
+        "name": "Antique Blue - MED", 
+        "id": "931"
       }, 
       {
-        "blue": 194, 
-        "green": 186, 
-        "id": "932", 
-        "red": 182, 
-        "name": "Antique Blue - LT"
+        "color": "#b6bac2", 
+        "name": "Antique Blue - LT", 
+        "id": "932"
       }, 
       {
-        "blue": 40, 
-        "green": 59, 
-        "id": "934", 
-        "red": 62, 
-        "name": "Black Avocado Green"
+        "color": "#3e3b28", 
+        "name": "Black Avocado Green", 
+        "id": "934"
       }, 
       {
-        "blue": 47, 
-        "green": 63, 
-        "id": "935", 
-        "red": 67, 
-        "name": "Avocado Green - DK"
+        "color": "#433f2f", 
+        "name": "Avocado Green - DK", 
+        "id": "935"
       }, 
       {
-        "blue": 49, 
-        "green": 69, 
-        "id": "936", 
-        "red": 69, 
-        "name": "Avocado Green - VY DK"
+        "color": "#454531", 
+        "name": "Avocado Green - VY DK", 
+        "id": "936"
       }, 
       {
-        "blue": 55, 
-        "green": 86, 
-        "id": "937", 
-        "red": 73, 
-        "name": "Avocado Green - MED"
+        "color": "#495637", 
+        "name": "Avocado Green - MED", 
+        "id": "937"
       }, 
       {
-        "blue": 16, 
-        "green": 39, 
-        "id": "938", 
-        "red": 99, 
-        "name": "Coffee Brown - ULT DK"
+        "color": "#632710", 
+        "name": "Coffee Brown - ULT DK", 
+        "id": "938"
       }, 
       {
-        "blue": 49, 
-        "green": 0, 
-        "id": "939", 
-        "red": 0, 
-        "name": "Navy Blue - VY DK"
+        "color": "#000031", 
+        "name": "Navy Blue - VY DK", 
+        "id": "939"
       }, 
       {
-        "blue": 117, 
-        "green": 162, 
-        "id": "943", 
-        "red": 0, 
-        "name": "Aquamarine - MED"
+        "color": "#00a275", 
+        "name": "Aquamarine - MED", 
+        "id": "943"
       }, 
       {
-        "blue": 164, 
-        "green": 206, 
-        "id": "945", 
-        "red": 255, 
-        "name": "Flesh - MED"
+        "color": "#ffcea4", 
+        "name": "Flesh - MED", 
+        "id": "945"
       }, 
       {
-        "blue": 0, 
-        "green": 73, 
-        "id": "946", 
-        "red": 244, 
-        "name": "Burnt Orange - MED"
+        "color": "#f44900", 
+        "name": "Burnt Orange - MED", 
+        "id": "946"
       }, 
       {
-        "blue": 0, 
-        "green": 91, 
-        "id": "947", 
-        "red": 255, 
-        "name": "Burnt Orange"
+        "color": "#ff5b00", 
+        "name": "Burnt Orange", 
+        "id": "947"
       }, 
       {
-        "blue": 231, 
-        "green": 243, 
-        "id": "948", 
-        "red": 255, 
-        "name": "Peach Flesh - VY LT"
+        "color": "#fff3e7", 
+        "name": "Peach Flesh - VY LT", 
+        "id": "948"
       }, 
       {
-        "blue": 127, 
-        "green": 162, 
-        "id": "950", 
-        "red": 239, 
-        "name": "Sportsman Flesh"
+        "color": "#efa27f", 
+        "name": "Sportsman Flesh", 
+        "id": "950"
       }, 
       {
-        "blue": 188, 
-        "green": 229, 
-        "id": "951", 
-        "red": 255, 
-        "name": "Flesh"
+        "color": "#ffe5bc", 
+        "name": "Flesh", 
+        "id": "951"
       }, 
       {
-        "blue": 164, 
-        "green": 213, 
-        "id": "954", 
-        "red": 170, 
-        "name": "Nile Green"
+        "color": "#aad5a4", 
+        "name": "Nile Green", 
+        "id": "954"
       }, 
       {
-        "blue": 204, 
-        "green": 230, 
-        "id": "955", 
-        "red": 214, 
-        "name": "Nile Green - LT"
+        "color": "#d6e6cc", 
+        "name": "Nile Green - LT", 
+        "id": "955"
       }, 
       {
-        "blue": 115, 
-        "green": 109, 
-        "id": "956", 
-        "red": 255, 
-        "name": "Geranium"
+        "color": "#ff6d73", 
+        "name": "Geranium", 
+        "id": "956"
       }, 
       {
-        "blue": 208, 
-        "green": 204, 
-        "id": "957", 
-        "red": 255, 
-        "name": "Geranium - PALE"
+        "color": "#ffccd0", 
+        "name": "Geranium - PALE", 
+        "id": "957"
       }, 
       {
-        "blue": 130, 
-        "green": 160, 
-        "id": "958", 
-        "red": 0, 
-        "name": "Sea Green - DK"
+        "color": "#00a082", 
+        "name": "Sea Green - DK", 
+        "id": "958"
       }, 
       {
-        "blue": 177, 
-        "green": 206, 
-        "id": "959", 
-        "red": 171, 
-        "name": "Sea Green - MED"
+        "color": "#abceb1", 
+        "name": "Sea Green - MED", 
+        "id": "959"
       }, 
       {
-        "blue": 123, 
-        "green": 108, 
-        "id": "961", 
-        "red": 243, 
-        "name": "Dusty Rose - DK"
+        "color": "#f36c7b", 
+        "name": "Dusty Rose - DK", 
+        "id": "961"
       }, 
       {
-        "blue": 141, 
-        "green": 134, 
-        "id": "962", 
-        "red": 253, 
-        "name": "Dusty Rose - MED"
+        "color": "#fd868d", 
+        "name": "Dusty Rose - MED", 
+        "id": "962"
       }, 
       {
-        "blue": 233, 
-        "green": 233, 
-        "id": "963", 
-        "red": 255, 
-        "name": "Dusty Rose - ULT VY LT"
+        "color": "#ffe9e9", 
+        "name": "Dusty Rose - ULT VY LT", 
+        "id": "963"
       }, 
       {
-        "blue": 210, 
-        "green": 224, 
-        "id": "964", 
-        "red": 208, 
-        "name": "Sea Green - LT"
+        "color": "#d0e0d2", 
+        "name": "Sea Green - LT", 
+        "id": "964"
       }, 
       {
-        "blue": 176, 
-        "green": 213, 
-        "id": "966", 
-        "red": 206, 
-        "name": "Baby Green - MED"
+        "color": "#ced5b0", 
+        "name": "Baby Green - MED", 
+        "id": "966"
       }, 
       {
-        "blue": 172, 
-        "green": 194, 
-        "id": "967", 
-        "red": 255, 
-        "name": "Peach - LT"
+        "color": "#ffc2ac", 
+        "name": "Peach - LT", 
+        "id": "967"
       }, 
       {
-        "blue": 24, 
-        "green": 117, 
-        "id": "970", 
-        "red": 255, 
-        "name": "Pumpkin - LT"
+        "color": "#ff7518", 
+        "name": "Pumpkin - LT", 
+        "id": "970"
       }, 
       {
-        "blue": 0, 
-        "green": 106, 
-        "id": "971", 
-        "red": 255, 
-        "name": "Pumpkin "
+        "color": "#ff6a00", 
+        "name": "Pumpkin ", 
+        "id": "971"
       }, 
       {
-        "blue": 0, 
-        "green": 146, 
-        "id": "972", 
-        "red": 255, 
-        "name": "Canary - DEEP"
+        "color": "#ff9200", 
+        "name": "Canary - DEEP", 
+        "id": "972"
       }, 
       {
-        "blue": 67, 
-        "green": 194, 
-        "id": "973", 
-        "red": 255, 
-        "name": "Canary - BRIGHT"
+        "color": "#ffc243", 
+        "name": "Canary - BRIGHT", 
+        "id": "973"
       }, 
       {
-        "blue": 18, 
-        "green": 67, 
-        "id": "975", 
-        "red": 158, 
-        "name": "Golden Brown - DK"
+        "color": "#9e4312", 
+        "name": "Golden Brown - DK", 
+        "id": "975"
       }, 
       {
-        "blue": 57, 
-        "green": 141, 
-        "id": "976", 
-        "red": 246, 
-        "name": "Golden Brown - MED"
+        "color": "#f68d39", 
+        "name": "Golden Brown - MED", 
+        "id": "976"
       }, 
       {
-        "blue": 73, 
-        "green": 164, 
-        "id": "977", 
-        "red": 255, 
-        "name": "Golden Brown - LT"
+        "color": "#ffa449", 
+        "name": "Golden Brown - LT", 
+        "id": "977"
       }, 
       {
-        "blue": 65, 
-        "green": 82, 
-        "id": "986", 
-        "red": 58, 
-        "name": "Forest Green - VY DK"
+        "color": "#3a5241", 
+        "name": "Forest Green - VY DK", 
+        "id": "986"
       }, 
       {
-        "blue": 73, 
-        "green": 97, 
-        "id": "987", 
-        "red": 83, 
-        "name": "Forest Green - DK"
+        "color": "#536149", 
+        "name": "Forest Green - DK", 
+        "id": "987"
       }, 
       {
-        "blue": 110, 
-        "green": 145, 
-        "id": "988", 
-        "red": 134, 
-        "name": "Forest Green - MED"
+        "color": "#86916e", 
+        "name": "Forest Green - MED", 
+        "id": "988"
       }, 
       {
-        "blue": 110, 
-        "green": 153, 
-        "id": "989", 
-        "red": 134, 
-        "name": "Forest Green"
+        "color": "#86996e", 
+        "name": "Forest Green", 
+        "id": "989"
       }, 
       {
-        "blue": 73, 
-        "green": 91, 
-        "id": "991", 
-        "red": 47, 
-        "name": "Aquamarine - DK"
+        "color": "#2f5b49", 
+        "name": "Aquamarine - DK", 
+        "id": "991"
       }, 
       {
-        "blue": 165, 
-        "green": 183, 
-        "id": "992", 
-        "red": 146, 
-        "name": "Aquamarine"
+        "color": "#92b7a5", 
+        "name": "Aquamarine", 
+        "id": "992"
       }, 
       {
-        "blue": 200, 
-        "green": 224, 
-        "id": "993", 
-        "red": 192, 
-        "name": "Aquamarine - LT"
+        "color": "#c0e0c8", 
+        "name": "Aquamarine - LT", 
+        "id": "993"
       }, 
       {
-        "blue": 134, 
-        "green": 123, 
-        "id": "995", 
-        "red": 0, 
-        "name": "Electric Blue - DK"
+        "color": "#007b86", 
+        "name": "Electric Blue - DK", 
+        "id": "995"
       }, 
       {
-        "blue": 225, 
-        "green": 222, 
-        "id": "996", 
-        "red": 170, 
-        "name": "Electric Blue - MED"
+        "color": "#aadee1", 
+        "name": "Electric Blue - MED", 
+        "id": "996"
       }, 
       {
-        "blue": 64, 
-        "green": 91, 
-        "id": "3011", 
-        "red": 123, 
-        "name": "Khaki Green - DK"
+        "color": "#7b5b40", 
+        "name": "Khaki Green - DK", 
+        "id": "3011"
       }, 
       {
-        "blue": 103, 
-        "green": 134, 
-        "id": "3012", 
-        "red": 170, 
-        "name": "Khaki Green - MED"
+        "color": "#aa8667", 
+        "name": "Khaki Green - MED", 
+        "id": "3012"
       }, 
       {
-        "blue": 164, 
-        "green": 195, 
-        "id": "3013", 
-        "red": 208, 
-        "name": "Khaki Green - LT"
+        "color": "#d0c3a4", 
+        "name": "Khaki Green - LT", 
+        "id": "3013"
       }, 
       {
-        "blue": 93, 
-        "green": 91, 
-        "id": "3021", 
-        "red": 115, 
-        "name": "Brown Grey - VY DK"
+        "color": "#735b5d", 
+        "name": "Brown Grey - VY DK", 
+        "id": "3021"
       }, 
       {
-        "blue": 170, 
-        "green": 172, 
-        "id": "3022", 
-        "red": 172, 
-        "name": "Brown Grey - MED"
+        "color": "#acacaa", 
+        "name": "Brown Grey - MED", 
+        "id": "3022"
       }, 
       {
-        "blue": 173, 
-        "green": 190, 
-        "id": "3023", 
-        "red": 198, 
-        "name": "Brown Grey - LT"
+        "color": "#c6bead", 
+        "name": "Brown Grey - LT", 
+        "id": "3023"
       }, 
       {
-        "blue": 205, 
-        "green": 208, 
-        "id": "3024", 
-        "red": 210, 
-        "name": "Brown Grey - VY LT"
+        "color": "#d2d0cd", 
+        "name": "Brown Grey - VY LT", 
+        "id": "3024"
       }, 
       {
-        "blue": 23, 
-        "green": 56, 
-        "id": "3031", 
-        "red": 84, 
-        "name": "Mocha Brown - VY DK"
+        "color": "#543817", 
+        "name": "Mocha Brown - VY DK", 
+        "id": "3031"
       }, 
       {
-        "blue": 120, 
-        "green": 156, 
-        "id": "3032", 
-        "red": 188, 
-        "name": "Mocha Brown - MED"
+        "color": "#bc9c78", 
+        "name": "Mocha Brown - MED", 
+        "id": "3032"
       }, 
       {
-        "blue": 190, 
-        "green": 219, 
-        "id": "3033", 
-        "red": 239, 
-        "name": "Mocha Brown - VY LT"
+        "color": "#efdbbe", 
+        "name": "Mocha Brown - VY LT", 
+        "id": "3033"
       }, 
       {
-        "blue": 167, 
-        "green": 155, 
-        "id": "3041", 
-        "red": 190, 
-        "name": "Antique Violet - MED"
+        "color": "#be9ba7", 
+        "name": "Antique Violet - MED", 
+        "id": "3041"
       }, 
       {
-        "blue": 200, 
-        "green": 205, 
-        "id": "3042", 
-        "red": 225, 
-        "name": "Antique Violet - LT"
+        "color": "#e1cdc8", 
+        "name": "Antique Violet - LT", 
+        "id": "3042"
       }, 
       {
-        "blue": 105, 
-        "green": 151, 
-        "id": "3045", 
-        "red": 216, 
-        "name": "Yellow Beige - DK"
+        "color": "#d89769", 
+        "name": "Yellow Beige - DK", 
+        "id": "3045"
       }, 
       {
-        "blue": 139, 
-        "green": 193, 
-        "id": "3046", 
-        "red": 229, 
-        "name": "Yellow Beige - MED"
+        "color": "#e5c18b", 
+        "name": "Yellow Beige - MED", 
+        "id": "3046"
       }, 
       {
-        "blue": 211, 
-        "green": 236, 
-        "id": "3047", 
-        "red": 255, 
-        "name": "Yellow Beige - LT"
+        "color": "#ffecd3", 
+        "name": "Yellow Beige - LT", 
+        "id": "3047"
       }, 
       {
-        "blue": 0, 
-        "green": 73, 
-        "id": "3051", 
-        "red": 85, 
-        "name": "Green Grey - DK"
+        "color": "#554900", 
+        "name": "Green Grey - DK", 
+        "id": "3051"
       }, 
       {
-        "blue": 114, 
-        "green": 141, 
-        "id": "3052", 
-        "red": 137, 
-        "name": "Green Grey - MED"
+        "color": "#898d72", 
+        "name": "Green Grey - MED", 
+        "id": "3052"
       }, 
       {
-        "blue": 148, 
-        "green": 179, 
-        "id": "3053", 
-        "red": 187, 
-        "name": "Green Grey"
+        "color": "#bbb394", 
+        "name": "Green Grey", 
+        "id": "3053"
       }, 
       {
-        "blue": 76, 
-        "green": 101, 
-        "id": "3064", 
-        "red": 194, 
-        "name": "Sportsman Flesh - VY DK"
+        "color": "#c2654c", 
+        "name": "Sportsman Flesh - VY DK", 
+        "id": "3064"
       }, 
       {
-        "blue": 223, 
-        "green": 233, 
-        "id": "3072", 
-        "red": 233, 
-        "name": "Beaver Grey - VY LT"
+        "color": "#e9e9df", 
+        "name": "Beaver Grey - VY LT", 
+        "id": "3072"
       }, 
       {
-        "blue": 220, 
-        "green": 255, 
-        "id": "3078", 
-        "red": 255, 
-        "name": "Golden Yellow - VY LT"
+        "color": "#ffffdc", 
+        "name": "Golden Yellow - VY LT", 
+        "id": "3078"
       }, 
       {
-        "blue": 229, 
-        "green": 226, 
-        "id": "3325", 
-        "red": 202, 
-        "name": "Baby Blue - LT"
+        "color": "#cae2e5", 
+        "name": "Baby Blue - LT", 
+        "id": "3325"
       }, 
       {
-        "blue": 150, 
-        "green": 157, 
-        "id": "3326", 
-        "red": 255, 
-        "name": "Rose - LT"
+        "color": "#ff9d96", 
+        "name": "Rose - LT", 
+        "id": "3326"
       }, 
       {
-        "blue": 85, 
-        "green": 64, 
-        "id": "3328", 
-        "red": 188, 
-        "name": "Salmon - DK"
+        "color": "#bc4055", 
+        "name": "Salmon - DK", 
+        "id": "3328"
       }, 
       {
-        "blue": 103, 
-        "green": 123, 
-        "id": "3340", 
-        "red": 255, 
-        "name": "Apricot - MED"
+        "color": "#ff7b67", 
+        "name": "Apricot - MED", 
+        "id": "3340"
       }, 
       {
-        "blue": 162, 
-        "green": 172, 
-        "id": "3341", 
-        "red": 255, 
-        "name": "Apricot"
+        "color": "#ffaca2", 
+        "name": "Apricot", 
+        "id": "3341"
       }, 
       {
-        "blue": 82, 
-        "green": 100, 
-        "id": "3345", 
-        "red": 97, 
-        "name": "Hunter Green - DK"
+        "color": "#616452", 
+        "name": "Hunter Green - DK", 
+        "id": "3345"
       }, 
       {
-        "blue": 107, 
-        "green": 134, 
-        "id": "3346", 
-        "red": 120, 
-        "name": "Hunter Green"
+        "color": "#78866b", 
+        "name": "Hunter Green", 
+        "id": "3346"
       }, 
       {
-        "blue": 115, 
-        "green": 152, 
-        "id": "3347", 
-        "red": 128, 
-        "name": "Yellow Green - MED"
+        "color": "#809873", 
+        "name": "Yellow Green - MED", 
+        "id": "3347"
       }, 
       {
-        "blue": 190, 
-        "green": 249, 
-        "id": "3348", 
-        "red": 225, 
-        "name": "Yellow Green - LT"
+        "color": "#e1f9be", 
+        "name": "Yellow Green - LT", 
+        "id": "3348"
       }, 
       {
-        "blue": 91, 
-        "green": 79, 
-        "id": "3350", 
-        "red": 201, 
-        "name": "Dusty Rose - ULT DK"
+        "color": "#c94f5b", 
+        "name": "Dusty Rose - ULT DK", 
+        "id": "3350"
       }, 
       {
-        "blue": 209, 
-        "green": 214, 
-        "id": "3354", 
-        "red": 255, 
-        "name": "Dusty Rose - LT"
+        "color": "#ffd6d1", 
+        "name": "Dusty Rose - LT", 
+        "id": "3354"
       }, 
       {
-        "blue": 84, 
-        "green": 95, 
-        "id": "3362", 
-        "red": 96, 
-        "name": "Pine Green - DK"
+        "color": "#605f54", 
+        "name": "Pine Green - DK", 
+        "id": "3362"
       }, 
       {
-        "blue": 96, 
-        "green": 127, 
-        "id": "3363", 
-        "red": 116, 
-        "name": "Pine Green - MED"
+        "color": "#747f60", 
+        "name": "Pine Green - MED", 
+        "id": "3363"
       }, 
       {
-        "blue": 135, 
-        "green": 167, 
-        "id": "3364", 
-        "red": 161, 
-        "name": "Pine Green"
+        "color": "#a1a787", 
+        "name": "Pine Green", 
+        "id": "3364"
       }, 
       {
-        "blue": 16, 
-        "green": 37, 
-        "id": "3371", 
-        "red": 83, 
-        "name": "Black Brown"
+        "color": "#532510", 
+        "name": "Black Brown", 
+        "id": "3371"
       }, 
       {
-        "blue": 134, 
-        "green": 79, 
-        "id": "3607", 
-        "red": 231, 
-        "name": "Plum - LT"
+        "color": "#e74f86", 
+        "name": "Plum - LT", 
+        "id": "3607"
       }, 
       {
-        "blue": 182, 
-        "green": 152, 
-        "id": "3608", 
-        "red": 247, 
-        "name": "Plum - VY LT"
+        "color": "#f798b6", 
+        "name": "Plum - VY LT", 
+        "id": "3608"
       }, 
       {
-        "blue": 229, 
-        "green": 214, 
-        "id": "3609", 
-        "red": 255, 
-        "name": "Plum - ULT LT"
+        "color": "#ffd6e5", 
+        "name": "Plum - ULT LT", 
+        "id": "3609"
       }, 
       {
-        "blue": 79, 
-        "green": 53, 
-        "id": "3685", 
-        "red": 161, 
-        "name": "Mauve - DK"
+        "color": "#a1354f", 
+        "name": "Mauve - DK", 
+        "id": "3685"
       }, 
       {
-        "blue": 97, 
-        "green": 78, 
-        "id": "3687", 
-        "red": 203, 
-        "name": "Mauve"
+        "color": "#cb4e61", 
+        "name": "Mauve", 
+        "id": "3687"
       }, 
       {
-        "blue": 144, 
-        "green": 151, 
-        "id": "3688", 
-        "red": 250, 
-        "name": "Mauve - MED"
+        "color": "#fa9790", 
+        "name": "Mauve - MED", 
+        "id": "3688"
       }, 
       {
-        "blue": 216, 
-        "green": 213, 
-        "id": "3689", 
-        "red": 255, 
-        "name": "Mauve - LT"
+        "color": "#ffd5d8", 
+        "name": "Mauve - LT", 
+        "id": "3689"
       }, 
       {
-        "blue": 91, 
-        "green": 85, 
-        "id": "3705", 
-        "red": 255, 
-        "name": "Melon - DK"
+        "color": "#ff555b", 
+        "name": "Melon - DK", 
+        "id": "3705"
       }, 
       {
-        "blue": 109, 
-        "green": 128, 
-        "id": "3706", 
-        "red": 255, 
-        "name": "Melon - MED"
+        "color": "#ff806d", 
+        "name": "Melon - MED", 
+        "id": "3706"
       }, 
       {
-        "blue": 219, 
-        "green": 212, 
-        "id": "3708", 
-        "red": 254, 
-        "name": "Melon - LT"
+        "color": "#fed4db", 
+        "name": "Melon - LT", 
+        "id": "3708"
       }, 
       {
-        "blue": 107, 
-        "green": 101, 
-        "id": "3712", 
-        "red": 230, 
-        "name": "Salmon - MED"
+        "color": "#e6656b", 
+        "name": "Salmon - MED", 
+        "id": "3712"
       }, 
       {
-        "blue": 217, 
-        "green": 229, 
-        "id": "3713", 
-        "red": 253, 
-        "name": "Salmon - VY LT"
+        "color": "#fde5d9", 
+        "name": "Salmon - VY LT", 
+        "id": "3713"
       }, 
       {
-        "blue": 212, 
-        "green": 211, 
-        "id": "3716", 
-        "red": 255, 
-        "name": "Dusty Rose - VY LT"
+        "color": "#ffd3d4", 
+        "name": "Dusty Rose - VY LT", 
+        "id": "3716"
       }, 
       {
-        "blue": 77, 
-        "green": 75, 
-        "id": "3721", 
-        "red": 184, 
-        "name": "Shell Pink - DK"
+        "color": "#b84b4d", 
+        "name": "Shell Pink - DK", 
+        "id": "3721"
       }, 
       {
-        "blue": 88, 
-        "green": 89, 
-        "id": "3722", 
-        "red": 184, 
-        "name": "Shell Pink - MED"
+        "color": "#b85958", 
+        "name": "Shell Pink - MED", 
+        "id": "3722"
       }, 
       {
-        "blue": 123, 
-        "green": 118, 
-        "id": "3726", 
-        "red": 195, 
-        "name": "Antique Mauve - DK"
+        "color": "#c3767b", 
+        "name": "Antique Mauve - DK", 
+        "id": "3726"
       }, 
       {
-        "blue": 196, 
-        "green": 199, 
-        "id": "3727", 
-        "red": 255, 
-        "name": "Antique Mauve - LT"
+        "color": "#ffc7c4", 
+        "name": "Antique Mauve - LT", 
+        "id": "3727"
       }, 
       {
-        "blue": 103, 
-        "green": 93, 
-        "id": "3731", 
-        "red": 209, 
-        "name": "Dusty Rose - VY DK"
+        "color": "#d15d67", 
+        "name": "Dusty Rose - VY DK", 
+        "id": "3731"
       }, 
       {
-        "blue": 148, 
-        "green": 154, 
-        "id": "3733", 
-        "red": 255, 
-        "name": "Dusty Rose"
+        "color": "#ff9a94", 
+        "name": "Dusty Rose", 
+        "id": "3733"
       }, 
       {
-        "blue": 133, 
-        "green": 125, 
-        "id": "3740", 
-        "red": 156, 
-        "name": "Antique Violet - DK"
+        "color": "#9c7d85", 
+        "name": "Antique Violet - DK", 
+        "id": "3740"
       }, 
       {
-        "blue": 231, 
-        "green": 235, 
-        "id": "3743", 
-        "red": 235, 
-        "name": "Antique Violet - VY LT"
+        "color": "#ebebe7", 
+        "name": "Antique Violet - VY LT", 
+        "id": "3743"
       }, 
       {
-        "blue": 162, 
-        "green": 102, 
-        "id": "3746", 
-        "red": 149, 
-        "name": "Blue Violet - DK"
+        "color": "#9566a2", 
+        "name": "Blue Violet - DK", 
+        "id": "3746"
       }, 
       {
-        "blue": 232, 
-        "green": 236, 
-        "id": "3747", 
-        "red": 230, 
-        "name": "Blue Violet - VY LT"
+        "color": "#e6ece8", 
+        "name": "Blue Violet - VY LT", 
+        "id": "3747"
       }, 
       {
-        "blue": 108, 
-        "green": 91, 
-        "id": "3750", 
-        "red": 12, 
-        "name": "Antique Blue - VY DK"
+        "color": "#0c5b6c", 
+        "name": "Antique Blue - VY DK", 
+        "id": "3750"
       }, 
       {
-        "blue": 206, 
-        "green": 209, 
-        "id": "3752", 
-        "red": 194, 
-        "name": "Antique Blue - VY LT"
+        "color": "#c2d1ce", 
+        "name": "Antique Blue - VY LT", 
+        "id": "3752"
       }, 
       {
-        "blue": 247, 
-        "green": 247, 
-        "id": "3753", 
-        "red": 237, 
-        "name": "Antique Blue - ULT VY LT"
+        "color": "#edf7f7", 
+        "name": "Antique Blue - ULT VY LT", 
+        "id": "3753"
       }, 
       {
-        "blue": 206, 
-        "green": 176, 
-        "id": "3755", 
-        "red": 158, 
-        "name": "Baby Blue"
+        "color": "#9eb0ce", 
+        "name": "Baby Blue", 
+        "id": "3755"
       }, 
       {
-        "blue": 252, 
-        "green": 248, 
-        "id": "3756", 
-        "red": 248, 
-        "name": "Baby Blue - ULT VY LT"
+        "color": "#f8f8fc", 
+        "name": "Baby Blue - ULT VY LT", 
+        "id": "3756"
       }, 
       {
-        "blue": 152, 
-        "green": 142, 
-        "id": "3760", 
-        "red": 102, 
-        "name": "Wedgwood"
+        "color": "#668e98", 
+        "name": "Wedgwood", 
+        "id": "3760"
       }, 
       {
-        "blue": 230, 
-        "green": 234, 
-        "id": "3761", 
-        "red": 227, 
-        "name": "Sky Blue - LT"
+        "color": "#e3eae6", 
+        "name": "Sky Blue - LT", 
+        "id": "3761"
       }, 
       {
-        "blue": 134, 
-        "green": 128, 
-        "id": "3765", 
-        "red": 24, 
-        "name": "Peacock Blue - VY DK"
+        "color": "#188086", 
+        "name": "Peacock Blue - VY DK", 
+        "id": "3765"
       }, 
       {
-        "blue": 111, 
-        "green": 101, 
-        "id": "3766", 
-        "red": 24, 
-        "name": "Peacock Blue - LT"
+        "color": "#18656f", 
+        "name": "Peacock Blue - LT", 
+        "id": "3766"
       }, 
       {
-        "blue": 108, 
-        "green": 110, 
-        "id": "3768", 
-        "red": 92, 
-        "name": "Grey Green - DK"
+        "color": "#5c6e6c", 
+        "name": "Grey Green - DK", 
+        "id": "3768"
       }, 
       {
-        "blue": 224, 
-        "green": 250, 
-        "id": "3770", 
-        "red": 255, 
-        "name": "Flesh - VY LT"
+        "color": "#fffae0", 
+        "name": "Flesh - VY LT", 
+        "id": "3770"
       }, 
       {
-        "blue": 155, 
-        "green": 172, 
-        "id": "3771", 
-        "red": 232, 
-        "name": "Peach - DK "
+        "color": "#e8ac9b", 
+        "name": "Peach - DK ", 
+        "id": "3771"
       }, 
       {
-        "blue": 62, 
-        "green": 83, 
-        "id": "3772", 
-        "red": 173, 
-        "name": "Negro Flesh"
+        "color": "#ad533e", 
+        "name": "Negro Flesh", 
+        "id": "3772"
       }, 
       {
-        "blue": 103, 
-        "green": 134, 
-        "id": "3773", 
-        "red": 231, 
-        "name": "Sportsman Flesh - MED "
+        "color": "#e78667", 
+        "name": "Sportsman Flesh - MED ", 
+        "id": "3773"
       }, 
       {
-        "blue": 193, 
-        "green": 220, 
-        "id": "3774", 
-        "red": 255, 
-        "name": "Sportsman Flesh - VY LT"
+        "color": "#ffdcc1", 
+        "name": "Sportsman Flesh - VY LT", 
+        "id": "3774"
       }, 
       {
-        "blue": 91, 
-        "green": 109, 
-        "id": "3776", 
-        "red": 221, 
-        "name": "Mahogany - LT"
+        "color": "#dd6d5b", 
+        "name": "Mahogany - LT", 
+        "id": "3776"
       }, 
       {
-        "blue": 36, 
-        "green": 64, 
-        "id": "3777", 
-        "red": 191, 
-        "name": "Terracotta - VY DK"
+        "color": "#bf4024", 
+        "name": "Terracotta - VY DK", 
+        "id": "3777"
       }, 
       {
-        "blue": 100, 
-        "green": 122, 
-        "id": "3778", 
-        "red": 237, 
-        "name": "Terracotta - LT"
+        "color": "#ed7a64", 
+        "name": "Terracotta - LT", 
+        "id": "3778"
       }, 
       {
-        "blue": 152, 
-        "green": 177, 
-        "id": "3779", 
-        "red": 255, 
-        "name": "Terracotta - ULT VY LT"
+        "color": "#ffb198", 
+        "name": "Terracotta - ULT VY LT", 
+        "id": "3779"
       }, 
       {
-        "blue": 42, 
-        "green": 71, 
-        "id": "3781", 
-        "red": 113, 
-        "name": "Mocha Brown - DK"
+        "color": "#71472a", 
+        "name": "Mocha Brown - DK", 
+        "id": "3781"
       }, 
       {
-        "blue": 144, 
-        "green": 175, 
-        "id": "3782", 
-        "red": 206, 
-        "name": "Mocha Brown - LT"
+        "color": "#ceaf90", 
+        "name": "Mocha Brown - LT", 
+        "id": "3782"
       }, 
       {
-        "blue": 115, 
-        "green": 109, 
-        "id": "3787", 
-        "red": 139, 
-        "name": "Brown Grey - DK"
+        "color": "#8b6d73", 
+        "name": "Brown Grey - DK", 
+        "id": "3787"
       }, 
       {
-        "blue": 109, 
-        "green": 117, 
-        "id": "3790", 
-        "red": 140, 
-        "name": "Beige Grey - ULT DK"
+        "color": "#8c756d", 
+        "name": "Beige Grey - ULT DK", 
+        "id": "3790"
       }, 
       {
-        "blue": 83, 
-        "green": 76, 
-        "id": "3799", 
-        "red": 81, 
-        "name": "Pewter Grey - VY DK"
+        "color": "#514c53", 
+        "name": "Pewter Grey - VY DK", 
+        "id": "3799"
       }, 
       {
-        "blue": 79, 
-        "green": 71, 
-        "id": "3801", 
-        "red": 231, 
-        "name": "Christmas Red - LT"
+        "color": "#e7474f", 
+        "name": "Christmas Red - LT", 
+        "id": "3801"
       }, 
       {
-        "blue": 59, 
-        "green": 43, 
-        "id": "3802", 
-        "red": 127, 
-        "name": "Antique Mauve - VY DK"
+        "color": "#7f2b3b", 
+        "name": "Antique Mauve - VY DK", 
+        "id": "3802"
       }, 
       {
-        "blue": 87, 
-        "green": 51, 
-        "id": "3803", 
-        "red": 171, 
-        "name": "Mauve - MED"
+        "color": "#ab3357", 
+        "name": "Mauve - MED", 
+        "id": "3803"
       }, 
       {
-        "blue": 127, 
-        "green": 59, 
-        "id": "3804", 
-        "red": 231, 
-        "name": "Cyclamen Pink - DK"
+        "color": "#e73b7f", 
+        "name": "Cyclamen Pink - DK", 
+        "id": "3804"
       }, 
       {
-        "blue": 139, 
-        "green": 71, 
-        "id": "3805", 
-        "red": 243, 
-        "name": "Cyclamen Pink"
+        "color": "#f3478b", 
+        "name": "Cyclamen Pink", 
+        "id": "3805"
       }, 
       {
-        "blue": 155, 
-        "green": 87, 
-        "id": "3806", 
-        "red": 255, 
-        "name": "Cyclamen Pink - LT"
+        "color": "#ff579b", 
+        "name": "Cyclamen Pink - LT", 
+        "id": "3806"
       }, 
       {
-        "blue": 131, 
-        "green": 75, 
-        "id": "3807", 
-        "red": 59, 
-        "name": "Cornflower Blue"
+        "color": "#3b4b83", 
+        "name": "Cornflower Blue", 
+        "id": "3807"
       }, 
       {
-        "blue": 95, 
-        "green": 83, 
-        "id": "3808", 
-        "red": 11, 
-        "name": "Turquoise - ULT VY DK"
+        "color": "#0b535f", 
+        "name": "Turquoise - ULT VY DK", 
+        "id": "3808"
       }, 
       {
-        "blue": 123, 
-        "green": 107, 
-        "id": "3809", 
-        "red": 31, 
-        "name": "Turquoise - VY DK"
+        "color": "#1f6b7b", 
+        "name": "Turquoise - VY DK", 
+        "id": "3809"
       }, 
       {
-        "blue": 151, 
-        "green": 135, 
-        "id": "3810", 
-        "red": 59, 
-        "name": "Turquoise - DK"
+        "color": "#3b8797", 
+        "name": "Turquoise - DK", 
+        "id": "3810"
       }, 
       {
-        "blue": 235, 
-        "green": 227, 
-        "id": "3811", 
-        "red": 187, 
-        "name": "Turquoise - VY LT"
+        "color": "#bbe3eb", 
+        "name": "Turquoise - VY LT", 
+        "id": "3811"
       }, 
       {
-        "blue": 119, 
-        "green": 147, 
-        "id": "3812", 
-        "red": 23, 
-        "name": "Sea Green - VY DK"
+        "color": "#179377", 
+        "name": "Sea Green - VY DK", 
+        "id": "3812"
       }, 
       {
-        "blue": 171, 
-        "green": 195, 
-        "id": "3813", 
-        "red": 151, 
-        "name": "Blue Green - LT"
+        "color": "#97c3ab", 
+        "name": "Blue Green - LT", 
+        "id": "3813"
       }, 
       {
-        "blue": 107, 
-        "green": 143, 
-        "id": "3814", 
-        "red": 35, 
-        "name": "Aquamarine"
+        "color": "#238f6b", 
+        "name": "Aquamarine", 
+        "id": "3814"
       }, 
       {
-        "blue": 107, 
-        "green": 127, 
-        "id": "3815", 
-        "red": 99, 
-        "name": "Celadon Green - DK"
+        "color": "#637f6b", 
+        "name": "Celadon Green - DK", 
+        "id": "3815"
       }, 
       {
-        "blue": 147, 
-        "green": 167, 
-        "id": "3816", 
-        "red": 135, 
-        "name": "Celadon Green"
+        "color": "#87a793", 
+        "name": "Celadon Green", 
+        "id": "3816"
       }, 
       {
-        "blue": 191, 
-        "green": 207, 
-        "id": "3817", 
-        "red": 175, 
-        "name": "Celadon Green - LT"
+        "color": "#afcfbf", 
+        "name": "Celadon Green - LT", 
+        "id": "3817"
       }, 
       {
-        "blue": 46, 
-        "green": 107, 
-        "id": "3818", 
-        "red": 0, 
-        "name": "Emerald Green - ULT VY DK"
+        "color": "#006b2e", 
+        "name": "Emerald Green - ULT VY DK", 
+        "id": "3818"
       }, 
       {
-        "blue": 123, 
-        "green": 235, 
-        "id": "3819", 
-        "red": 231, 
-        "name": "Moss Green - LT"
+        "color": "#e7eb7b", 
+        "name": "Moss Green - LT", 
+        "id": "3819"
       }, 
       {
-        "blue": 75, 
-        "green": 179, 
-        "id": "3820", 
-        "red": 231, 
-        "name": "Straw - DK"
+        "color": "#e7b34b", 
+        "name": "Straw - DK", 
+        "id": "3820"
       }, 
       {
-        "blue": 91, 
-        "green": 195, 
-        "id": "3821", 
-        "red": 243, 
-        "name": "Straw"
+        "color": "#f3c35b", 
+        "name": "Straw", 
+        "id": "3821"
       }, 
       {
-        "blue": 107, 
-        "green": 211, 
-        "id": "3822", 
-        "red": 255, 
-        "name": "Straw - LT"
+        "color": "#ffd36b", 
+        "name": "Straw - LT", 
+        "id": "3822"
       }, 
       {
-        "blue": 227, 
-        "green": 251, 
-        "id": "3823", 
-        "red": 255, 
-        "name": "Yellow - ULT PALE"
+        "color": "#fffbe3", 
+        "name": "Yellow - ULT PALE", 
+        "id": "3823"
       }, 
       {
-        "blue": 183, 
-        "green": 191, 
-        "id": "3824", 
-        "red": 247, 
-        "name": "Apricot - LT"
+        "color": "#f7bfb7", 
+        "name": "Apricot - LT", 
+        "id": "3824"
       }, 
       {
-        "blue": 131, 
-        "green": 171, 
-        "id": "3825", 
-        "red": 255, 
-        "name": "Pumpkin - PALE"
+        "color": "#ffab83", 
+        "name": "Pumpkin - PALE", 
+        "id": "3825"
       }, 
       {
-        "blue": 79, 
-        "green": 155, 
-        "id": "3826", 
-        "red": 227, 
-        "name": "Golden Brown"
+        "color": "#e39b4f", 
+        "name": "Golden Brown", 
+        "id": "3826"
       }, 
       {
-        "blue": 119, 
-        "green": 187, 
-        "id": "3827", 
-        "red": 247, 
-        "name": "Golden Brown - PALE"
+        "color": "#f7bb77", 
+        "name": "Golden Brown - PALE", 
+        "id": "3827"
       }, 
       {
-        "blue": 63, 
-        "green": 135, 
-        "id": "3828", 
-        "red": 187, 
-        "name": "Hazelnut Brown"
+        "color": "#bb873f", 
+        "name": "Hazelnut Brown", 
+        "id": "3828"
       }, 
       {
-        "blue": 0, 
-        "green": 111, 
-        "id": "3829", 
-        "red": 203, 
-        "name": "Old Gold - VY DK"
+        "color": "#cb6f00", 
+        "name": "Old Gold - VY DK", 
+        "id": "3829"
       }, 
       {
-        "blue": 71, 
-        "green": 79, 
-        "id": "3830", 
-        "red": 199, 
-        "name": "Terracotta"
+        "color": "#c74f47", 
+        "name": "Terracotta", 
+        "id": "3830"
       }, 
       {
-        "blue": 77, 
-        "green": 68, 
-        "id": "3831", 
-        "red": 170, 
-        "name": "Raspberry - DK"
+        "color": "#aa444d", 
+        "name": "Raspberry - DK", 
+        "id": "3831"
       }, 
       {
-        "blue": 104, 
-        "green": 95, 
-        "id": "3832", 
-        "red": 215, 
-        "name": "Raspberry - MED"
+        "color": "#d75f68", 
+        "name": "Raspberry - MED", 
+        "id": "3832"
       }, 
       {
-        "blue": 134, 
-        "green": 124, 
-        "id": "3833", 
-        "red": 224, 
-        "name": "Raspberry - LT"
+        "color": "#e07c86", 
+        "name": "Raspberry - LT", 
+        "id": "3833"
       }, 
       {
-        "blue": 69, 
-        "green": 50, 
-        "id": "3834", 
-        "red": 76, 
-        "name": "Grape - DK"
+        "color": "#4c3245", 
+        "name": "Grape - DK", 
+        "id": "3834"
       }, 
       {
-        "blue": 105, 
-        "green": 80, 
-        "id": "3835", 
-        "red": 113, 
-        "name": "Grape - MED"
+        "color": "#715069", 
+        "name": "Grape - MED", 
+        "id": "3835"
       }, 
       {
-        "blue": 158, 
-        "green": 130, 
-        "id": "3836", 
-        "red": 175, 
-        "name": "Grape - LT"
+        "color": "#af829e", 
+        "name": "Grape - LT", 
+        "id": "3836"
       }, 
       {
-        "blue": 137, 
-        "green": 69, 
-        "id": "3837", 
-        "red": 109, 
-        "name": "Lavender - ULT DK"
+        "color": "#6d4589", 
+        "name": "Lavender - ULT DK", 
+        "id": "3837"
       }, 
       {
-        "blue": 162, 
-        "green": 90, 
-        "id": "3838", 
-        "red": 80, 
-        "name": "Lavender Blue - DK"
+        "color": "#505aa2", 
+        "name": "Lavender Blue - DK", 
+        "id": "3838"
       }, 
       {
-        "blue": 189, 
-        "green": 123, 
-        "id": "3839", 
-        "red": 107, 
-        "name": "Lavender Blue - MED"
+        "color": "#6b7bbd", 
+        "name": "Lavender Blue - MED", 
+        "id": "3839"
       }, 
       {
-        "blue": 238, 
-        "green": 186, 
-        "id": "3840", 
-        "red": 162, 
-        "name": "Lavender Blue - LT"
+        "color": "#a2baee", 
+        "name": "Lavender Blue - LT", 
+        "id": "3840"
       }, 
       {
-        "blue": 235, 
-        "green": 221, 
-        "id": "3841", 
-        "red": 199, 
-        "name": "Baby Blue - PALE"
+        "color": "#c7ddeb", 
+        "name": "Baby Blue - PALE", 
+        "id": "3841"
       }, 
       {
-        "blue": 88, 
-        "green": 65, 
-        "id": "3842", 
-        "red": 12, 
-        "name": "Wedgwood - DK"
+        "color": "#0c4158", 
+        "name": "Wedgwood - DK", 
+        "id": "3842"
       }, 
       {
-        "blue": 224, 
-        "green": 170, 
-        "id": "3843", 
-        "red": 12, 
-        "name": "Electric Blue"
+        "color": "#0caae0", 
+        "name": "Electric Blue", 
+        "id": "3843"
       }, 
       {
-        "blue": 155, 
-        "green": 91, 
-        "id": "3844", 
-        "red": 43, 
-        "name": "Bright Turquoise - DK"
+        "color": "#2b5b9b", 
+        "name": "Bright Turquoise - DK", 
+        "id": "3844"
       }, 
       {
-        "blue": 213, 
-        "green": 145, 
-        "id": "3845", 
-        "red": 63, 
-        "name": "Bright Turquoise - MED"
+        "color": "#3f91d5", 
+        "name": "Bright Turquoise - MED", 
+        "id": "3845"
       }, 
       {
-        "blue": 234, 
-        "green": 173, 
-        "id": "3846", 
-        "red": 82, 
-        "name": "Bright Turquoise - LT"
+        "color": "#52adea", 
+        "name": "Bright Turquoise - LT", 
+        "id": "3846"
       }, 
       {
-        "blue": 68, 
-        "green": 77, 
-        "id": "3847", 
-        "red": 48, 
-        "name": "Teal Green - DK"
+        "color": "#304d44", 
+        "name": "Teal Green - DK", 
+        "id": "3847"
       }, 
       {
-        "blue": 97, 
-        "green": 105, 
-        "id": "3848", 
-        "red": 65, 
-        "name": "Teal Green - MED"
+        "color": "#416961", 
+        "name": "Teal Green - MED", 
+        "id": "3848"
       }, 
       {
-        "blue": 140, 
-        "green": 165, 
-        "id": "3849", 
-        "red": 90, 
-        "name": "Teal Green - LT"
+        "color": "#5aa58c", 
+        "name": "Teal Green - LT", 
+        "id": "3849"
       }, 
       {
-        "blue": 100, 
-        "green": 125, 
-        "id": "3850", 
-        "red": 50, 
-        "name": "Bright Green - DK"
+        "color": "#327d64", 
+        "name": "Bright Green - DK", 
+        "id": "3850"
       }, 
       {
-        "blue": 140, 
-        "green": 165, 
-        "id": "3851", 
-        "red": 90, 
-        "name": "Bright Green - LT"
+        "color": "#5aa58c", 
+        "name": "Bright Green - LT", 
+        "id": "3851"
       }, 
       {
-        "blue": 59, 
-        "green": 163, 
-        "id": "3852", 
-        "red": 220, 
-        "name": "Straw - VY DK"
+        "color": "#dca33b", 
+        "name": "Straw - VY DK", 
+        "id": "3852"
       }, 
       {
-        "blue": 75, 
-        "green": 121, 
-        "id": "3853", 
-        "red": 229, 
-        "name": "Autumn Gold - DK"
+        "color": "#e5794b", 
+        "name": "Autumn Gold - DK", 
+        "id": "3853"
       }, 
       {
-        "blue": 99, 
-        "green": 171, 
-        "id": "3854", 
-        "red": 248, 
-        "name": "Autumn Gold - MED"
+        "color": "#f8ab63", 
+        "name": "Autumn Gold - MED", 
+        "id": "3854"
       }, 
       {
-        "blue": 174, 
-        "green": 228, 
-        "id": "3855", 
-        "red": 253, 
-        "name": "Autumn Gold - LT"
+        "color": "#fde4ae", 
+        "name": "Autumn Gold - LT", 
+        "id": "3855"
       }, 
       {
-        "blue": 130, 
-        "green": 190, 
-        "id": "3856", 
-        "red": 255, 
-        "name": "Mahogany - ULT VY LT"
+        "color": "#ffbe82", 
+        "name": "Mahogany - ULT VY LT", 
+        "id": "3856"
       }, 
       {
-        "blue": 47, 
-        "green": 43, 
-        "id": "3857", 
-        "red": 72, 
-        "name": "Rosewood - DK"
+        "color": "#482b2f", 
+        "name": "Rosewood - DK", 
+        "id": "3857"
       }, 
       {
-        "blue": 65, 
-        "green": 63, 
-        "id": "3858", 
-        "red": 102, 
-        "name": "Rosewood - MED"
+        "color": "#663f41", 
+        "name": "Rosewood - MED", 
+        "id": "3858"
       }, 
       {
-        "blue": 106, 
-        "green": 114, 
-        "id": "3859", 
-        "red": 177, 
-        "name": "Rosewood - LT"
+        "color": "#b1726a", 
+        "name": "Rosewood - LT", 
+        "id": "3859"
       }, 
       {
-        "blue": 76, 
-        "green": 77, 
-        "id": "3860", 
-        "red": 98, 
-        "name": "Cocoa"
+        "color": "#624d4c", 
+        "name": "Cocoa", 
+        "id": "3860"
       }, 
       {
-        "blue": 120, 
-        "green": 121, 
-        "id": "3861", 
-        "red": 146, 
-        "name": "Cocoa - LT"
+        "color": "#927978", 
+        "name": "Cocoa - LT", 
+        "id": "3861"
       }, 
       {
-        "blue": 71, 
-        "green": 83, 
-        "id": "3862", 
-        "red": 107, 
-        "name": "Mocha Beige - DK"
+        "color": "#6b5347", 
+        "name": "Mocha Beige - DK", 
+        "id": "3862"
       }, 
       {
-        "blue": 88, 
-        "green": 106, 
-        "id": "3863", 
-        "red": 134, 
-        "name": "Mocha Beige - MED"
+        "color": "#866a58", 
+        "name": "Mocha Beige - MED", 
+        "id": "3863"
       }, 
       {
-        "blue": 141, 
-        "green": 166, 
-        "id": "3864", 
-        "red": 196, 
-        "name": "Mocha Beige - LT"
+        "color": "#c4a68d", 
+        "name": "Mocha Beige - LT", 
+        "id": "3864"
       }, 
       {
-        "blue": 244, 
-        "green": 251, 
-        "id": "3865", 
-        "red": 255, 
-        "name": "Winter White"
+        "color": "#fffbf4", 
+        "name": "Winter White", 
+        "id": "3865"
       }, 
       {
-        "blue": 213, 
-        "green": 233, 
-        "id": "3866", 
-        "red": 245, 
-        "name": "Mocha Brown - ULT VY LT"
+        "color": "#f5e9d5", 
+        "name": "Mocha Brown - ULT VY LT", 
+        "id": "3866"
       }, 
       {
-        "blue": 255, 
-        "green": 255, 
-        "id": "B5200", 
-        "red": 255, 
-        "name": "Bright White"
+        "color": "#ffffff", 
+        "name": "Bright White", 
+        "id": "B5200"
       }
-    ]
+    ], 
+    "id": "dmc", 
+    "name": "DMC\u00ae"
   }
 ]

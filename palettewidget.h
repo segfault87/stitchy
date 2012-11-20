@@ -6,20 +6,25 @@
 #include <QVector>
 #include <QWidget>
 
+class QComboBox;
 class QScrollArea;
 class QMouseEvent;
 class QPaintEvent;
 
 class Color;
 class ColorManager;
+class MetaColorManager;
 class PaletteModel;
+
+#define SWATCH_MINE -1
+#define SWATCH_DOCUMENT -2
 
 class SwatchWidget : public QWidget
 {
   Q_OBJECT;
 
  public:
-  SwatchWidget(ColorManager *cm, QWidget *parent = NULL);
+  SwatchWidget(QWidget *parent = NULL);
   ~SwatchWidget();
 
   void setColorManager(ColorManager *cm);
@@ -96,26 +101,31 @@ class PaletteWidget : public QWidget
   Q_OBJECT;
 
  public:
-  PaletteWidget(ColorManager *cm, QWidget *parent = NULL);
+  PaletteWidget(MetaColorManager *meta, QWidget *parent = NULL);
   ~PaletteWidget();
 
   void setColorManager(ColorManager *cm);
 
  signals:
   void colorSelected(const Color *);
+  void userColorSetIsEmpty();
 
  private slots:
   void itemSelected(int row);
   void itemHovered(int row);
+  void initializeColorSet();
+  void changeColorSet(int index);
 
  private:
   const QVector<const Color *> *list_;
 
+  QComboBox *colorSet_;
   SwatchWidget *swatchWidget_;
   QScrollArea *swatchScrollArea_;
   PaletteListView *listWidget_;
   PaletteModel *model_;
   Palette *palette_;
+  MetaColorManager *meta_;
 };
 
 

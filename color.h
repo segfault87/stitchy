@@ -7,16 +7,19 @@
 
 #include "common.h"
 
+class ColorManager;
+
 class Color
 {
  public:
   static Color defaultColor;
 
   Color();
-  Color(const QString &name, const QString &id, byte red, byte green, byte blue);
+  Color(const QString &name, const QString &id, const QColor &color);
   Color(const Color &other);
   ~Color();
 
+  const ColorManager* parent() const { return parent_; }
   const QString& name() const { return name_; }
   const QString& id() const { return id_; }
   
@@ -26,10 +29,13 @@ class Color
   byte green() const { return color_.green(); }
   byte blue() const { return color_.blue(); }
 
+  void setParent(const ColorManager *cm) { parent_ = cm; }
+
   bool operator==(const Color &other) const { return id_ == other.id(); }
   Color& operator=(const Color &other);
 
  private:
+  const ColorManager *parent_;
   QString id_;
   QString name_;
   QColor color_;

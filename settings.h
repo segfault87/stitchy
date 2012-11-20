@@ -11,6 +11,12 @@ class Settings
 
   static Settings* self();
 
+  /* colors */
+  QString defaultPalette() const;
+
+  void setDefaultPalette(const QString &data);
+  
+  /* general */
   QByteArray state() const;
   QByteArray geometry() const;
 

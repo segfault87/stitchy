@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
   settings_ = new Settings();
   state_ = new GlobalState(this);
   colorManager_ = new MetaColorManager(COLOR_TABLE, this);
-  activeColorManager_ = colorManager_->colorManager("dmc");
 
   initWidgets();
   initActions();
@@ -227,7 +226,7 @@ void MainWindow::initToolbars()
 
 void MainWindow::initWidgets()
 {
-  palette_ = new PaletteWidget(activeColorManager_);
+  palette_ = new PaletteWidget(colorManager_);
   QDockWidget *paletteDock = new QDockWidget(tr("Color Swatches"));
   paletteDock->setObjectName("palette");
   paletteDock->setWidget(palette_);

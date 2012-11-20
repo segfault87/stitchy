@@ -1,4 +1,7 @@
 #include <QBrush>
+#include <QComboBox>
+#include <QLabel>
+#include <QHBoxLayout>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPen>
@@ -11,6 +14,7 @@
 #include "color.h"
 #include "colormanager.h"
 #include "globalstate.h"
+#include "settings.h"
 #include "palettemodel.h"
 
 #include "palettewidget.h"
@@ -20,15 +24,14 @@
 
 /* SwatchWidget */
 
-SwatchWidget::SwatchWidget(ColorManager *cm, QWidget *parent)
-    : QWidget(parent), list_(&cm->colorList())
+SwatchWidget::SwatchWidget(QWidget *parent)
+    : QWidget(parent)
 {
+  list_ = NULL;
   picking_ = false;
 
   setSizeIncrement(SWATCH_WIDTH, SWATCH_HEIGHT);
   setMouseTracking(true);
-
-  connect(cm, SIGNAL(listChanged()), this, SLOT(update()));
 }
 
 SwatchWidget::~SwatchWidget()
@@ -38,10 +41,15 @@ SwatchWidget::~SwatchWidget()
 
 void SwatchWidget::setColorManager(ColorManager *cm)
 {
-  list_ = &cm->colorList();
-
   disconnect(this, SLOT(update()));
-  connect(cm, SIGNAL(listChanged()), this, SLOT(update()));
+
+  if (cm) {
+    list_ = &cm->colorList();
+    connect(cm, SIGNAL(listChanged()), this, SLOT(update()));
+
+    resize(sizeHint());
+    update();
+  }
 }
 
 QPoint SwatchWidget::itemPosition(int idx) const
@@ -53,6 +61,9 @@ QPoint SwatchWidget::itemPosition(int idx) const
 
 int SwatchWidget::itemIndex(const QPoint &point) const
 {
+  if (!list_)
+    return 0;
+  
   QPoint pos(point.x() / SWATCH_WIDTH, point.y() / SWATCH_HEIGHT);
   int cols = width() / SWATCH_WIDTH;
   if (pos.x() >= cols)
@@ -72,6 +83,9 @@ QSize SwatchWidget::minimumSizeHint() const
 
 QSize SwatchWidget::sizeHint() const
 {
+  if (!list_)
+    return QSize(8 * SWATCH_WIDTH, 5 * SWATCH_HEIGHT);
+  
   int cols = width() / SWATCH_WIDTH;
   int rows = list_->size() / cols;
   
@@ -280,24 +294,31 @@ class MyScrollArea : public QScrollArea
   }
 };
 
-PaletteWidget::PaletteWidget(ColorManager *cm, QWidget *parent)
-    : QWidget(parent)
+PaletteWidget::PaletteWidget(MetaColorManager *meta, QWidget *parent)
+    : QWidget(parent), meta_(meta)
 {
   QVBoxLayout *rootLayout = new QVBoxLayout(this);
+
+  QHBoxLayout *colorSetLayout = new QHBoxLayout();
+  colorSet_ = new QComboBox();
+  colorSet_->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
+  colorSetLayout->addWidget(new QLabel(tr("Color Set : ")));
+  colorSetLayout->addWidget(colorSet_);
 
   QSplitter *splitter = new QSplitter(Qt::Vertical);
 
   swatchScrollArea_ = new MyScrollArea(splitter);
-  swatchWidget_ = new SwatchWidget(cm);
+  swatchWidget_ = new SwatchWidget(NULL);
   swatchScrollArea_->setWidgetResizable(true);
   swatchScrollArea_->setWidget(swatchWidget_);
 
   listWidget_ = new PaletteListView(splitter);
-  model_ = new PaletteModel(cm, listWidget_);
+  model_ = new PaletteModel(listWidget_);
   listWidget_->setModel(model_);
 
   palette_ = new Palette();
-  
+
+  rootLayout->addLayout(colorSetLayout);
   rootLayout->addWidget(splitter);
   rootLayout->addWidget(palette_);
 
@@ -305,9 +326,26 @@ PaletteWidget::PaletteWidget(ColorManager *cm, QWidget *parent)
   connect(listWidget_, SIGNAL(itemHovered(int)), this, SLOT(itemHovered(int)));
   connect(swatchWidget_, SIGNAL(indexSelected(int)), listWidget_, SLOT(selectItem(int)));
   connect(swatchWidget_, SIGNAL(indexHovered(int)), this, SLOT(itemHovered(int)));
+  connect(colorSet_, SIGNAL(activated(int)), this, SLOT(changeColorSet(int)));
   
   setLayout(rootLayout);
 
+  QString initialCategory = Settings::self()->defaultPalette();
+  ColorManager *cm = NULL;
+  if (initialCategory.isEmpty()) {
+    const QList<ColorManager *> &list = meta_->colorManagers();
+    if (list.size() > 0)
+      cm = meta_->colorManagers()[0];
+  } else {
+    cm = meta_->colorManager(initialCategory);
+    if (!cm) {
+      const QList<ColorManager *> &list = meta_->colorManagers();
+    if (list.size() > 0)
+      cm = meta_->colorManagers()[0];
+    }
+  }
+
+  initializeColorSet();
   setColorManager(cm);
 }
 
@@ -320,7 +358,8 @@ void PaletteWidget::setColorManager(ColorManager *cm)
 {
   swatchWidget_->setColorManager(cm);
   model_->setColorManager(cm);
-  list_ = &cm->colorList();
+  if (cm)
+    list_ = &cm->colorList();
 }
 
 void PaletteWidget::itemSelected(int row)
@@ -341,4 +380,32 @@ void PaletteWidget::itemHovered(int row)
     palette_->setColor(c);
     palette_->update();
   }
+}
+
+void PaletteWidget::initializeColorSet()
+{
+  colorSet_->clear();
+
+  QList<ColorManager *> &list = meta_->colorManagers();
+  foreach (ColorManager *cm, list) {
+    colorSet_->addItem(cm->name(), cm->id());
+  }
+
+  colorSet_->insertSeparator(list.count());
+  colorSet_->addItem(tr("Colors You Own"), SWATCH_MINE);
+  colorSet_->addItem(tr("Used"), SWATCH_DOCUMENT);
+}
+
+void PaletteWidget::changeColorSet(int index)
+{
+  if (index == -1)
+    return;
+
+  QVariant data = colorSet_->itemData(index);
+  if (data.type() == QVariant::String)
+    setColorManager(meta_->colorManager(data.toString()));
+  else if (data == SWATCH_MINE)
+    setColorManager(meta_->localSwatch());
+  else if (data == SWATCH_DOCUMENT)
+    ;
 }
