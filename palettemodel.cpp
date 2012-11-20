@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "color.h"
 #include "colormanager.h"
 
@@ -20,6 +22,20 @@ PaletteModel::~PaletteModel()
 void PaletteModel::setColorManager(ColorManager *cm)
 {
   list_ = &cm->colorList();
+
+  disconnect(this, SLOT(colorAppended()));
+  disconnect(this, SLOT(colorInserted(int)));
+  disconnect(this, SLOT(colorDeleted(int)));
+  disconnect(this, SLOT(colorSwapped(int, int)));
+
+  connect(cm, SIGNAL(colorAppended()),
+          this, SLOT(colorAppended()));
+  connect(cm, SIGNAL(colorInserted(int)),
+          this, SLOT(colorInserted(int)));
+  connect(cm, SIGNAL(colorDeleted(int)), this,
+          SLOT(colorDeleted(int)));
+  connect(cm, SIGNAL(colorSwapped(int, int)), this,
+          SLOT(colorSwapped(int, int)));
 
   reset();
 }
@@ -107,4 +123,28 @@ QVariant PaletteModel::data(const QModelIndex &index, int role) const
 void PaletteModel::resetModel()
 {
   reset();
+}
+
+void PaletteModel::colorAppended()
+{
+  beginInsertRows(QModelIndex(), rowCount(), rowCount());
+  endInsertRows();
+}
+
+void PaletteModel::colorInserted(int before)
+{
+  beginInsertRows(QModelIndex(), before, before);
+  endInsertRows();
+}
+
+void PaletteModel::colorDeleted(int index)
+{
+  beginRemoveRows(QModelIndex(), index, index);
+  endRemoveRows();
+}
+
+void PaletteModel::colorSwapped(int index1, int index2)
+{
+  emit dataChanged(index(index1, 0), index(index1, columnCount()));
+  emit dataChanged(index(index2, 0), index(index2, columnCount()));
 }

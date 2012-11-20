@@ -28,6 +28,12 @@ class PaletteModel : public QAbstractItemModel
 
  public slots:
   void resetModel();
+
+ private slots:
+  void colorAppended();
+  void colorInserted(int before);
+  void colorDeleted(int index);
+  void colorSwapped(int index1, int index2);
   
  private:
   const QVector<const Color *> *list_;

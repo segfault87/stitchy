@@ -59,6 +59,7 @@ class ColorManager : public QObject
 
  signals:
   void listChanged();
+  void colorAppended();
   void colorInserted(int before);
   void colorDeleted(int index);
   void colorSwapped(int index1, int index2);

@@ -42,10 +42,6 @@ ColorEditor::ColorEditor(MetaColorManager *cm, QWidget *parent)
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
           this,
           SLOT(rightPaneSelected(const QItemSelection &, const QItemSelection &)));
-  connect(myColors_,
-          SIGNAL(listChanged()),
-          myModel_,
-          SLOT(resetModel()));
 
   QString initialCategory = Settings::self()->defaultPalette();
   QList<ColorManager *> &list = cm->colorManagers();

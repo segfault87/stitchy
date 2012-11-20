@@ -102,7 +102,7 @@ void ColorManager::add(const Color &c)
 {
   if (!colorMap_.contains(c.id())) {
     colorMap_.insert(c.id(), c);
-    emit colorInserted(colorList_.size());
+    emit colorAppended();
     colorList_.append(&colorMap_[c.id()]);
     emit listChanged();
   }
