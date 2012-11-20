@@ -1,0 +1,5 @@
+*.o
+stitchy
+moc_*.cpp
+qrc_*.cpp
+Makefile
