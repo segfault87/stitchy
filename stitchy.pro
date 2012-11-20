@@ -1,3 +1,4 @@
+CONFIG += qt debug
 TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
@@ -7,10 +8,14 @@ LIBS += -lqjson
 # Input
 RESOURCES += stitchy.qrc
 
+FORMS += \
+  coloreditor.ui
+
 HEADERS += \
   canvas.h \
   cell.h \
   color.h \
+  coloreditor.h \
   colormanager.h \
   common.h \
   document.h \
@@ -29,6 +34,7 @@ SOURCES += \
   canvas.cpp \
   cell.cpp \
   color.cpp \
+  coloreditor.cpp \
   colormanager.cpp \
   document.cpp \
   editor.cpp \

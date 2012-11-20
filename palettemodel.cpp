@@ -9,7 +9,7 @@
 PaletteModel::PaletteModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-
+  list_ = NULL;
 }
 
 PaletteModel::~PaletteModel()
@@ -26,6 +26,8 @@ void PaletteModel::setColorManager(ColorManager *cm)
 
 int PaletteModel::columnCount(const QModelIndex &parent) const
 {
+  Q_UNUSED(parent);
+
   return 2;
 }
 
@@ -42,10 +44,13 @@ int PaletteModel::rowCount(const QModelIndex &parent) const
 
 QModelIndex PaletteModel::parent(const QModelIndex &index) const
 {
+  Q_UNUSED(index);
+
   return QModelIndex();
 }
 
-QModelIndex PaletteModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex PaletteModel::index(int row, int column,
+                                const QModelIndex &parent) const
 {
   /* there are no children */
   if (parent.isValid())
@@ -54,8 +59,11 @@ QModelIndex PaletteModel::index(int row, int column, const QModelIndex &parent) 
   return createIndex(row, column);
 }
 
-QVariant PaletteModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant PaletteModel::headerData(int section, Qt::Orientation orientation,
+                                  int role) const
 {
+  Q_UNUSED(orientation);
+
   if (role == Qt::DisplayRole) {
     if (section == 0)
       return tr("Color No.");
@@ -70,6 +78,9 @@ QVariant PaletteModel::data(const QModelIndex &index, int role) const
 {
   /* there are no children */
   if (index.parent().isValid())
+    return QVariant();
+
+  if (!list_)
     return QVariant();
 
   const Color *c = (*list_)[index.row()];
@@ -93,3 +104,7 @@ QVariant PaletteModel::data(const QModelIndex &index, int role) const
   return QVariant();
 }
 
+void PaletteModel::resetModel()
+{
+  reset();
+}

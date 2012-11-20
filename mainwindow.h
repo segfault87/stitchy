@@ -1,7 +1,6 @@
 #ifndef _MAINWINDOW_H_
 #define _MAINWINDOW_H_
 
-#include <QIcon>
 #include <QMainWindow>
 
 class QCloseEvent;
@@ -32,11 +31,11 @@ class MainWindow : public QMainWindow
   void saveFile();
   void saveFileAs();
   void quit();
+  void showColorEditor();
 
   void setActiveDocument(Document *document);
 
  private:
-  QIcon icon(const QString &name);
   QAction* createAction(const QString &name, QObject *receiver,
                         const char *slot, const QKeySequence &shortcut,
                         const QIcon &icon);
@@ -61,6 +60,7 @@ class MainWindow : public QMainWindow
   QMenu *menuFile_;
   QMenu *menuEdit_;
   QMenu *menuView_;
+  QMenu *menuWindow_;
 
   /* file actions */
   QAction *actionNewFile_;
@@ -73,6 +73,9 @@ class MainWindow : public QMainWindow
   /* edit actions */
   QAction *actionUndo_;
   QAction *actionRedo_;
+
+  /* window actions */
+  QAction *actionColorEditor_;
 };
 
 #endif

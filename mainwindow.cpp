@@ -8,10 +8,12 @@
 
 #include "canvas.h"
 #include "color.h"
+#include "coloreditor.h"
 #include "document.h"
 #include "globalstate.h"
 #include "palettewidget.h"
 #include "settings.h"
+#include "utils.h"
 
 #include "mainwindow.h"
 
@@ -88,6 +90,12 @@ void MainWindow::quit()
     qApp->quit();
 }
 
+void MainWindow::showColorEditor()
+{
+  QDialog *dialog = new ColorEditor(colorManager_, this);
+  dialog->show();
+}
+
 void MainWindow::setActiveDocument(Document *document)
 {
   state_->setActiveDocument(document);
@@ -101,11 +109,6 @@ void MainWindow::setActiveDocument(Document *document)
   }
 
   emit needsUpdate();
-}
-
-QIcon MainWindow::icon(const QString &name)
-{
-  return QIcon::fromTheme(name, QIcon(":/icons/fallback/" + name + ".png"));
 }
 
 QAction* MainWindow::createAction(const QString &name, QObject *receiver,
@@ -184,19 +187,49 @@ bool MainWindow::saveDocument(bool newName)
 
 void MainWindow::initActions()
 {
-  actionNewFile_ = createAction(tr("&New..."), this, SLOT(newFile()), QKeySequence::New, icon("document-new"));
-  actionOpenFile_ = createAction(tr("&Open..."), this, SLOT(openFile()), QKeySequence::Open, icon("document-open"));
-  actionCloseFile_ = createAction(tr("&Close"), this, SLOT(closeFile()), QKeySequence::Close, icon("document-close"));
-  actionSaveFile_ = createAction(tr("&Save"), this, SLOT(saveFile()), QKeySequence::Save, icon("document-save"));
-  actionSaveFileAs_ = createAction(tr("Save &As..."), this, SLOT(saveFileAs()), QKeySequence::SaveAs, icon("document-save-as"));
-  actionQuit_ = createAction(tr("&Quit"), this, SLOT(quit()), QKeySequence::Quit, icon("application-exit"));
+  actionNewFile_ = createAction(tr("&New..."),
+                                this,
+                                SLOT(newFile()),
+                                QKeySequence::New,
+                                Utils::icon("document-new"));
+  actionOpenFile_ = createAction(tr("&Open..."),
+                                 this,
+                                 SLOT(openFile()),
+                                 QKeySequence::Open,
+                                 Utils::icon("document-open"));
+  actionCloseFile_ = createAction(tr("&Close"),
+                                  this,
+                                  SLOT(closeFile()),
+                                  QKeySequence::Close,
+                                  Utils::icon("document-close"));
+  actionSaveFile_ = createAction(tr("&Save"),
+                                 this,
+                                 SLOT(saveFile()),
+                                 QKeySequence::Save,
+                                 Utils::icon("document-save"));
+  actionSaveFileAs_ = createAction(tr("Save &As..."),
+                                   this,
+                                   SLOT(saveFileAs()),
+                                   QKeySequence::SaveAs,
+                                   Utils::icon("document-save-as"));
+  actionQuit_ = createAction(tr("&Quit"),
+                             this,
+                             SLOT(quit()),
+                             QKeySequence::Quit,
+                             Utils::icon("application-exit"));
 
   actionUndo_ = state_->undoGroup()->createUndoAction(this, tr("Undo"));
   actionUndo_->setShortcut(QKeySequence::Undo);
-  actionUndo_->setIcon(icon("edit-undo"));
+  actionUndo_->setIcon(Utils::icon("edit-undo"));
   actionRedo_ = state_->undoGroup()->createRedoAction(this, tr("Redo"));
   actionRedo_->setShortcut(QKeySequence::Redo);
-  actionRedo_->setIcon(icon("edit-redo"));
+  actionRedo_->setIcon(Utils::icon("edit-redo"));
+
+  actionColorEditor_ = createAction(tr("&Colors..."),
+                                    this,
+                                    SLOT(showColorEditor()),
+                                    QKeySequence("F12"),
+                                    QIcon());
 }
 
 void MainWindow::initMenus()
@@ -217,6 +250,9 @@ void MainWindow::initMenus()
   menuEdit_->addAction(actionRedo_);
 
   menuView_ = menuBar()->addMenu(tr("&View"));
+
+  menuWindow_ = menuBar()->addMenu(tr("&Window"));
+  menuWindow_->addAction(actionColorEditor_);
 }
 
 void MainWindow::initToolbars()
@@ -230,6 +266,8 @@ void MainWindow::initWidgets()
   QDockWidget *paletteDock = new QDockWidget(tr("Color Swatches"));
   paletteDock->setObjectName("palette");
   paletteDock->setWidget(palette_);
+  paletteDock->setFeatures(QDockWidget::DockWidgetMovable |
+                           QDockWidget::DockWidgetFloatable);
   addDockWidget(Qt::LeftDockWidgetArea, paletteDock);
 
   graphicsView_ = new Canvas(this);
@@ -242,4 +280,6 @@ void MainWindow::initConnections()
           graphicsView_, SLOT(update()));
   connect(palette_, SIGNAL(colorSelected(const Color *)),
           state_, SLOT(setColor(const Color *)));
+  connect(palette_, SIGNAL(userColorSetIsEmpty()),
+          this, SLOT(showColorEditor()));
 }

@@ -102,8 +102,18 @@ void ColorManager::add(const Color &c)
 {
   if (!colorMap_.contains(c.id())) {
     colorMap_.insert(c.id(), c);
+    emit colorInserted(colorList_.size());
     colorList_.append(&colorMap_[c.id()]);
+    emit listChanged();
+  }
+}
 
+void ColorManager::insert(const Color &c, int before)
+{
+  if (!colorMap_.contains(c.id())) {
+    colorMap_.insert(c.id(), c);
+    emit colorInserted(before);
+    colorList_.insert(before, &colorMap_[c.id()]);
     emit listChanged();
   }
 }
@@ -115,12 +125,27 @@ void ColorManager::remove(const QString &id)
     return;
 
   int index = colorList_.indexOf(&(*it));
-  if (index >= 0)
+  if (index >= 0) {
     colorList_.remove(index);
+    emit colorDeleted(index);
+  }
   
   colorMap_.erase(it);
 
   emit listChanged();
+}
+
+void ColorManager::swap(int index1, int index2)
+{
+  const Color *temp;
+  int size = colorList_.size();
+
+  if (index1 >= size || index2 >= size)
+    return;
+
+  temp = colorList_[index1];
+  colorList_[index1] = colorList_[index2];
+  colorList_[index2] = temp;
 }
 
 const Color* ColorManager::get(const QString &id) const
@@ -130,6 +155,19 @@ const Color* ColorManager::get(const QString &id) const
     return NULL;
 
   return &(*i);
+}
+
+const Color* ColorManager::itemAt(int index) const
+{
+  if (index < 0 || index >= colorList_.count())
+    return NULL;
+
+  return colorList_[index];
+}
+
+int ColorManager::count() const
+{
+  return colorList_.size();
 }
 
 MetaColorManager::MetaColorManager(QObject *parent)

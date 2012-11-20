@@ -48,13 +48,20 @@ class ColorManager : public QObject
   const QString& id() const { return id_; }
 
   void add(const Color &c);
+  void insert(const Color &c, int after);
   void remove(const QString &key);
+  void swap(int index1, int index2);
   const Color* get(const QString &key) const;
+  const Color* itemAt(int index) const;
+  int count() const;
 
   const QVector<const Color *>& colorList() const { return colorList_; }
 
  signals:
   void listChanged();
+  void colorInserted(int before);
+  void colorDeleted(int index);
+  void colorSwapped(int index1, int index2);
 
  private:
   QString id_;
@@ -74,13 +81,13 @@ class MetaColorManager : public QObject
 
   ColorManager* createColorManager(const QString &id, const QString &name);
   ColorManager* colorManager(const QString &id);
-  ColorManager* localSwatch() { return &localSwatch_; }
+  ColorManager* localSwatches() { return &localSwatches_; }
   QList<ColorManager *>& colorManagers() { return colorManagerList_; }
 
  private:
   QList<ColorManager *> colorManagerList_;
   QHash<QString, ColorManager *> colorManagers_;
-  ColorManager localSwatch_;
+  ColorManager localSwatches_;
 };
 
 #endif

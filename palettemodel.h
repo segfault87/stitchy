@@ -9,6 +9,8 @@ class ColorManager;
 
 class PaletteModel : public QAbstractItemModel
 {
+  Q_OBJECT;
+
  public:
   PaletteModel(QObject *parent = NULL);
   ~PaletteModel();
@@ -23,6 +25,9 @@ class PaletteModel : public QAbstractItemModel
 
   QVariant headerData(int section, Qt::Orientation orientation, int role) const;
   QVariant data(const QModelIndex &index, int role) const;
+
+ public slots:
+  void resetModel();
   
  private:
   const QVector<const Color *> *list_;

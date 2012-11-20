@@ -392,7 +392,7 @@ void PaletteWidget::initializeColorSet()
   }
 
   colorSet_->insertSeparator(list.count());
-  colorSet_->addItem(tr("Colors You Own"), SWATCH_MINE);
+  colorSet_->addItem(tr("Colors You Have"), SWATCH_MINE);
   colorSet_->addItem(tr("Used"), SWATCH_DOCUMENT);
 }
 
@@ -402,10 +402,14 @@ void PaletteWidget::changeColorSet(int index)
     return;
 
   QVariant data = colorSet_->itemData(index);
-  if (data.type() == QVariant::String)
+  if (data.type() == QVariant::String) {
     setColorManager(meta_->colorManager(data.toString()));
-  else if (data == SWATCH_MINE)
-    setColorManager(meta_->localSwatch());
-  else if (data == SWATCH_DOCUMENT)
-    ;
+  } else if (data == SWATCH_MINE) {
+    ColorManager *cm = meta_->localSwatches();
+    if (cm->count() == 0)
+      emit userColorSetIsEmpty();
+    setColorManager(cm);
+  } else if (data == SWATCH_DOCUMENT) {
+    
+  }
 }

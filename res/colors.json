@@ -1,5 +1,7 @@
 [
   {
+    "id": "dmc", 
+    "name": "DMC\u00ae",
     "colors": [
       {
         "color": "#ffffff", 
@@ -2276,8 +2278,37 @@
         "name": "Bright White", 
         "id": "B5200"
       }
-    ], 
-    "id": "dmc", 
-    "name": "DMC\u00ae"
+    ]
+  },
+  {
+    "id": "test", 
+    "name": "Test",
+    "colors": [
+      {
+        "color": "#000000", 
+        "name": "Black", 
+        "id": "BLACK"
+      }, 
+      {
+        "color": "#FFFFFF", 
+        "name": "White", 
+        "id": "WHITE"
+      }, 
+      {
+        "color": "#FF0000", 
+        "name": "Red", 
+        "id": "RED"
+      }, 
+      {
+        "color": "#00FF00", 
+        "name": "Green", 
+        "id": "GREEN"
+      }, 
+      {
+        "color": "#0000FF", 
+        "name": "Blue", 
+        "id": "BLUE"
+      }
+    ]
   }
 ]
