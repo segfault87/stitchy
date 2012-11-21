@@ -9,6 +9,8 @@ class EditorAction;
 enum ToolMode
 {
   ToolMode_Select,
+  ToolMode_Move,
+  ToolMode_Rectangle,
   ToolMode_Full,
   ToolMode_Half,
   ToolMode_Petite,

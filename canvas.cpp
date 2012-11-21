@@ -115,12 +115,13 @@ void Canvas::mousePressEvent(QMouseEvent *event)
   if (event->button() & Qt::LeftButton) {
     ToolMode mode = GlobalState::self()->toolMode();
 
-    if (!GlobalState::self()->color())
+    Document *doc = GlobalState::self()->activeDocument();
+    if (!GlobalState::self()->color() || !doc)
       return;
 
     if (mode == ToolMode_Full || mode == ToolMode_Half ||
         mode == ToolMode_Petite || mode == ToolMode_Quarter) {
-      drawboard_ = new SparseMap(GlobalState::self()->activeDocument());
+      drawboard_ = new SparseMap(doc);
       drawing_ = true;
 
       mouseMoveEvent(event);
@@ -187,6 +188,9 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
     return;
   } else if (drawing_ && event->button() & Qt::LeftButton) {
     Document *doc = GlobalState::self()->activeDocument();
+
+    if (!doc)
+      return;
     
     drawing_ = false;
     cursor_ = QPoint(-1, -1);

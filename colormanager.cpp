@@ -10,43 +10,8 @@
 
 #include "colormanager.h"
 
-ColorUsageTracker::ColorUsageTracker()
-{
-  
-}
-
-ColorUsageTracker::~ColorUsageTracker()
-{
-
-}
-
-void ColorUsageTracker::acquire(StitchItem *item)
-{
-  backrefMap_[item->color()].insert(item);
-}
-
-void ColorUsageTracker::release(StitchItem *item)
-{
-  QSet<StitchItem *> &set = backrefMap_[item->color()];
-
-  set.remove(item);
-  if (set.size() == 0)
-    backrefMap_.remove(item->color());
-}
-
-const QSet<StitchItem *>* ColorUsageTracker::items(const Color *color) const
-{
-  QHash<const Color *, QSet<StitchItem *> >::ConstIterator it =
-      backrefMap_.find(color);
-
-  if (it == backrefMap_.end())
-    return NULL;
-
-  return &(*it);
-}
-
-ColorManager::ColorManager()
-    : QObject(), name_(QObject::tr("My Colors"))
+ColorManager::ColorManager(QObject *parent)
+    : QObject(parent), name_(QObject::tr("My Colors"))
 {
 
 }
@@ -178,6 +143,51 @@ void ColorManager::clear()
 {
   colorMap_.clear();
   colorList_.clear();
+}
+
+ColorUsageTracker::ColorUsageTracker(QObject *parent)
+    : ColorManager(parent), total_(0.0)
+{
+  
+}
+
+ColorUsageTracker::~ColorUsageTracker()
+{
+
+}
+
+void ColorUsageTracker::acquire(StitchItem *item)
+{
+  backrefMap_[item->color()].insert(item);
+  weightMap_[item->color()] += item->weight();
+  total_ += item->weight();
+  const Color *c = item->color();
+  if (colorMap_.find(c->id()) == colorMap_.end())
+    add(Color(*c));
+}
+
+void ColorUsageTracker::release(StitchItem *item)
+{
+  QSet<StitchItem *> &set = backrefMap_[item->color()];
+  total_ -= item->weight();
+  weightMap_[item->color()] -= item->weight();
+  set.remove(item);
+  if (set.size() == 0) {
+    remove(item->color()->id());
+    weightMap_.remove(item->color());
+    backrefMap_.remove(item->color());
+  }
+}
+
+const QSet<StitchItem *>* ColorUsageTracker::items(const Color *color) const
+{
+  QHash<const Color *, QSet<StitchItem *> >::ConstIterator it =
+      backrefMap_.find(color);
+
+  if (it == backrefMap_.end())
+    return NULL;
+
+  return &(*it);
 }
 
 MetaColorManager::MetaColorManager(QObject *parent)

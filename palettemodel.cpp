@@ -21,23 +21,27 @@ PaletteModel::~PaletteModel()
 
 void PaletteModel::setColorManager(ColorManager *cm)
 {
-  list_ = &cm->colorList();
-
   disconnect(this, SLOT(colorAppended()));
   disconnect(this, SLOT(colorInserted(int)));
   disconnect(this, SLOT(colorDeleted(int)));
   disconnect(this, SLOT(colorSwapped(int, int)));
 
-  connect(cm, SIGNAL(colorAppended()),
-          this, SLOT(colorAppended()));
-  connect(cm, SIGNAL(colorInserted(int)),
-          this, SLOT(colorInserted(int)));
-  connect(cm, SIGNAL(colorDeleted(int)), this,
-          SLOT(colorDeleted(int)));
-  connect(cm, SIGNAL(colorSwapped(int, int)), this,
-          SLOT(colorSwapped(int, int)));
+  if (cm) {
+    list_ = &cm->colorList();
 
-  reset();
+    connect(cm, SIGNAL(colorAppended()),
+            this, SLOT(colorAppended()));
+    connect(cm, SIGNAL(colorInserted(int)),
+            this, SLOT(colorInserted(int)));
+    connect(cm, SIGNAL(colorDeleted(int)), this,
+            SLOT(colorDeleted(int)));
+    connect(cm, SIGNAL(colorSwapped(int, int)), this,
+            SLOT(colorSwapped(int, int)));
+    
+    reset();
+  } else {
+    list_ = NULL;
+  }
 }
 
 int PaletteModel::columnCount(const QModelIndex &parent) const

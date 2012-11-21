@@ -89,7 +89,6 @@ void ColorEditor::addColor()
 
   const Color *c = foreignColors_->itemAt(selection.indexes()[0].row());
 
-  int before;
   if (rs.indexes().size() == 0) {
     myColors_->add(Color(*c));
   } else {
@@ -176,6 +175,8 @@ void ColorEditor::rightPaneDeselected()
 void ColorEditor::leftPaneSelected(const QItemSelection &selected,
                                    const QItemSelection &deselected)
 {
+  Q_UNUSED(deselected);
+  
   int row = selected.indexes()[0].row();
   const Color *c = foreignColors_->itemAt(row);
   bool enable = false;
@@ -191,6 +192,8 @@ void ColorEditor::leftPaneSelected(const QItemSelection &selected,
 void ColorEditor::rightPaneSelected(const QItemSelection &selected,
                                     const QItemSelection &deselected)
 {
+  Q_UNUSED(deselected);
+  
   if (selected.indexes().size() > 0) {
     int row = selected.indexes()[0].row();
     

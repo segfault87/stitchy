@@ -12,35 +12,17 @@
 
 class StitchItem;
 
-typedef QHash<const Color *, QSet<StitchItem *> > BackRefMap;
-
-class ColorUsageTracker
-{
- public:
-  ColorUsageTracker();
-  ~ColorUsageTracker();
-
-  void acquire(StitchItem *item);
-  void release(StitchItem *item);
-
-  const BackRefMap& backrefMap() const { return backrefMap_; }
-  const QSet<StitchItem *>* items(const Color *) const;
-
- private:
-  BackRefMap backrefMap_;
-};
-
 class ColorManager : public QObject
 {
   Q_OBJECT;
 
  public:
-  ColorManager();
+  ColorManager(QObject *parent = NULL);
   ColorManager(const QString &id, const QString &name,
                QObject *parent = NULL);
   ColorManager(const QString &id, const QString &name,
                const QString &path, QObject *parent = NULL);
-  ~ColorManager();
+  virtual ~ColorManager();
 
   void load(const QVariant &list);
 
@@ -65,11 +47,32 @@ class ColorManager : public QObject
   void colorDeleted(int index);
   void colorSwapped(int index1, int index2);
 
- private:
+ protected:
   QString id_;
   QString name_;
   QHash<QString, Color> colorMap_;
   QVector<const Color *> colorList_;
+};
+
+typedef QHash<const Color *, QSet<StitchItem *> > BackRefMap;
+typedef QHash<const Color *, qreal> WeightMap;
+
+class ColorUsageTracker : public ColorManager
+{
+ public:
+  ColorUsageTracker(QObject *parent = NULL);
+  ~ColorUsageTracker();
+
+  void acquire(StitchItem *item);
+  void release(StitchItem *item);
+
+  const BackRefMap& backrefMap() const { return backrefMap_; }
+  const QSet<StitchItem *>* items(const Color *) const;
+
+ private:
+  BackRefMap backrefMap_;
+  WeightMap weightMap_;
+  qreal total_;
 };
 
 class MetaColorManager : public QObject

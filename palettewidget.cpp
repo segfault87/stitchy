@@ -13,6 +13,7 @@
 
 #include "color.h"
 #include "colormanager.h"
+#include "document.h"
 #include "globalstate.h"
 #include "settings.h"
 #include "palettemodel.h"
@@ -49,6 +50,8 @@ void SwatchWidget::setColorManager(ColorManager *cm)
 
     resize(sizeHint());
     update();
+  } else {
+    list_ = NULL;
   }
 }
 
@@ -102,6 +105,9 @@ QPoint SwatchWidget::mapToTable(const QPoint &pos) const
 
 const Color* SwatchWidget::mapToElem(const QPoint &pos) const
 {
+  if (!list_)
+    return NULL;
+  
   int cols = width() / SWATCH_WIDTH;
 
   if (pos.x() >= cols)
@@ -146,6 +152,9 @@ void SwatchWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void SwatchWidget::paintEvent(QPaintEvent *event)
 {
+  if (!list_)
+    return;
+  
   QPoint tl = mapToTable(event->rect().topLeft());
   QPoint br = mapToTable(event->rect().bottomRight());
 
@@ -360,6 +369,20 @@ void PaletteWidget::setColorManager(ColorManager *cm)
   model_->setColorManager(cm);
   if (cm)
     list_ = &cm->colorList();
+  else
+    list_ = NULL;
+}
+
+void PaletteWidget::documentChanged(Document *document)
+{
+  document_ = document;
+  
+  if (colorSet_->itemData(colorSet_->currentIndex()) == SWATCH_DOCUMENT) {
+    if (document)
+      setColorManager(document->colorTracker());
+    else
+      setColorManager(NULL);
+  }
 }
 
 void PaletteWidget::itemSelected(int row)
@@ -410,6 +433,9 @@ void PaletteWidget::changeColorSet(int index)
       emit userColorSetIsEmpty();
     setColorManager(cm);
   } else if (data == SWATCH_DOCUMENT) {
-    
+    if (document_)
+      setColorManager(document_->colorTracker());
+    else
+      setColorManager(NULL);
   }
 }

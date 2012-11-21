@@ -26,9 +26,14 @@ class StitchItem : public QGraphicsItem
              QGraphicsItem *parent = NULL);
   virtual ~StitchItem();
 
+  void acquire();
+  void release();
+
   const Color* color() const { return color_; }
 
   void setColor(Color *c) { color_ = c; }
+
+  virtual qreal weight() const = 0;
 
  protected:
   const Color *color_;
@@ -68,6 +73,8 @@ class FullStitchItem : public PositionedStitchItem
                  QGraphicsItem *parent = NULL);
   ~FullStitchItem();
 
+  virtual qreal weight() const;
+
  private:
   void paintStitch(QPainter *painter);
 };
@@ -80,6 +87,8 @@ class PetiteStitchItem : public PositionedStitchItem
                    Document *document = NULL,
                    QGraphicsItem *parent = NULL);
   ~PetiteStitchItem();
+
+  virtual qreal weight() const;
 
  private:
   void paintStitch(QPainter *painter);
@@ -94,6 +103,8 @@ class HalfStitchItem : public PositionedStitchItem
                  Document *document = NULL,
                  QGraphicsItem *parent = NULL);
   ~HalfStitchItem();
+
+  virtual qreal weight() const;
 
  private:
   void paintStitch(QPainter *painter);
@@ -111,6 +122,8 @@ class QuarterStitchItem : public PositionedStitchItem
                     Document *document = NULL,
                     QGraphicsItem *parent = NULL);
   ~QuarterStitchItem();
+
+  virtual qreal weight() const;
 
  private:
   void paintStitch(QPainter *painter);

@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QToolBar>
 #include <QUndoGroup>
 
 #include "canvas.h"
@@ -109,6 +110,7 @@ void MainWindow::setActiveDocument(Document *document)
   }
 
   emit needsUpdate();
+  emit documentChanged(document);
 }
 
 QAction* MainWindow::createAction(const QString &name, QObject *receiver,
@@ -124,6 +126,12 @@ QAction* MainWindow::createAction(const QString &name, QObject *receiver,
     connect(action, SIGNAL(triggered()), receiver, slot);
 
   return action;
+}
+
+QAction* MainWindow::createAction(const QString &name, const QKeySequence &shortcut,
+                                  const QIcon &icon)
+{
+  return createAction(name, NULL, NULL, shortcut, icon);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -225,6 +233,29 @@ void MainWindow::initActions()
   actionRedo_->setShortcut(QKeySequence::Redo);
   actionRedo_->setIcon(Utils::icon("edit-redo"));
 
+  actionModeSelect_ = createAction(tr("&Select"),
+                                   QKeySequence("F3"),
+                                   Utils::icon("select-rectangular"));
+  actionModeMove_ = createAction(tr("&Move"),
+                                 QKeySequence("F4"),
+                                 Utils::icon("transform-move"));
+  actionModeRectangle_ = createAction(tr("&Rectangle"),
+                                      QKeySequence("F5"),
+                                      Utils::icon("draw-rectangle"));
+  actionModeDrawFull_ = createAction(tr("&Full Stitch"),
+                                     QKeySequence("F6"),
+                                     Utils::icon("stitch-full"));
+  actionModeDrawHalf_ = createAction(tr("&Half Stitch"),
+                                     QKeySequence("F7"),
+                                     Utils::icon("stitch-half"));
+  actionModeDrawPetite_ = createAction(tr("&Petite Stitch"),
+                                       QKeySequence("F8"),
+                                       Utils::icon("stitch-petite"));
+  actionModeDrawQuarter_ = createAction(tr("&Quarter Stitch"),
+                                        QKeySequence("F9"),
+                                        Utils::icon("stitch-quarter"));
+
+  
   actionColorEditor_ = createAction(tr("&Colors..."),
                                     this,
                                     SLOT(showColorEditor()),
@@ -248,8 +279,11 @@ void MainWindow::initMenus()
   menuEdit_ = menuBar()->addMenu(tr("&Edit"));
   menuEdit_->addAction(actionUndo_);
   menuEdit_->addAction(actionRedo_);
+  menuEdit_->addSeparator();
 
   menuView_ = menuBar()->addMenu(tr("&View"));
+
+  menuTool_ = menuBar()->addMenu(tr("&Tool"));
 
   menuWindow_ = menuBar()->addMenu(tr("&Window"));
   menuWindow_->addAction(actionColorEditor_);
@@ -257,7 +291,18 @@ void MainWindow::initMenus()
 
 void MainWindow::initToolbars()
 {
+  QToolBar *toolBarFile = addToolBar(tr("File"));
+  toolBarFile->setObjectName("toolbar_file");
+  toolBarFile->addAction(actionNewFile_);
+  toolBarFile->addAction(actionOpenFile_);
+  toolBarFile->addAction(actionSaveFile_);
+  toolBarFile->addAction(actionSaveFileAs_);
+  toolBarFile->addAction(actionCloseFile_);
 
+  QToolBar *toolBarEdit = addToolBar(tr("Edit"));
+  toolBarEdit->setObjectName("toolbar_edit");
+  toolBarEdit->addAction(actionUndo_);
+  toolBarEdit->addAction(actionRedo_);
 }
 
 void MainWindow::initWidgets()
@@ -282,4 +327,6 @@ void MainWindow::initConnections()
           state_, SLOT(setColor(const Color *)));
   connect(palette_, SIGNAL(userColorSetIsEmpty()),
           this, SLOT(showColorEditor()));
+  connect(this, SIGNAL(documentChanged(Document *)),
+          palette_, SLOT(documentChanged(Document *)));
 }

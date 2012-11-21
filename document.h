@@ -28,7 +28,7 @@ class Document : public QObject
 
   Editor* editor() { return editor_; }
   QGraphicsScene* scene() { return scene_; }
-  ColorUsageTracker* colors() { return &colors_; }
+  ColorUsageTracker* colorTracker() { return &colors_; }
   SparseMap* map() { return map_; }
   const QSize& size() { return size_; }
 

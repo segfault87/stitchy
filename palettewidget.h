@@ -13,6 +13,7 @@ class QPaintEvent;
 
 class Color;
 class ColorManager;
+class Document;
 class MetaColorManager;
 class PaletteModel;
 
@@ -110,6 +111,9 @@ class PaletteWidget : public QWidget
   void colorSelected(const Color *);
   void userColorSetIsEmpty();
 
+ public slots:
+  void documentChanged(Document *document);
+
  private slots:
   void itemSelected(int row);
   void itemHovered(int row);
@@ -126,6 +130,7 @@ class PaletteWidget : public QWidget
   PaletteModel *model_;
   Palette *palette_;
   MetaColorManager *meta_;
+  Document *document_;
 };
 
 

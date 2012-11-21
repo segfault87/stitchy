@@ -160,7 +160,9 @@ void Cell::remove(int feature)
     return;
 
   if (features_[feature]) {
-    delete features_[feature];
+    StitchItem *it = features_[feature];
+    it->release();
+    delete it;
     features_[feature] = NULL;
   }
   colors_[feature] = NULL;
@@ -223,6 +225,7 @@ void Cell::createGraphicsItems()
     }
 
     if (it) {
+      it->acquire();
       features_[i] = it;
       document_->scene()->addItem(it);
     }

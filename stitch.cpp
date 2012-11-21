@@ -6,6 +6,8 @@
 
 #include "stitch.h"
 
+#define PI_2 1.414213562373095
+
 #define PHI 0.3f
 
 const QPointF shapeBackslash[] = {
@@ -46,10 +48,6 @@ StitchItem::StitchItem(const Color *color, Document *document, QGraphicsItem *pa
 {
   if (!color_) {
     color_ = &Color::defaultColor;
-  } else {
-    if (document) {
-      document->acquire(this);
-    }
   }
 
   setZValue(zv);
@@ -57,6 +55,17 @@ StitchItem::StitchItem(const Color *color, Document *document, QGraphicsItem *pa
 }
 
 StitchItem::~StitchItem()
+{
+
+}
+
+void StitchItem::acquire()
+{
+  if (document_)
+    document_->acquire(this);
+}
+
+void StitchItem::release()
 {
   if (document_)
     document_->release(this);
@@ -128,6 +137,11 @@ FullStitchItem::~FullStitchItem()
 
 }
 
+qreal FullStitchItem::weight() const
+{
+  return PI_2 * 2.0;
+}
+
 void FullStitchItem::paintStitch(QPainter *painter)
 {
   painter->drawPolygon(shapeSlash, sizeof(shapeSlash) / sizeof(QPointF));
@@ -150,6 +164,11 @@ PetiteStitchItem::PetiteStitchItem(const QPointF &position,
 PetiteStitchItem::~PetiteStitchItem()
 {
 
+}
+
+qreal PetiteStitchItem::weight() const
+{
+  return PI_2;
 }
 
 void PetiteStitchItem::paintStitch(QPainter *painter)
@@ -178,6 +197,11 @@ HalfStitchItem::~HalfStitchItem()
 
 }
 
+qreal HalfStitchItem::weight() const
+{
+  return PI_2;
+}
+
 void HalfStitchItem::paintStitch(QPainter *painter)
 {
   if (orientation_ == Orientation_Slash)
@@ -204,6 +228,11 @@ QuarterStitchItem::QuarterStitchItem(Orientation orientation,
 QuarterStitchItem::~QuarterStitchItem()
 {
 
+}
+
+qreal QuarterStitchItem::weight() const
+{
+  return PI_2 / 2.0;
 }
 
 void QuarterStitchItem::paintStitch(QPainter *painter)

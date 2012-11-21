@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+class QActionGroup;
 class QCloseEvent;
 class QMenu;
 
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow
 
  signals:
   void needsUpdate();
+  void documentChanged(Document *document);
 
  private slots:
   void newFile();
@@ -32,12 +34,15 @@ class MainWindow : public QMainWindow
   void saveFileAs();
   void quit();
   void showColorEditor();
+  void toolModeAction(QAction *action);
 
   void setActiveDocument(Document *document);
 
  private:
   QAction* createAction(const QString &name, QObject *receiver,
                         const char *slot, const QKeySequence &shortcut,
+                        const QIcon &icon);
+  QAction* createAction(const QString &name, const QKeySequence &shortcut,
                         const QIcon &icon);
   void closeEvent(QCloseEvent *event);
   bool confirmClose();
@@ -60,6 +65,7 @@ class MainWindow : public QMainWindow
   QMenu *menuFile_;
   QMenu *menuEdit_;
   QMenu *menuView_;
+  QMenu *menuTool_;
   QMenu *menuWindow_;
 
   /* file actions */
@@ -73,6 +79,19 @@ class MainWindow : public QMainWindow
   /* edit actions */
   QAction *actionUndo_;
   QAction *actionRedo_;
+  QActionGroup *actionGroupMode_;
+  QAction *actionModeSelect_;
+  QAction *actionModeMove_;
+  QAction *actionModeRectangle_;
+  QAction *actionModeDrawFull_;
+  QAction *actionModeDrawHalf_;
+  QAction *actionModeDrawPetite_;
+  QAction *actionModeDrawQuarter_;
+
+  /* view actions */
+  QAction *actionViewFull_;
+  QAction *actionViewSimplified_;
+  QAction *actionViewSymbol_;
 
   /* window actions */
   QAction *actionColorEditor_;
