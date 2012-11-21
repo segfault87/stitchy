@@ -104,24 +104,48 @@ void ColorEditor::addColor()
 void ColorEditor::removeColor()
 {
   const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
-
   if (rs.indexes().size() == 0)
     return;
-
   int row = rs.indexes()[0].row();
+  
   myColors_->remove(myColors_->itemAt(row)->id());
-
   ui_.mySwatchesView->clearSelection();
 }
 
 void ColorEditor::moveUp()
 {
+  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
+  if (rs.indexes().size() == 0)
+    return;
+  int row = rs.indexes()[0].row();
+  if (row == 0)
+    return;
 
+  myColors_->swap(row, row - 1);
+
+  ui_.mySwatchesView->selectionModel()->select(
+      QItemSelection(
+          myModel_->index(row-1, 0),
+          myModel_->index(row-1, myModel_->columnCount() - 1)),
+      QItemSelectionModel::ClearAndSelect);
 }
 
 void ColorEditor::moveDown()
 {
+  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
+  if (rs.indexes().size() == 0)
+    return;
+  int row = rs.indexes()[0].row();
+  if (row == myColors_->count() - 1)
+    return;
 
+  myColors_->swap(row, row + 1);
+
+  ui_.mySwatchesView->selectionModel()->select(
+      QItemSelection(
+          myModel_->index(row+1, 0),
+          myModel_->index(row+1, myModel_->columnCount() - 1)),
+      QItemSelectionModel::ClearAndSelect);
 }
 
 void ColorEditor::selectColorSet(int index)

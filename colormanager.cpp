@@ -147,6 +147,9 @@ void ColorManager::swap(int index1, int index2)
   temp = colorList_[index1];
   colorList_[index1] = colorList_[index2];
   colorList_[index2] = temp;
+
+  emit listChanged();
+  emit colorSwapped(index1, index2);
 }
 
 const Color* ColorManager::get(const QString &id) const
