@@ -5,6 +5,7 @@
 #include <qjson/parser.h>
 
 #include "color.h"
+#include "settings.h"
 #include "stitch.h"
 
 #include "colormanager.h"
@@ -170,6 +171,12 @@ int ColorManager::count() const
   return colorList_.size();
 }
 
+void ColorManager::clear()
+{
+  colorMap_.clear();
+  colorList_.clear();
+}
+
 MetaColorManager::MetaColorManager(QObject *parent)
     : QObject(parent)
 {
@@ -199,6 +206,8 @@ MetaColorManager::MetaColorManager(const QString &path, QObject *parent)
     ColorManager *cm = createColorManager(map["id"].toString(), map["name"].toString());
     cm->load(map["colors"]);
   }
+
+  populateMyColors();
 }
 
 MetaColorManager::~MetaColorManager()
@@ -207,6 +216,19 @@ MetaColorManager::~MetaColorManager()
        it != colorManagers_.end();
        ++it) {
     delete it.value();
+  }
+}
+
+void MetaColorManager::populateMyColors()
+{
+  localSwatches_.clear();
+
+  QStringList colors = Settings::self()->myColors();
+  foreach (const QString &s, colors) {
+    QStringList fr = s.split("|");
+    const Color *c = get(fr[0], fr[1]);
+    if (c)
+      localSwatches_.add(Color(*c));
   }
 }
 

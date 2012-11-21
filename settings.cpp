@@ -25,9 +25,19 @@ QString Settings::defaultPalette() const
   return settings_->value("colors/default_palette", QString()).toString();
 }
 
+QStringList Settings::myColors() const
+{
+  return settings_->value("colors/my_colors", QStringList()).toStringList();
+}
+
 void Settings::setDefaultPalette(const QString &data)
 {
   settings_->setValue("colors/default_palette", data);
+}
+
+void Settings::setMyColors(const QStringList &data)
+{
+  settings_->setValue("colors/my_colors", data);
 }
 
 QByteArray Settings::state() const

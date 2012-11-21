@@ -18,6 +18,9 @@ class ColorEditor : public QDialog
   ColorEditor(MetaColorManager *cm, QWidget *parent = NULL);
   ~ColorEditor();
 
+ private:
+  void commit();
+
  private slots:
   void addColor();
   void removeColor();

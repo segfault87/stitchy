@@ -48,12 +48,13 @@ class ColorManager : public QObject
   const QString& id() const { return id_; }
 
   void add(const Color &c);
-  void insert(const Color &c, int after);
+  void insert(const Color &c, int before);
   void remove(const QString &key);
   void swap(int index1, int index2);
   const Color* get(const QString &key) const;
   const Color* itemAt(int index) const;
   int count() const;
+  void clear();
 
   const QVector<const Color *>& colorList() const { return colorList_; }
 
@@ -77,6 +78,8 @@ class MetaColorManager : public QObject
   MetaColorManager(QObject *parent = NULL);
   MetaColorManager(const QString &path, QObject *parent = NULL);
   ~MetaColorManager();
+
+  void populateMyColors();
 
   const Color* get(const QString &category, const QString &id);
 

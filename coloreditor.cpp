@@ -8,6 +8,8 @@
 ColorEditor::ColorEditor(MetaColorManager *cm, QWidget *parent)
     : QDialog(parent), colorManager_(cm)
 {
+  setAttribute(Qt::WA_DeleteOnClose);
+
   myColors_ = cm->localSwatches();
   myModel_ = new PaletteModel(this);
   foreignModel_ = new PaletteModel(this);
@@ -23,6 +25,20 @@ ColorEditor::ColorEditor(MetaColorManager *cm, QWidget *parent)
 
   ui_.swatchesView->setModel(foreignModel_);
   ui_.mySwatchesView->setModel(myModel_);
+
+  QString initialCategory = Settings::self()->defaultPalette();
+  QList<ColorManager *> &list = cm->colorManagers();
+  int idx = 0;
+  foreach (ColorManager *cm, list) {
+    ui_.colorSet->addItem(cm->name(), cm->id());
+    if (!initialCategory.isEmpty() && cm->id() == initialCategory) {
+      selectColorSet(idx);
+      break;
+    }
+    ++idx;
+  }
+  if (initialCategory.isEmpty() && list.size() > 0)
+    selectColorSet(0);
 
   connect(ui_.colorSet, SIGNAL(activated(int)),
           this, SLOT(selectColorSet(int)));
@@ -42,41 +58,60 @@ ColorEditor::ColorEditor(MetaColorManager *cm, QWidget *parent)
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
           this,
           SLOT(rightPaneSelected(const QItemSelection &, const QItemSelection &)));
-
-  QString initialCategory = Settings::self()->defaultPalette();
-  QList<ColorManager *> &list = cm->colorManagers();
-  int idx = 0;
-  foreach (ColorManager *cm, list) {
-    ui_.colorSet->addItem(cm->name(), cm->id());
-    if (!initialCategory.isEmpty() && cm->id() == initialCategory) {
-      selectColorSet(idx);
-      break;
-    }
-    ++idx;
-  }
-  if (initialCategory.isEmpty() && list.size() > 0)
-    selectColorSet(0);
 }
 
 ColorEditor::~ColorEditor()
 {
+  commit();
+}
 
+void ColorEditor::commit()
+{
+  QStringList sl;
+
+  const QVector<const Color *> &cl = myColors_->colorList();
+  for (QVector<const Color *>::ConstIterator it = cl.begin();
+       it != cl.end();
+       ++it) {
+    sl << (*it)->parent()->id() + "|" + (*it)->id();
+  }
+
+  Settings::self()->setMyColors(sl);
 }
 
 void ColorEditor::addColor()
 {
   const QItemSelection &selection = ui_.swatchesView->selectionModel()->selection();
+  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
 
   if (selection.indexes().size() == 0)
     return;
 
   const Color *c = foreignColors_->itemAt(selection.indexes()[0].row());
-  myColors_->add(Color(*c));
+
+  int before;
+  if (rs.indexes().size() == 0) {
+    myColors_->add(Color(*c));
+  } else {
+    int row = rs.indexes()[0].row();
+    if (row == myColors_->count() - 1)
+      myColors_->add(Color(*c));
+    else
+      myColors_->insert(Color(*c), row + 1);
+  }
 }
 
 void ColorEditor::removeColor()
 {
+  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
 
+  if (rs.indexes().size() == 0)
+    return;
+
+  int row = rs.indexes()[0].row();
+  myColors_->remove(myColors_->itemAt(row)->id());
+
+  ui_.mySwatchesView->clearSelection();
 }
 
 void ColorEditor::moveUp()
@@ -153,3 +188,4 @@ void ColorEditor::rightPaneSelected(const QItemSelection &selected,
     rightPaneDeselected();
   }
 }
+
