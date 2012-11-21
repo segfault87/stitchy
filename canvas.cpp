@@ -62,6 +62,33 @@ bool Canvas::mapToGrid(const QPoint &pos, QPoint &out, Subarea &subareaOut)
   return true;
 }
 
+void Canvas::zoomIn()
+{
+  scale(1.0 + MAGNIFICATION_RATE, 1.0 + MAGNIFICATION_RATE);
+}
+
+void Canvas::zoomOut()
+{
+  scale(1.0 - MAGNIFICATION_RATE, 1.0 - MAGNIFICATION_RATE);
+}
+
+void Canvas::zoomReset()
+{
+  resetMatrix();
+  scale(2.0, 2.0);
+}
+
+void Canvas::toggleGrid(bool enabled)
+{
+  QPixmap pixmap(size());
+  pixmap.fill(Qt::transparent);
+  QPainter painter(&pixmap);;
+  painter.setRenderHint(QPainter::Antialiasing);
+  scene()->render(&painter);
+  painter.end();
+  pixmap.save("scene.png");
+}
+
 void Canvas::setCenter(const QPointF& centerPoint)
 {
   //Get the rectangle of the visible area in scene coords

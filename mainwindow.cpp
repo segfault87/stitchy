@@ -91,10 +91,52 @@ void MainWindow::quit()
     qApp->quit();
 }
 
+void MainWindow::viewModeAction(QAction *action)
+{
+  RenderingMode rm;
+  
+  if (action == actionViewSimplified_)
+    rm = RenderingMode_Simple;
+  else if (action == actionViewFull_)
+    rm = RenderingMode_Full;
+  else if (action == actionViewSymbols_)
+    rm = RenderingMode_Symbol;
+  else
+    return;
+
+  state_->setRenderingMode(rm);
+  graphicsView_->scale(2.0, 2.0);
+  graphicsView_->scale(0.5, 0.5);
+}
+
 void MainWindow::showColorEditor()
 {
   QDialog *dialog = new ColorEditor(colorManager_, this);
   dialog->show();
+}
+
+void MainWindow::toolModeAction(QAction *action)
+{
+  ToolMode t;
+
+  if (action == actionModeSelect_)
+    t = ToolMode_Select;
+  else if (action == actionModeMove_)
+    t = ToolMode_Move;
+  else if (action == actionModeRectangle_)
+    t = ToolMode_Rectangle;
+  else if (action == actionModeDrawFull_)
+    t = ToolMode_Full;
+  else if (action == actionModeDrawHalf_)
+    t = ToolMode_Half;
+  else if (action == actionModeDrawPetite_)
+    t = ToolMode_Petite;
+  else if (action == actionModeDrawQuarter_)
+    t = ToolMode_Quarter;
+  else
+    return;
+
+  state_->setToolMode(t);
 }
 
 void MainWindow::setActiveDocument(Document *document)
@@ -131,7 +173,9 @@ QAction* MainWindow::createAction(const QString &name, QObject *receiver,
 QAction* MainWindow::createAction(const QString &name, const QKeySequence &shortcut,
                                   const QIcon &icon)
 {
-  return createAction(name, NULL, NULL, shortcut, icon);
+  QAction *a = createAction(name, NULL, NULL, shortcut, icon);
+  a->setCheckable(true);
+  return a;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -233,6 +277,43 @@ void MainWindow::initActions()
   actionRedo_->setShortcut(QKeySequence::Redo);
   actionRedo_->setIcon(Utils::icon("edit-redo"));
 
+  actionZoomIn_ = createAction(tr("Zoom &In"),
+                               graphicsView_,
+                               SLOT(zoomIn()),
+                               QKeySequence("Ctrl+Plus"),
+                               Utils::icon("zoom-in"));
+  actionZoomOut_ = createAction(tr("Zoom &Out"),
+                                graphicsView_,
+                                SLOT(zoomOut()),
+                                QKeySequence("Ctrl+Minus"),
+                                Utils::icon("zoom-out"));
+  actionZoomReset_ = createAction(tr("&Reset Zoom"),
+                                  graphicsView_,
+                                  SLOT(zoomReset()),
+                                  QKeySequence("Ctrl+0"),
+                                  Utils::icon("zoom-original"));
+  actionViewGrids_ = createAction(tr("Show &Grids"),
+                                  QKeySequence(),
+                                  Utils::icon("view-grid"));
+  actionViewGrids_->setChecked(true);
+
+  actionViewFull_ = createAction(tr("&Detailed View"),
+                                 QKeySequence(),
+                                 Utils::icon("view-stitch-full"));
+  actionViewSimplified_ = createAction(tr("&Color View"),
+                                       QKeySequence(),
+                                       Utils::icon("view-stitch-color"));
+  actionViewSymbols_ = createAction(tr("&Code View"),
+                                   QKeySequence(),
+                                   Utils::icon("view-stitch-symbols"));
+  actionViewFull_->setChecked(true);
+
+  actionViewMode_ = new QActionGroup(this);
+  actionViewMode_->addAction(actionViewFull_);
+  actionViewMode_->addAction(actionViewSimplified_);
+  actionViewMode_->addAction(actionViewSymbols_);
+  actionViewMode_->setExclusive(true);
+
   actionModeSelect_ = createAction(tr("&Select"),
                                    QKeySequence("F3"),
                                    Utils::icon("select-rectangular"));
@@ -254,7 +335,17 @@ void MainWindow::initActions()
   actionModeDrawQuarter_ = createAction(tr("&Quarter Stitch"),
                                         QKeySequence("F9"),
                                         Utils::icon("stitch-quarter"));
+  actionModeDrawFull_->setChecked(true);
 
+  actionGroupMode_ = new QActionGroup(this);
+  actionGroupMode_->addAction(actionModeSelect_);
+  actionGroupMode_->addAction(actionModeMove_);
+  actionGroupMode_->addAction(actionModeRectangle_);
+  actionGroupMode_->addAction(actionModeDrawFull_);
+  actionGroupMode_->addAction(actionModeDrawHalf_);
+  actionGroupMode_->addAction(actionModeDrawPetite_);
+  actionGroupMode_->addAction(actionModeDrawQuarter_);
+  actionGroupMode_->setExclusive(true);
   
   actionColorEditor_ = createAction(tr("&Colors..."),
                                     this,
@@ -282,8 +373,24 @@ void MainWindow::initMenus()
   menuEdit_->addSeparator();
 
   menuView_ = menuBar()->addMenu(tr("&View"));
+  menuView_->addAction(actionZoomOut_);
+  menuView_->addAction(actionZoomIn_);
+  menuView_->addAction(actionZoomReset_);
+  menuView_->addSeparator();
+  menuView_->addAction(actionViewFull_);
+  menuView_->addAction(actionViewSimplified_);
+  menuView_->addAction(actionViewSymbols_);
+  menuView_->addSeparator();
+  menuView_->addAction(actionViewGrids_);
 
-  menuTool_ = menuBar()->addMenu(tr("&Tool"));
+  menuTool_ = menuBar()->addMenu(tr("&Tools"));
+  menuTool_->addAction(actionModeSelect_);
+  menuTool_->addAction(actionModeMove_);
+  menuTool_->addAction(actionModeRectangle_);
+  menuTool_->addAction(actionModeDrawFull_);
+  menuTool_->addAction(actionModeDrawHalf_);
+  menuTool_->addAction(actionModeDrawPetite_);
+  menuTool_->addAction(actionModeDrawQuarter_);
 
   menuWindow_ = menuBar()->addMenu(tr("&Window"));
   menuWindow_->addAction(actionColorEditor_);
@@ -294,15 +401,39 @@ void MainWindow::initToolbars()
   QToolBar *toolBarFile = addToolBar(tr("File"));
   toolBarFile->setObjectName("toolbar_file");
   toolBarFile->addAction(actionNewFile_);
+  toolBarFile->addSeparator();
   toolBarFile->addAction(actionOpenFile_);
+  toolBarFile->addSeparator();
   toolBarFile->addAction(actionSaveFile_);
   toolBarFile->addAction(actionSaveFileAs_);
+  toolBarFile->addSeparator();
   toolBarFile->addAction(actionCloseFile_);
 
   QToolBar *toolBarEdit = addToolBar(tr("Edit"));
   toolBarEdit->setObjectName("toolbar_edit");
   toolBarEdit->addAction(actionUndo_);
   toolBarEdit->addAction(actionRedo_);
+
+  QToolBar *toolBarView = addToolBar(tr("View"));
+  toolBarView->setObjectName("toolbar_view");
+  toolBarView->addAction(actionZoomOut_);
+  toolBarView->addAction(actionZoomIn_);
+  toolBarView->addAction(actionZoomReset_);
+  toolBarView->addSeparator();
+  toolBarView->addAction(actionViewFull_);
+  toolBarView->addAction(actionViewSimplified_);
+  toolBarView->addAction(actionViewSymbols_);
+
+  QToolBar *toolBarTool = addToolBar(tr("Tools"));
+  toolBarTool->setObjectName("toolbar_tool");
+  toolBarTool->addAction(actionModeSelect_);
+  toolBarTool->addAction(actionModeMove_);
+  toolBarTool->addSeparator();
+  toolBarTool->addAction(actionModeRectangle_);
+  toolBarTool->addAction(actionModeDrawFull_);
+  toolBarTool->addAction(actionModeDrawHalf_);
+  toolBarTool->addAction(actionModeDrawPetite_);
+  toolBarTool->addAction(actionModeDrawQuarter_);
 }
 
 void MainWindow::initWidgets()
@@ -329,4 +460,10 @@ void MainWindow::initConnections()
           this, SLOT(showColorEditor()));
   connect(this, SIGNAL(documentChanged(Document *)),
           palette_, SLOT(documentChanged(Document *)));
+  connect(actionGroupMode_, SIGNAL(triggered(QAction *)),
+          this, SLOT(toolModeAction(QAction *)));
+  connect(actionViewMode_, SIGNAL(triggered(QAction *)),
+          this, SLOT(viewModeAction(QAction *)));
+  connect(actionViewGrids_, SIGNAL(toggled(bool)),
+          graphicsView_, SLOT(toggleGrid(bool)));
 }

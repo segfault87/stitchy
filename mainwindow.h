@@ -33,6 +33,7 @@ class MainWindow : public QMainWindow
   void saveFile();
   void saveFileAs();
   void quit();
+  void viewModeAction(QAction *action);
   void showColorEditor();
   void toolModeAction(QAction *action);
 
@@ -79,6 +80,18 @@ class MainWindow : public QMainWindow
   /* edit actions */
   QAction *actionUndo_;
   QAction *actionRedo_;
+
+  /* view actions */
+  QAction *actionZoomIn_;
+  QAction *actionZoomOut_;
+  QAction *actionZoomReset_;
+  QActionGroup *actionViewMode_;
+  QAction *actionViewFull_;
+  QAction *actionViewSimplified_;
+  QAction *actionViewSymbols_;
+  QAction *actionViewGrids_;
+
+  /* tool actions */
   QActionGroup *actionGroupMode_;
   QAction *actionModeSelect_;
   QAction *actionModeMove_;
@@ -87,11 +100,6 @@ class MainWindow : public QMainWindow
   QAction *actionModeDrawHalf_;
   QAction *actionModeDrawPetite_;
   QAction *actionModeDrawQuarter_;
-
-  /* view actions */
-  QAction *actionViewFull_;
-  QAction *actionViewSimplified_;
-  QAction *actionViewSymbol_;
 
   /* window actions */
   QAction *actionColorEditor_;

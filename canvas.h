@@ -20,6 +20,12 @@ class Canvas : public QGraphicsView
 
   bool mapToGrid(const QPoint &pos, QPoint &out, Subarea &subareaOut);
 
+ public slots:
+  void zoomIn();
+  void zoomOut();
+  void zoomReset();
+  void toggleGrid(bool enabled);
+
  private:
   void setCenter(const QPointF &centerPoint);
 

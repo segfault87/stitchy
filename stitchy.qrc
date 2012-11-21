@@ -1,6 +1,11 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
   <qresource>
+    <file>icons/fallback/stitch-full.png</file>
+    <file>icons/fallback/stitch-half.png</file>
+    <file>icons/fallback/stitch-petite.png</file>
+    <file>icons/fallback/stitch-quarter.png</file>
+
     <file>res/colors.json</file>
   </qresource>
 </RCC>

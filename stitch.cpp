@@ -106,7 +106,8 @@ void PositionedStitchItem::paint(QPainter *painter,
 
   switch (GlobalState::self()->renderingMode()) {
     case RenderingMode_Simple:
-      painter->setPen(QPen(color_->color().darker(), 0.5));
+      //painter->setPen(QPen(color_->color().darker(), 0.5));
+      painter->setPen(Qt::NoPen);
       painter->drawRect(boundingRect());
       break;
     case RenderingMode_Full:
