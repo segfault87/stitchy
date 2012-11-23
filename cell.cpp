@@ -249,6 +249,7 @@ void Cell::clearGraphicsItems()
 {
   for (int i = 0; i < CELL_COUNT; ++i) {
     if (features_[i]) {
+      features_[i]->release();
       delete features_[i];
       features_[i] = NULL;
     }
