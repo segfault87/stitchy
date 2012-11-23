@@ -44,6 +44,21 @@ Cell* SparseMap::overwrite(const Cell &c)
   return NULL;
 }
 
+Cell* SparseMap::merge(const Cell &c)
+{
+  if (cells_.contains(c.pos())) {
+    Cell *oc = cells_[c.pos()];
+    oc->merge(c);
+    
+    return oc;
+  } else {
+    Cell *newCell = new Cell(c);
+    cells_.insert(c.pos(), newCell);
+    
+    return newCell;
+  }
+}
+
 void SparseMap::clear()
 {
   for (QMap<QPoint, Cell *>::iterator it = cells_.begin();

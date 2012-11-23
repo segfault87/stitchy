@@ -144,9 +144,22 @@ void Cell::addQuarterStitch(Orientation orientation,
   addFeature(subcellId, color);
 }
 
+void Cell::merge(const Cell &other)
+{
+  for (int i = 0; i < CELL_COUNT; ++i) {
+    if (other.contains(i))
+      addFeature(i, other.color(i));
+  }
+}
+
 bool Cell::contains(int feature) const
 {
   return featureMask_ & featureMaskList[feature];
+}
+
+const Color* Cell::color(int feature) const
+{
+  return colors_[feature];
 }
 
 bool Cell::isEmpty() const

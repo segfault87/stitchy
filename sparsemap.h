@@ -17,6 +17,7 @@ class SparseMap
 
   Cell* cellAt(const QPoint &pos);
   Cell* overwrite(const Cell &c);
+  Cell* merge(const Cell &c);
   
   const CellMap& cells() const { return cells_; }
 

@@ -116,6 +116,15 @@ void PositionedStitchItem::paint(QPainter *painter,
       paintStitch(painter);
       break;
     default:
+      painter->scale(size_.width(), size_.height());
+      painter->setPen(QPen(color_->color().darker(), 0.5 / size_.width()));
+      paintStitch(painter);
+      painter->setPen(Qt::black);
+      QFont fnt;
+      fnt.setPointSizeF(12);
+      painter->setFont(fnt);
+      painter->scale(0.03, 0.03);
+      painter->drawText(QRectF(0.0, 0.0, 100.0, 100.0), color_->id());
       break;
   }
 }

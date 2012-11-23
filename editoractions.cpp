@@ -37,22 +37,23 @@ ActionMerge::~ActionMerge()
 
 }
 
-void ActionMerge::redo()
-{
-  replaceWith(drawn_);
-}
-
-void ActionMerge::undo()
-{
-  replaceWith(previousState_);
-}
-
 void ActionMerge::replaceWith(const QList<Cell> &cells)
 {
   SparseMap *map = document_->map();
 
   foreach (const Cell &cell, cells) {
     Cell *c = map->overwrite(cell);
+    if (c)
+      c->createGraphicsItems();
+  }
+}
+
+void ActionMerge::mergeWith(const QList<Cell> &cells)
+{
+  SparseMap *map = document_->map();
+
+  foreach (const Cell &cell, cells) {
+    Cell *c = map->merge(cell);
     if (c)
       c->createGraphicsItems();
   }
@@ -69,6 +70,16 @@ ActionDraw::~ActionDraw()
 
 }
 
+void ActionDraw::redo()
+{
+  mergeWith(drawn_);
+}
+
+void ActionDraw::undo()
+{
+  replaceWith(previousState_);
+}
+
 ActionErase::ActionErase(Document *document, SparseMap *map)
     : ActionMerge(document, map)
 {
@@ -78,4 +89,14 @@ ActionErase::ActionErase(Document *document, SparseMap *map)
 ActionErase::~ActionErase()
 {
 
+}
+
+void ActionErase::redo()
+{
+  replaceWith(drawn_);
+}
+
+void ActionErase::undo()
+{
+  mergeWith(previousState_);
 }

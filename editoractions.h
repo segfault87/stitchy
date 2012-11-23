@@ -23,12 +23,10 @@ class ActionMerge : public EditorAction
   ActionMerge(Document *document, SparseMap *map);
   virtual ~ActionMerge();
 
-  void redo();
-  void undo();
-
+ protected:
   void replaceWith(const QList<Cell> &cells);
+  void mergeWith(const QList<Cell> &cells);
 
- private:
   QList<Cell> previousState_;
   QList<Cell> drawn_;
 };
@@ -38,6 +36,9 @@ class ActionDraw : public ActionMerge
  public:
   ActionDraw(Document *document, SparseMap *map);
   ~ActionDraw();
+
+  void redo();
+  void undo();
 };
 
 class ActionErase : public ActionMerge
@@ -45,6 +46,9 @@ class ActionErase : public ActionMerge
  public:
   ActionErase(Document *document, SparseMap *map);
   ~ActionErase();
+
+  void redo();
+  void undo();
 };
 
 #endif

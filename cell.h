@@ -89,8 +89,10 @@ class Cell
   void addQuarterStitch(Orientation orientation,
                         Subarea subarea,
                         const Color *color);
+  void merge(const Cell &other);
 
   bool contains(int feature) const;
+  const Color* color(int feature) const;
   bool isEmpty() const;
   void remove(int feature);
   
