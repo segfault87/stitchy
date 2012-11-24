@@ -95,6 +95,7 @@ class MainWindow : public QMainWindow
   QActionGroup *actionGroupMode_;
   QAction *actionModeSelect_;
   QAction *actionModeMove_;
+  QAction *actionModeErase_;
   QAction *actionModeRectangle_;
   QAction *actionModeDrawFull_;
   QAction *actionModeDrawHalf_;

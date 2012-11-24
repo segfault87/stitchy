@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QCloseEvent>
 #include <QDockWidget>
+#include <QFileDialog>
 #include <QGraphicsView>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -11,6 +12,7 @@
 #include "color.h"
 #include "coloreditor.h"
 #include "document.h"
+#include "documentio.h"
 #include "globalstate.h"
 #include "palettewidget.h"
 #include "settings.h"
@@ -123,6 +125,8 @@ void MainWindow::toolModeAction(QAction *action)
     t = ToolMode_Select;
   else if (action == actionModeMove_)
     t = ToolMode_Move;
+  else if (action == actionModeErase_)
+    t = ToolMode_Erase;
   else if (action == actionModeRectangle_)
     t = ToolMode_Rectangle;
   else if (action == actionModeDrawFull_)
@@ -229,10 +233,20 @@ bool MainWindow::saveDocument(bool newName)
 
   QString filename;
   if (newName) {
-    
+    filename = QFileDialog::getSaveFileName(
+        this, tr("Save as"), QString(),
+        tr("Stitchy Document (*.stitchy)"));
   } else {
     filename = activeDocument->name();
   }
+
+  QString error;
+  if (!DocumentFactory::save(activeDocument, filename, error)) {
+    QMessageBox::critical(this, tr("Error"), tr("Error saving file: %1").arg(error));
+    return false;
+  }
+
+  activeDocument->setName(filename);
 
   return true;
 }
@@ -320,26 +334,30 @@ void MainWindow::initActions()
   actionModeMove_ = createAction(tr("&Move"),
                                  QKeySequence("F4"),
                                  Utils::icon("transform-move"));
+  actionModeErase_ = createAction(tr("&Erase"),
+                                  QKeySequence("F5"),
+                                  Utils::icon("draw-eraser"));
   actionModeRectangle_ = createAction(tr("&Rectangle"),
-                                      QKeySequence("F5"),
+                                      QKeySequence("F6"),
                                       Utils::icon("draw-rectangle"));
   actionModeDrawFull_ = createAction(tr("&Full Stitch"),
-                                     QKeySequence("F6"),
+                                     QKeySequence("F7"),
                                      Utils::icon("stitch-full"));
   actionModeDrawHalf_ = createAction(tr("&Half Stitch"),
-                                     QKeySequence("F7"),
+                                     QKeySequence("F8"),
                                      Utils::icon("stitch-half"));
   actionModeDrawPetite_ = createAction(tr("&Petite Stitch"),
-                                       QKeySequence("F8"),
+                                       QKeySequence("F9"),
                                        Utils::icon("stitch-petite"));
   actionModeDrawQuarter_ = createAction(tr("&Quarter Stitch"),
-                                        QKeySequence("F9"),
+                                        QKeySequence("F10"),
                                         Utils::icon("stitch-quarter"));
   actionModeDrawFull_->setChecked(true);
 
   actionGroupMode_ = new QActionGroup(this);
   actionGroupMode_->addAction(actionModeSelect_);
   actionGroupMode_->addAction(actionModeMove_);
+  actionGroupMode_->addAction(actionModeErase_);
   actionGroupMode_->addAction(actionModeRectangle_);
   actionGroupMode_->addAction(actionModeDrawFull_);
   actionGroupMode_->addAction(actionModeDrawHalf_);
@@ -386,6 +404,7 @@ void MainWindow::initMenus()
   menuTool_ = menuBar()->addMenu(tr("&Tools"));
   menuTool_->addAction(actionModeSelect_);
   menuTool_->addAction(actionModeMove_);
+  menuTool_->addAction(actionModeErase_);
   menuTool_->addAction(actionModeRectangle_);
   menuTool_->addAction(actionModeDrawFull_);
   menuTool_->addAction(actionModeDrawHalf_);
@@ -429,6 +448,7 @@ void MainWindow::initToolbars()
   toolBarTool->addAction(actionModeSelect_);
   toolBarTool->addAction(actionModeMove_);
   toolBarTool->addSeparator();
+  toolBarTool->addAction(actionModeErase_);
   toolBarTool->addAction(actionModeRectangle_);
   toolBarTool->addAction(actionModeDrawFull_);
   toolBarTool->addAction(actionModeDrawHalf_);

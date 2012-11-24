@@ -20,25 +20,30 @@ class Document : public QObject
   Q_OBJECT;
 
  public:
+  Document(QObject *parent = NULL);
   Document(const QSize &size, QObject *parent = NULL);
   ~Document();
 
+  const QSize& size() { return size_; }
   const QString& name() const { return name_; }
+  const QString& author() const { return author_; }
   bool changed() const { return changed_; }
 
   Editor* editor() { return editor_; }
   QGraphicsScene* scene() { return scene_; }
   ColorUsageTracker* colorTracker() { return &colors_; }
   SparseMap* map() { return map_; }
-  const QSize& size() { return size_; }
 
   void acquire(StitchItem *item);
   void release(StitchItem *item);
 
  signals:
   void documentChanged();
+  void documentSaved();
 
  public slots:
+  void setName(const QString &name);
+  void setAuthor(const QString &author);
   void setSize(const QSize &size);
 
  private slots:
@@ -50,6 +55,7 @@ class Document : public QObject
 
  private:
   QString name_;
+  QString author_;
   QSize size_;
 
   bool changed_;

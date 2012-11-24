@@ -7,6 +7,7 @@
 
 class Color;
 class Document;
+class DocumentIo;
 
 /* 0: Full
  * 1: Half (Slash)
@@ -113,6 +114,8 @@ class Cell
   int featureMask_;
 
   Document *document_;
+
+  friend class DocumentIoV1;
 };
 
 #endif

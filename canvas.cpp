@@ -97,44 +97,43 @@ void Canvas::setCenter(const QPointF& centerPoint)
   //Get the scene area
   QRectF sceneBounds = sceneRect();
   
-  double boundX = visibleArea.width() / 2.0;
-  double boundY = visibleArea.height() / 2.0;
+  double boundX = sceneBounds.x() + visibleArea.width() / 2.0;
+  double boundY = sceneBounds.y() + visibleArea.height() / 2.0;
   double boundWidth = sceneBounds.width() - 2.0 * boundX;
   double boundHeight = sceneBounds.height() - 2.0 * boundY;
   
   //The max boundary that the centerPoint can be to
   QRectF bounds(boundX, boundY, boundWidth, boundHeight);
-  
-    if(bounds.contains(centerPoint)) {
-      //We are within the bounds
-      center_ = centerPoint;
+
+  if(bounds.contains(centerPoint)) {
+    //We are within the bounds
+    center_ = centerPoint;
+  } else {
+    //We need to clamp or use the center of the screen
+    if(visibleArea.contains(sceneBounds)) {
+      //Use the center of scene ie. we can see the whole scene
+      center_ = sceneBounds.center();
     } else {
-      //We need to clamp or use the center of the screen
-      if(visibleArea.contains(sceneBounds)) {
-        //Use the center of scene ie. we can see the whole scene
-        center_ = sceneBounds.center();
-      } else {
-        
-        center_ = centerPoint;
-        
-        //We need to clamp the center. The centerPoint is too large
-        if(centerPoint.x() > bounds.x() + bounds.width()) {
-          center_.setX(bounds.x() + bounds.width());
-        } else if(centerPoint.x() < bounds.x()) {
-          center_.setX(bounds.x());
-        }
-        
-        if(centerPoint.y() > bounds.y() + bounds.height()) {
-          center_.setY(bounds.y() + bounds.height());
-        } else if(centerPoint.y() < bounds.y()) {
-          center_.setY(bounds.y());
-        }
-        
+      center_ = centerPoint;
+      
+      //We need to clamp the center. The centerPoint is too large
+      if(centerPoint.x() > bounds.x() + bounds.width()) {
+        center_.setX(bounds.x() + bounds.width());
+      } else if(centerPoint.x() < bounds.x()) {
+        center_.setX(bounds.x());
       }
+      
+      if(centerPoint.y() > bounds.y() + bounds.height()) {
+        center_.setY(bounds.y() + bounds.height());
+      } else if(centerPoint.y() < bounds.y()) {
+        center_.setY(bounds.y());
+      }
+      
     }
-    
-    //Update the scrollbars
-    centerOn(center_);
+  }
+  
+  //Update the scrollbars
+  centerOn(center_);
 }
 
 void Canvas::mousePressEvent(QMouseEvent *event)
@@ -153,7 +152,7 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 
       mouseMoveEvent(event);
     }
-  } else if (event->button() & Qt::MidButton) {
+  } else if (event->button() & Qt::RightButton) {
     dragging_ = true;
     lastPos_ = event->pos();
     event->accept();
@@ -210,7 +209,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void Canvas::mouseReleaseEvent(QMouseEvent *event)
 {
-  if (dragging_ && event->button() & Qt::MidButton) {
+  if (dragging_ && event->button() & Qt::RightButton) {
     dragging_ = false;
     return;
   } else if (drawing_ && event->button() & Qt::LeftButton) {

@@ -13,6 +13,23 @@
 
 #include "document.h"
 
+Document::Document(QObject *parent)
+    : QObject(parent)
+{
+  changed_ = false;
+
+  scene_ = new QGraphicsScene(this);
+  editor_ = new Editor(this);
+  map_ = new SparseMap(this);
+
+  connect(editor_, SIGNAL(changed()), this, SLOT(documentChanged_()));
+
+  grid_ = NULL;
+  resetGrid();
+
+  GlobalState::self()->undoGroup()->addStack(editor_);
+}
+
 Document::Document(const QSize &size, QObject *parent)
     : QObject(parent), size_(size)
 {
@@ -47,6 +64,16 @@ void Document::release(StitchItem *item)
 {
   colors_.release(item);
   stitches_.remove(item);
+}
+
+void Document::setName(const QString &name)
+{
+  name_ = name;
+}
+
+void Document::setAuthor(const QString &author)
+{
+  author_ = author;
 }
 
 void Document::setSize(const QSize &size)

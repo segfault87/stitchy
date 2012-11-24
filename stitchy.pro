@@ -19,6 +19,7 @@ HEADERS += \
   colormanager.h \
   common.h \
   document.h \
+  documetnio.h \
   editor.h \
   editoractions.h \
   globalstate.h \
@@ -37,6 +38,7 @@ SOURCES += \
   coloreditor.cpp \
   colormanager.cpp \
   document.cpp \
+  documentio.cpp \
   editor.cpp \
   editoractions.cpp \
   globalstate.cpp \
