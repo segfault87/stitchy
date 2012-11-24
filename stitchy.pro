@@ -19,7 +19,7 @@ HEADERS += \
   colormanager.h \
   common.h \
   document.h \
-  documetnio.h \
+  documentio.h \
   editor.h \
   editoractions.h \
   globalstate.h \
