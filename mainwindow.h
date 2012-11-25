@@ -36,8 +36,9 @@ class MainWindow : public QMainWindow
   void viewModeAction(QAction *action);
   void showColorEditor();
   void toolModeAction(QAction *action);
-
+  void updateTitle();
   void setActiveDocument(Document *document);
+  void documentChangeAction(Document *document);
 
  private:
   QAction* createAction(const QString &name, QObject *receiver,

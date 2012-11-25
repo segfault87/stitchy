@@ -2,6 +2,7 @@
 #include <QCloseEvent>
 #include <QDockWidget>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QGraphicsView>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -41,8 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
   if (!geometry.isEmpty())
     restoreGeometry(geometry);
 
-  setWindowTitle(tr("Stitchy"));
-
   setActiveDocument(NULL);
 }
 
@@ -69,7 +68,10 @@ void MainWindow::newFile()
   diag.exec();
 
   if (diag.result() == QDialog::Accepted) {
-    setActiveDocument(new Document(diag.documentSize(), this));
+    Document *d = new Document(diag.documentSize(), this);
+    d->setTitle(diag.title());
+    d->setAuthor(diag.author());
+    setActiveDocument(d);
   }
 }
 
@@ -172,6 +174,33 @@ void MainWindow::toolModeAction(QAction *action)
   state_->setToolMode(t);
 }
 
+void MainWindow::updateTitle()
+{
+  Document *d = state_->activeDocument();
+
+  if (!d) {
+    setWindowTitle(tr("Stitchy"));
+  } else {
+    QString title;
+    QString edited;
+
+    if (d->changed())
+      edited = tr(" [Modified]");
+    
+    if (d->title().isEmpty())
+      title = tr("Untitled document");
+    else
+      title = d->title();
+    
+    if (d->name().isEmpty()) {
+      setWindowTitle(tr("%1 - Stitchy%2").arg(title).arg(edited));
+    } else {
+      QFileInfo path(d->name());
+      setWindowTitle(tr("%1 - %2 - Stitchy%3").arg(path.fileName()).arg(title).arg(edited));
+    }
+  }
+}
+
 void MainWindow::setActiveDocument(Document *document)
 {
   state_->setActiveDocument(document);
@@ -180,6 +209,8 @@ void MainWindow::setActiveDocument(Document *document)
     setEnabled(documentActions_, true);
     state_->undoGroup()->setActiveStack(document->editor());
     graphicsView_->setScene(state_->activeDocument()->scene());
+    connect(document, SIGNAL(documentChanged()), this, SLOT(updateTitle()));
+    connect(document, SIGNAL(documentSaved()), this, SLOT(updateTitle()));
   } else {
     setEnabled(documentActions_, false);
     state_->undoGroup()->setActiveStack(NULL);
@@ -188,6 +219,13 @@ void MainWindow::setActiveDocument(Document *document)
 
   emit needsUpdate();
   emit documentChanged(document);
+}
+
+void MainWindow::documentChangeAction(Document *document)
+{
+  Q_UNUSED(document);
+
+  updateTitle();
 }
 
 QAction* MainWindow::createAction(const QString &name, QObject *receiver,
@@ -335,12 +373,12 @@ void MainWindow::initActions()
   actionZoomIn_ = createAction(tr("Zoom &In"),
                                graphicsView_,
                                SLOT(zoomIn()),
-                               QKeySequence("Ctrl+Plus"),
+                               QKeySequence("Ctrl++"),
                                Utils::icon("zoom-in"));
   actionZoomOut_ = createAction(tr("Zoom &Out"),
                                 graphicsView_,
                                 SLOT(zoomOut()),
-                                QKeySequence("Ctrl+Minus"),
+                                QKeySequence("Ctrl+-"),
                                 Utils::icon("zoom-out"));
   actionZoomReset_ = createAction(tr("&Reset Zoom"),
                                   graphicsView_,
@@ -525,6 +563,8 @@ void MainWindow::initConnections()
           this, SLOT(showColorEditor()));
   connect(this, SIGNAL(documentChanged(Document *)),
           palette_, SLOT(documentChanged(Document *)));
+  connect(this, SIGNAL(documentChanged(Document *)),
+          this, SLOT(documentChangeAction(Document*)));
   connect(actionGroupMode_, SIGNAL(triggered(QAction *)),
           this, SLOT(toolModeAction(QAction *)));
   connect(actionViewMode_, SIGNAL(triggered(QAction *)),

@@ -15,6 +15,7 @@ class SparseMap
   SparseMap(Document *parent);
   ~SparseMap();
 
+  bool contains(const QPoint &pos);
   Cell* cellAt(const QPoint &pos);
   Cell* overwrite(const Cell &c);
   Cell* merge(const Cell &c);

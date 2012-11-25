@@ -13,6 +13,8 @@ class NewDocumentDialog : public QDialog, public Ui::NewDocumentDialog
   ~NewDocumentDialog();
 
   QSize documentSize() const;
+  QString title() const;
+  QString author() const;
 };
 
 #endif

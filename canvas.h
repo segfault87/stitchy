@@ -18,6 +18,7 @@ class Canvas : public QGraphicsView
   Canvas(QWidget *parent = NULL);
   ~Canvas();
 
+  bool mapToGrid(const QPoint &pos, QPoint &out);
   bool mapToGrid(const QPoint &pos, QPoint &out, Subarea &subareaOut);
 
  public slots:

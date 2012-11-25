@@ -15,3 +15,14 @@ QSize NewDocumentDialog::documentSize() const
 {
   return QSize(columns->value(), rows->value());
 }
+
+QString NewDocumentDialog::title() const
+{
+  return Ui::NewDocumentDialog::title->text();
+}
+
+QString NewDocumentDialog::author() const
+{
+  return Ui::NewDocumentDialog::author->text();
+}
+
