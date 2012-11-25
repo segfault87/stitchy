@@ -48,6 +48,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+  if (state_->activeDocument()) {
+    delete state_->activeDocument();
+    state_->setActiveDocument(NULL);
+  }
+
   settings_->setState(saveState());
   settings_->setGeometry(saveGeometry());
 
