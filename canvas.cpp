@@ -77,13 +77,7 @@ void Canvas::zoomReset()
 
 void Canvas::toggleGrid(bool enabled)
 {
-  QPixmap pixmap(size());
-  pixmap.fill(Qt::transparent);
-  QPainter painter(&pixmap);;
-  painter.setRenderHint(QPainter::Antialiasing);
-  scene()->render(&painter);
-  painter.end();
-  pixmap.save("scene.png");
+
 }
 
 void Canvas::setCenter(const QPointF& centerPoint)
