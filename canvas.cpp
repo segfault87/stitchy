@@ -19,8 +19,6 @@ Canvas::Canvas(QWidget *parent)
 
   cursor_ = QPoint(-1, -1);
   subcursor_ = Subarea_TopLeft;
-
-  scale(2.0f, 2.0f);
 }
 
 Canvas::~Canvas()
@@ -75,7 +73,6 @@ void Canvas::zoomOut()
 void Canvas::zoomReset()
 {
   resetMatrix();
-  scale(2.0, 2.0);
 }
 
 void Canvas::toggleGrid(bool enabled)

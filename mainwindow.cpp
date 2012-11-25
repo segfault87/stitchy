@@ -14,6 +14,7 @@
 #include "document.h"
 #include "documentio.h"
 #include "globalstate.h"
+#include "newdocumentdialog.h"
 #include "palettewidget.h"
 #include "settings.h"
 #include "utils.h"
@@ -32,8 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
   initToolbars();
   initConnections();
 
-  setActiveDocument(new Document(QSize(30, 30)));
-
   QByteArray state = settings_->state();
   QByteArray geometry = settings_->geometry();
 
@@ -43,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     restoreGeometry(geometry);
 
   setWindowTitle(tr("Stitchy"));
+
+  setActiveDocument(NULL);
 }
 
 MainWindow::~MainWindow()
@@ -57,6 +58,14 @@ void MainWindow::newFile()
 {
   if (!confirmClose())
     return;
+
+  NewDocumentDialog diag(this);
+  diag.show();
+  diag.exec();
+
+  if (diag.result() == QDialog::Accepted) {
+    setActiveDocument(new Document(diag.documentSize(), this));
+  }
 }
 
 void MainWindow::openFile()
@@ -75,6 +84,7 @@ void MainWindow::openFile()
     if (!doc) {
       QMessageBox::critical(this, tr("Error"), tr("Error loading file: %1").arg(error));
     } else {
+      doc->setName(path);
       setActiveDocument(doc);
     }
   }
@@ -162,9 +172,11 @@ void MainWindow::setActiveDocument(Document *document)
   state_->setActiveDocument(document);
 
   if (state_->activeDocument()) {
+    setEnabled(documentActions_, true);
     state_->undoGroup()->setActiveStack(document->editor());
     graphicsView_->setScene(state_->activeDocument()->scene());
   } else {
+    setEnabled(documentActions_, false);
     state_->undoGroup()->setActiveStack(NULL);
     graphicsView_->setScene(NULL);
   }
@@ -250,6 +262,8 @@ bool MainWindow::saveDocument(bool newName)
     filename = QFileDialog::getSaveFileName(
         this, tr("Save as"), QString(),
         tr("Stitchy Document (*.stitchy)"));
+    if (filename.isEmpty())
+      return false;
   } else {
     filename = activeDocument->name();
   }
@@ -264,6 +278,13 @@ bool MainWindow::saveDocument(bool newName)
   activeDocument->setChanged(false);
 
   return true;
+}
+
+void MainWindow::setEnabled(QList<QAction *> &actions, bool enabled)
+{
+  foreach (QAction *a, actions) {
+    a->setEnabled(enabled);
+  }
 }
 
 void MainWindow::initActions()
@@ -385,6 +406,10 @@ void MainWindow::initActions()
                                     SLOT(showColorEditor()),
                                     QKeySequence("F12"),
                                     QIcon());
+
+  documentActions_ << actionCloseFile_ << actionSaveFile_ <<
+      actionSaveFileAs_ << actionZoomIn_ << actionZoomOut_ <<
+      actionZoomReset_;
 }
 
 void MainWindow::initMenus()

@@ -10,7 +10,7 @@ class ColorManager;
 class MetaColorManager;
 class PaletteModel;
 
-class ColorEditor : public QDialog
+class ColorEditor : public QDialog, public Ui::ColorEditor
 {
   Q_OBJECT;
 
@@ -35,7 +35,6 @@ class ColorEditor : public QDialog
                          const QItemSelection &deselected);
 
  private:
-  Ui::ColorEditor ui_;
   MetaColorManager *colorManager_;
   ColorManager *myColors_;
   ColorManager *foreignColors_;

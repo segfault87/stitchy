@@ -69,6 +69,8 @@ QVariant DocumentIoV1::serialize(QString &error) const
   const QSize &dim = document_->size();
   root["rows"] = dim.height();
   root["columns"] = dim.width();
+  root["title"] = document_->title();
+  root["author"] = document_->author();
   root["colors"] = serializeColors(error);
   root["stitches"] = serializeStitches(error);
 
@@ -87,6 +89,9 @@ bool DocumentIoV1::deserialize(const VariantMap &data, QString &error)
     return false;
   }
   document_->setSize(size);
+
+  document_->setTitle(data["title"].toString());
+  document_->setAuthor(data["author"].toString());
 
   QVariant sv = data["stitches"];
   if (sv.isNull() || sv.type() != QVariant::List) {

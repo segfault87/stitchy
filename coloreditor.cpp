@@ -6,7 +6,7 @@
 #include "coloreditor.h"
 
 ColorEditor::ColorEditor(MetaColorManager *cm, QWidget *parent)
-    : QDialog(parent), colorManager_(cm)
+    : QDialog(parent), Ui::ColorEditor(), colorManager_(cm)
 {
   setAttribute(Qt::WA_DeleteOnClose);
 
@@ -16,21 +16,21 @@ ColorEditor::ColorEditor(MetaColorManager *cm, QWidget *parent)
 
   myModel_->setColorManager(myColors_);
 
-  ui_.setupUi(this);
+  setupUi(this);
 
-  ui_.buttonAdd->setIcon(Utils::icon("arrow-right"));
-  ui_.buttonRemove->setIcon(Utils::icon("edit-delete"));
-  ui_.buttonLower->setIcon(Utils::icon("arrow-down"));
-  ui_.buttonUpper->setIcon(Utils::icon("arrow-up"));
+  buttonAdd->setIcon(Utils::icon("arrow-right"));
+  buttonRemove->setIcon(Utils::icon("edit-delete"));
+  buttonLower->setIcon(Utils::icon("arrow-down"));
+  buttonUpper->setIcon(Utils::icon("arrow-up"));
 
-  ui_.swatchesView->setModel(foreignModel_);
-  ui_.mySwatchesView->setModel(myModel_);
+  swatchesView->setModel(foreignModel_);
+  mySwatchesView->setModel(myModel_);
 
   QString initialCategory = Settings::self()->defaultPalette();
   QList<ColorManager *> &list = cm->colorManagers();
   int idx = 0;
   foreach (ColorManager *cm, list) {
-    ui_.colorSet->addItem(cm->name(), cm->id());
+    colorSet->addItem(cm->name(), cm->id());
     if (!initialCategory.isEmpty() && cm->id() == initialCategory) {
       selectColorSet(idx);
       break;
@@ -40,21 +40,21 @@ ColorEditor::ColorEditor(MetaColorManager *cm, QWidget *parent)
   if (initialCategory.isEmpty() && list.size() > 0)
     selectColorSet(0);
 
-  connect(ui_.colorSet, SIGNAL(activated(int)),
+  connect(colorSet, SIGNAL(activated(int)),
           this, SLOT(selectColorSet(int)));
-  connect(ui_.buttonAdd, SIGNAL(clicked()),
+  connect(buttonAdd, SIGNAL(clicked()),
           this, SLOT(addColor()));
-  connect(ui_.buttonRemove, SIGNAL(clicked()),
+  connect(buttonRemove, SIGNAL(clicked()),
           this, SLOT(removeColor()));
-  connect(ui_.buttonUpper, SIGNAL(clicked()),
+  connect(buttonUpper, SIGNAL(clicked()),
           this, SLOT(moveUp()));
-  connect(ui_.buttonLower, SIGNAL(clicked()),
+  connect(buttonLower, SIGNAL(clicked()),
           this, SLOT(moveDown()));
-  connect(ui_.swatchesView->selectionModel(),
+  connect(swatchesView->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
           this,
           SLOT(leftPaneSelected(const QItemSelection &, const QItemSelection &)));
-  connect(ui_.mySwatchesView->selectionModel(),
+  connect(mySwatchesView->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
           this,
           SLOT(rightPaneSelected(const QItemSelection &, const QItemSelection &)));
@@ -81,8 +81,8 @@ void ColorEditor::commit()
 
 void ColorEditor::addColor()
 {
-  const QItemSelection &selection = ui_.swatchesView->selectionModel()->selection();
-  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
+  const QItemSelection &selection = swatchesView->selectionModel()->selection();
+  const QItemSelection &rs = mySwatchesView->selectionModel()->selection();
 
   if (selection.indexes().size() == 0)
     return;
@@ -102,18 +102,18 @@ void ColorEditor::addColor()
 
 void ColorEditor::removeColor()
 {
-  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
+  const QItemSelection &rs = mySwatchesView->selectionModel()->selection();
   if (rs.indexes().size() == 0)
     return;
   int row = rs.indexes()[0].row();
   
   myColors_->remove(myColors_->itemAt(row)->id());
-  ui_.mySwatchesView->clearSelection();
+  mySwatchesView->clearSelection();
 }
 
 void ColorEditor::moveUp()
 {
-  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
+  const QItemSelection &rs = mySwatchesView->selectionModel()->selection();
   if (rs.indexes().size() == 0)
     return;
   int row = rs.indexes()[0].row();
@@ -122,7 +122,7 @@ void ColorEditor::moveUp()
 
   myColors_->swap(row, row - 1);
 
-  ui_.mySwatchesView->selectionModel()->select(
+  mySwatchesView->selectionModel()->select(
       QItemSelection(
           myModel_->index(row-1, 0),
           myModel_->index(row-1, myModel_->columnCount() - 1)),
@@ -131,7 +131,7 @@ void ColorEditor::moveUp()
 
 void ColorEditor::moveDown()
 {
-  const QItemSelection &rs = ui_.mySwatchesView->selectionModel()->selection();
+  const QItemSelection &rs = mySwatchesView->selectionModel()->selection();
   if (rs.indexes().size() == 0)
     return;
   int row = rs.indexes()[0].row();
@@ -140,7 +140,7 @@ void ColorEditor::moveDown()
 
   myColors_->swap(row, row + 1);
 
-  ui_.mySwatchesView->selectionModel()->select(
+  mySwatchesView->selectionModel()->select(
       QItemSelection(
           myModel_->index(row+1, 0),
           myModel_->index(row+1, myModel_->columnCount() - 1)),
@@ -152,7 +152,7 @@ void ColorEditor::selectColorSet(int index)
   if (index == -1)
     return;
 
-  QVariant data = ui_.colorSet->itemData(index);
+  QVariant data = colorSet->itemData(index);
   if (data.type() == QVariant::String) {
     foreignColors_ = colorManager_->colorManager(data.toString());
     foreignModel_->setColorManager(foreignColors_);
@@ -162,14 +162,14 @@ void ColorEditor::selectColorSet(int index)
 
 void ColorEditor::leftPaneDeselected()
 {
-  ui_.buttonAdd->setEnabled(false);
+  buttonAdd->setEnabled(false);
 }
 
 void ColorEditor::rightPaneDeselected()
 {
-  ui_.buttonRemove->setEnabled(false);
-  ui_.buttonUpper->setEnabled(false);
-  ui_.buttonLower->setEnabled(false);
+  buttonRemove->setEnabled(false);
+  buttonUpper->setEnabled(false);
+  buttonLower->setEnabled(false);
 }
 
 void ColorEditor::leftPaneSelected(const QItemSelection &selected,
@@ -186,7 +186,7 @@ void ColorEditor::leftPaneSelected(const QItemSelection &selected,
       enable = true;
   }
 
-  ui_.buttonAdd->setEnabled(enable);
+  buttonAdd->setEnabled(enable);
 }
 
 void ColorEditor::rightPaneSelected(const QItemSelection &selected,
@@ -200,17 +200,17 @@ void ColorEditor::rightPaneSelected(const QItemSelection &selected,
     bool remove = false;
     if (myColors_->itemAt(row))
       remove = true;
-    ui_.buttonRemove->setEnabled(remove);
+    buttonRemove->setEnabled(remove);
     
     bool upper = true;
     if (row == 0)
       upper = false;
-    ui_.buttonUpper->setEnabled(upper);
+    buttonUpper->setEnabled(upper);
     
     bool lower = true;
     if (row == myColors_->count() -1)
       lower = false;
-    ui_.buttonLower->setEnabled(lower);
+    buttonLower->setEnabled(lower);
   } else {
     rightPaneDeselected();
   }

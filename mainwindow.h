@@ -48,6 +48,7 @@ class MainWindow : public QMainWindow
   void closeEvent(QCloseEvent *event);
   bool confirmClose();
   bool saveDocument(bool newName);
+  void setEnabled(QList<QAction *> &actions, bool enabled);
 
   void initWidgets();
   void initActions();
@@ -102,6 +103,8 @@ class MainWindow : public QMainWindow
 
   /* window actions */
   QAction *actionColorEditor_;
+
+  QList<QAction *> documentActions_;
 };
 
 #endif

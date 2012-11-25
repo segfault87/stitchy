@@ -9,7 +9,8 @@ LIBS += -lqjson
 RESOURCES += stitchy.qrc
 
 FORMS += \
-  coloreditor.ui
+  coloreditor.ui \
+  newdocumentdialog.ui
 
 HEADERS += \
   canvas.h \
@@ -24,6 +25,7 @@ HEADERS += \
   editoractions.h \
   globalstate.h \
   mainwindow.h \
+  newdocumentdialog.h \
   palettemodel.h \
   palettewidget.h \
   settings.h \
@@ -43,6 +45,7 @@ SOURCES += \
   editoractions.cpp \
   globalstate.cpp \
   mainwindow.cpp \
+  newdocumentdialog.cpp \
   palettemodel.cpp \
   palettewidget.cpp \
   settings.cpp \

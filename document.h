@@ -26,6 +26,7 @@ class Document : public QObject
 
   const QSize& size() { return size_; }
   const QString& name() const { return name_; }
+  const QString& title() const { return title_; }
   const QString& author() const { return author_; }
   bool changed() const { return changed_; }
 
@@ -43,6 +44,7 @@ class Document : public QObject
 
  public slots:
   void setName(const QString &name);
+  void setTitle(const QString &title);
   void setAuthor(const QString &author);
   void setSize(const QSize &size);
   void setChanged(bool b);
@@ -56,6 +58,7 @@ class Document : public QObject
 
  private:
   QString name_;
+  QString title_;
   QString author_;
   QSize size_;
 

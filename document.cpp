@@ -71,6 +71,11 @@ void Document::setName(const QString &name)
   name_ = name;
 }
 
+void Document::setTitle(const QString &title)
+{
+  title_ = title;
+}
+
 void Document::setAuthor(const QString &author)
 {
   author_ = author;
