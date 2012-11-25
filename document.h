@@ -45,6 +45,7 @@ class Document : public QObject
   void setName(const QString &name);
   void setAuthor(const QString &author);
   void setSize(const QSize &size);
+  void setChanged(bool b);
 
  private slots:
   void documentChanged_();

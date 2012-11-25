@@ -40,6 +40,11 @@ void Settings::setMyColors(const QStringList &data)
   settings_->setValue("colors/my_colors", data);
 }
 
+QString Settings::colorFile() const
+{
+  return settings_->value("general/color_file", QString()).toString();
+}
+
 QByteArray Settings::state() const
 {
   return settings_->value("general/state", QByteArray()).toByteArray();
@@ -48,6 +53,11 @@ QByteArray Settings::state() const
 QByteArray Settings::geometry() const
 {
   return settings_->value("general/geometry", QByteArray()).toByteArray();
+}
+
+void Settings::setColorFile(const QString &data)
+{
+  settings_->setValue("general/color_file", data);
 }
 
 void Settings::setState(const QByteArray &data)

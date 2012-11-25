@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
   settings_ = new Settings();
   state_ = new GlobalState(this);
-  colorManager_ = new MetaColorManager(COLOR_TABLE, this);
 
   initWidgets();
   initActions();
@@ -62,8 +61,23 @@ void MainWindow::newFile()
 
 void MainWindow::openFile()
 {
-  if (!confirmClose())
-    return;
+  closeFile();
+
+  QString path = QFileDialog::getOpenFileName(
+      this,
+      tr("Choose a file to load"),
+      QString(),
+      tr("Stitchy Document (*.stitchy)"));
+
+  if (!path.isEmpty()) {
+    QString error;
+    Document *doc = DocumentFactory::load(path, error);
+    if (!doc) {
+      QMessageBox::critical(this, tr("Error"), tr("Error loading file: %1").arg(error));
+    } else {
+      setActiveDocument(doc);
+    }
+  }
 }
 
 void MainWindow::closeFile()
@@ -113,7 +127,7 @@ void MainWindow::viewModeAction(QAction *action)
 
 void MainWindow::showColorEditor()
 {
-  QDialog *dialog = new ColorEditor(colorManager_, this);
+  QDialog *dialog = new ColorEditor(GlobalState::self()->colorManager(), this);
   dialog->show();
 }
 
@@ -247,6 +261,7 @@ bool MainWindow::saveDocument(bool newName)
   }
 
   activeDocument->setName(filename);
+  activeDocument->setChanged(false);
 
   return true;
 }
@@ -458,7 +473,7 @@ void MainWindow::initToolbars()
 
 void MainWindow::initWidgets()
 {
-  palette_ = new PaletteWidget(colorManager_);
+  palette_ = new PaletteWidget(GlobalState::self()->colorManager());
   QDockWidget *paletteDock = new QDockWidget(tr("Color Swatches"));
   paletteDock->setObjectName("palette");
   paletteDock->setWidget(palette_);

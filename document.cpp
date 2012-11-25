@@ -86,11 +86,18 @@ void Document::setSize(const QSize &size)
   resetGrid();
 }
 
+void Document::setChanged(bool b)
+{
+  changed_ = b;
+  if (changed_)
+    emit documentChanged();
+  else
+    emit documentSaved();
+}
+
 void Document::documentChanged_()
 {
-  changed_ = true;
-
-  emit documentChanged();
+  setChanged(true);
 }
 
 void Document::resetGrid()

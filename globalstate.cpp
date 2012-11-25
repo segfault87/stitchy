@@ -1,5 +1,8 @@
 #include <QUndoGroup>
 
+#include "colormanager.h"
+#include "settings.h"
+
 #include "globalstate.h"
 
 GlobalState* GlobalState::instance_ = NULL;
@@ -9,6 +12,10 @@ GlobalState::GlobalState(QObject *parent)
 {
   instance_ = this;
 
+  if (Settings::self()->colorFile().isEmpty())
+    colorManager_ = new MetaColorManager(COLOR_TABLE, this);
+  else
+    colorManager_ = new MetaColorManager(Settings::self()->colorFile());
   renderingMode_ = RenderingMode_Full;
   toolMode_ = ToolMode_Full;
   color_ = NULL;

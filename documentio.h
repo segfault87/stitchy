@@ -40,6 +40,8 @@ class DocumentIoV1 : public DocumentIo
  private:
   VariantList serializeColors(QString &error) const;
   VariantList serializeStitches(QString &error) const;
+
+  bool deserializeStitches(const VariantList &list, QString &error);
 };
 
 class DocumentFactory

@@ -20,9 +20,11 @@ class Settings
   void setMyColors(const QStringList &list);
   
   /* general */
+  QString colorFile() const;
   QByteArray state() const;
   QByteArray geometry() const;
 
+  void setColorFile(const QString &path);
   void setState(const QByteArray &data);
   void setGeometry(const QByteArray &data);
 

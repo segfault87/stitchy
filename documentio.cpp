@@ -6,7 +6,9 @@
 #include <qjson/serializer.h>
 
 #include "cell.h"
+#include "colormanager.h"
 #include "document.h"
+#include "globalstate.h"
 #include "sparsemap.h"
 
 #include "documentio.h"
@@ -39,15 +41,12 @@ QVariant DocumentIo::save(QString &error)
 
 bool DocumentIo::load(const QVariant &data, QString &error)
 {
-  const VariantMap &map = data.toMap();
-
-  if (map["version"].toInt() != version()) {
-    error = QObject::tr("Document version mismatch!");
+  if (data.type() != QVariant::Map) {
+    error = QObject::tr("Invalid JSON format.");
     return false;
   }
 
-  const VariantMap &sdata = map["data"].toMap();
-  return deserialize(sdata, error);
+  return deserialize(data.toMap(), error);
 }
 
 /* DocumentIoV1 */
@@ -87,8 +86,19 @@ bool DocumentIoV1::deserialize(const VariantMap &data, QString &error)
     error = QObject::tr("Invalid document size.");
     return false;
   }
+  document_->setSize(size);
 
-  return false;
+  QVariant sv = data["stitches"];
+  if (sv.isNull() || sv.type() != QVariant::List) {
+    error = QObject::tr("No stitch data!");
+    return false;
+  }
+
+  VariantList sl = sv.toList();
+  if (!deserializeStitches(sl, error))
+    return false;
+
+  return true;
 }
 
 VariantList DocumentIoV1::serializeColors(QString &error) const
@@ -153,6 +163,47 @@ VariantList DocumentIoV1::serializeStitches(QString &error) const
   }
 
   return list;
+}
+
+bool DocumentIoV1::deserializeStitches(const VariantList &list, QString &error)
+{
+  SparseMap *map = document_->map();
+  MetaColorManager *cm = GlobalState::self()->colorManager();
+
+  int cnt = 0;
+  foreach (const QVariant &v, list) {
+    if (v.type() != QVariant::Map)
+      continue;
+
+    VariantMap m = v.toMap();
+    int x = m["x"].toInt();
+    int y = m["y"].toInt();
+    
+    if (x == 0 || y == 0)
+      continue;
+
+    VariantList features = m["features"].toList();
+    if (features.length() == 0)
+      continue;
+
+    Cell *c = map->cellAt(QPoint(x, y));
+    foreach (const QVariant &f, features) {
+      const VariantList &fi = f.toList();
+
+      const Color *color = cm->get(fi[0].toString(), fi[1].toString());
+      c->addFeature(fi[2].toInt(), color);
+    }
+    c->createGraphicsItems();
+
+    ++cnt;
+  }
+
+  if (!cnt) {
+    error = QObject::tr("No stitch item!");
+    return false;
+  }
+
+  return true;
 }
 
 /* DocumentFactory */
@@ -229,7 +280,6 @@ bool DocumentFactory::save(Document *doc, const QString &path, QString &error)
     return false;
   }
 
-  bool ret;
   QJson::Serializer sr;
   //sr.setIndentMode(QJson::IndentMedium);
   QByteArray output = sr.serialize(out);

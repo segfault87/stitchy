@@ -57,9 +57,7 @@ class MainWindow : public QMainWindow
 
  private:
   PaletteWidget *palette_;
-
   Canvas *graphicsView_;
-  MetaColorManager *colorManager_;
   Settings *settings_;
   GlobalState *state_;
 

@@ -10,6 +10,7 @@ class QUndoGroup;
 
 class Color;
 class Document;
+class MetaColorManager;
 
 class GlobalState : public QObject
 {
@@ -21,6 +22,7 @@ class GlobalState : public QObject
   GlobalState(QObject *parent = NULL);
   ~GlobalState();
 
+  MetaColorManager* colorManager() { return colorManager_; }
   RenderingMode renderingMode() { return renderingMode_; }
   ToolMode toolMode() { return toolMode_; }
   const Color* color() { return color_; }
@@ -36,6 +38,7 @@ class GlobalState : public QObject
  private:
   static GlobalState *instance_;
 
+  MetaColorManager *colorManager_;
   RenderingMode renderingMode_;
   ToolMode toolMode_;
   const Color *color_;
