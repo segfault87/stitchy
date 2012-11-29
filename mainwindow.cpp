@@ -196,7 +196,8 @@ void MainWindow::updateTitle()
       setWindowTitle(tr("%1 - Stitchy%2").arg(title).arg(edited));
     } else {
       QFileInfo path(d->name());
-      setWindowTitle(tr("%1 - %2 - Stitchy%3").arg(path.fileName()).arg(title).arg(edited));
+      setWindowTitle(tr("%1 - %2 - Stitchy%3").arg(path.fileName())
+                     .arg(title).arg(edited));
     }
   }
 }
@@ -271,7 +272,7 @@ bool MainWindow::confirmClose()
         this,
         tr("Confirm"),
         tr("The document \"%1\" has been modified. Do you want to save it?")
-          .arg(activeDocument->name().isEmpty() ? "Untitled" : activeDocument->name()),
+          .arg(activeDocument->title().isEmpty() ? "Untitled" : activeDocument->title()),
         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Cancel)) {
         case QMessageBox::Yes:
           if (saveDocument(false))

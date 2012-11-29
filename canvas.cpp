@@ -17,6 +17,7 @@ Canvas::Canvas(QWidget *parent)
   dragging_ = false;
   drawing_ = false;
   erasing_ = false;
+  rectangle_ = false;
 
   cursor_ = QPoint(-1, -1);
   subcursor_ = Subarea_TopLeft;
@@ -166,6 +167,14 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       drawing_ = true;
     } else if (mode == ToolMode_Erase) {
       erasing_ = true;
+    } else if (mode == ToolMode_Rectangle) {
+      QPoint cursor;
+      if (!mapToGrid(event->pos(), cursor))
+        return;
+
+      rectangle_ = true;
+      startPos_ = cursor;
+      lastRect_ = QRect(cursor, cursor);
     }
 
     mouseMoveEvent(event);
@@ -181,6 +190,8 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
+  const Color *c = GlobalState::self()->color();
+
   if (dragging_) {
     /* pan */
 
@@ -195,7 +206,6 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
       return;
 
     ToolMode mode = GlobalState::self()->toolMode();
-    const Color *c = GlobalState::self()->color();
     
     if (cursor != cursor_) {
       /* draw */
@@ -245,6 +255,24 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
         drawboard_->cellAt(cursor);
       }
     }
+  } else if (rectangle_) {
+    /* rect */
+
+    QPoint cursor;
+
+    if (!mapToGrid(event->pos(), cursor))
+        return;
+    
+    QRect rect(startPos_, cursor);
+
+    int wdelta = rect.width() - lastRect_.width();
+    int hdelta = rect.height() - lastRect_.height();
+
+    
+
+    printf("%d %d\n", wdelta, hdelta);
+
+    lastRect_ = rect;
   }
 }
 
@@ -252,12 +280,13 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
 {
   if (dragging_ && event->button() & Qt::RightButton) {
     dragging_ = false;
-  } else if (drawing_ && event->button() & Qt::LeftButton) {
+  } else if ((drawing_ || rectangle_) && event->button() & Qt::LeftButton) {
     Document *doc = GlobalState::self()->activeDocument();
     if (!doc)
       return;
     
     drawing_ = false;
+    rectangle_ = false;
     cursor_ = QPoint(-1, -1);
     subcursor_ = Subarea_TopLeft;
     doc->editor()->edit(new ActionDraw(doc, drawboard_));

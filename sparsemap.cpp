@@ -14,7 +14,7 @@ SparseMap::~SparseMap()
   clear();
 }
 
-bool SparseMap::contains(const QPoint &pos)
+bool SparseMap::contains(const QPoint &pos) const
 {
   return cells_.contains(pos);
 }

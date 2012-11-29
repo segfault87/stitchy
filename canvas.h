@@ -40,7 +40,10 @@ class Canvas : public QGraphicsView
   bool dragging_;
   bool drawing_;
   bool erasing_;
+  bool rectangle_;
   QPoint lastPos_;
+  QPoint startPos_;
+  QRect lastRect_;
   QPoint cursor_;
   Subarea subcursor_;
   QPointF center_;
