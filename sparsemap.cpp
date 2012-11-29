@@ -64,6 +64,15 @@ Cell* SparseMap::merge(const Cell &c)
   }
 }
 
+void SparseMap::remove(const QPoint &pos)
+{
+  if (cells_.contains(pos)) {
+    Cell *c = cells_[pos];
+    delete c;
+    cells_.remove(pos);
+  }
+}
+
 void SparseMap::clear()
 {
   for (QMap<QPoint, Cell *>::iterator it = cells_.begin();

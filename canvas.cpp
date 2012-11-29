@@ -248,7 +248,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
       Document *doc = GlobalState::self()->activeDocument();
       SparseMap *map = doc->map();
-
+      
       if (map->contains(cursor)) {
         Cell *c = map->cellAt(cursor);
         c->clearGraphicsItems();
@@ -265,12 +265,50 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     
     QRect rect(startPos_, cursor);
 
-    int wdelta = rect.width() - lastRect_.width();
-    int hdelta = rect.height() - lastRect_.height();
+    if (!rect.isValid())
+        rect = rect.normalized();
 
-    
+    for (int y = rect.y(); y < rect.y() + rect.height(); ++y) {
+      for (int x = rect.x(); x < rect.x() + rect.width(); ++x) {
+        if (!drawboard_->contains(QPoint(x, y))) {
+          Cell *cell = drawboard_->cellAt(QPoint(x, y));
+          cell->addFullStitch(c);
+          cell->createGraphicsItems();
+        }
+      }
+    }
 
-    printf("%d %d\n", wdelta, hdelta);
+    if (rect.x() > lastRect_.x()) {
+      for (int y = lastRect_.y(); y < lastRect_.y() + lastRect_.height(); ++y) {
+        for (int x = lastRect_.x(); x < rect.x(); ++x) {
+          drawboard_->remove(QPoint(x, y));
+        }
+      }
+    }
+
+    if (rect.y() > lastRect_.y()) {
+      for (int y = lastRect_.y(); y < rect.y(); ++y) {
+        for (int x = lastRect_.x(); x < lastRect_.x() + lastRect_.width(); ++x) {
+          drawboard_->remove(QPoint(x, y));
+        }
+      }
+    }
+
+    if (rect.width() < lastRect_.width()) {
+      for (int y = lastRect_.y(); y < lastRect_.y() + lastRect_.height(); ++y) {
+        for (int x = rect.x() + rect.width(); x <= lastRect_.x() + lastRect_.width(); ++x) {
+          drawboard_->remove(QPoint(x, y));
+        }
+      }
+    }
+
+    if (rect.height() < lastRect_.height()) {
+      for (int y = rect.y() + rect.height(); y < lastRect_.y() + lastRect_.height(); ++y) {
+        for (int x = lastRect_.x(); x < lastRect_.x() + lastRect_.width(); ++x) {
+          drawboard_->remove(QPoint(x, y));
+        }
+      }
+    }
 
     lastRect_ = rect;
   }
