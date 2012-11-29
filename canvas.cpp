@@ -294,15 +294,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
       }
     }
 
-    if (rect.width() < lastRect_.width()) {
-      for (int y = lastRect_.y(); y < lastRect_.y() + lastRect_.height(); ++y) {
-        for (int x = rect.x() + rect.width(); x <= lastRect_.x() + lastRect_.width(); ++x) {
-          drawboard_->remove(QPoint(x, y));
-        }
-      }
-    }
-
-    if (rect.height() < lastRect_.height()) {
+    if (rect.y() + rect.height() < lastRect_.y() + lastRect_.height()) {
       for (int y = rect.y() + rect.height(); y < lastRect_.y() + lastRect_.height(); ++y) {
         for (int x = lastRect_.x(); x < lastRect_.x() + lastRect_.width(); ++x) {
           drawboard_->remove(QPoint(x, y));
