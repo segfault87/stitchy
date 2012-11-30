@@ -8,7 +8,7 @@
 
 #define PI_2 1.414213562373095
 
-#define PHI 0.3f
+#define PHI 0.2f
 
 const QPointF shapeBackslash[] = {
   QPointF(0.0f, 0.0f),
