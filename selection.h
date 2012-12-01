@@ -10,13 +10,19 @@ class Selection : public QGraphicsItem
   ~Selection();
 
   void paint(QPainter *painter,
-             const QStyleOptionGraphicItem *option,
+             const QStyleOptionGraphicsItem *option,
              QWidget *widget);
   QRectF boundingRect() const;
 
   const QRect& rect() const { return rect_; }
 
-  void setRect(const QRect &rect) { rect_ = rect; }
+  void set(const QRect &rect);
+  void clear();
+
+  bool within(const QPoint &point) const;
+
+ private:
+  void resetGeometry();
 
  private:
   QRect rect_;

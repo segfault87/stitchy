@@ -28,6 +28,7 @@ HEADERS += \
   newdocumentdialog.h \
   palettemodel.h \
   palettewidget.h \
+  selection.h \
   settings.h \
   sparsemap.h \
   stitch.h \
@@ -48,6 +49,7 @@ SOURCES += \
   newdocumentdialog.cpp \
   palettemodel.cpp \
   palettewidget.cpp \
+  selection.cpp \
   settings.cpp \
   sparsemap.cpp \
   stitch.cpp \

@@ -1,3 +1,4 @@
+#include <QMouseEvent>
 #include <QWheelEvent>
 
 #include "cell.h"
@@ -5,6 +6,7 @@
 #include "editor.h"
 #include "editoractions.h"
 #include "globalstate.h"
+#include "selection.h"
 #include "sparsemap.h"
 
 #include "canvas.h"
@@ -14,6 +16,11 @@
 Canvas::Canvas(QWidget *parent)
     : QGraphicsView(parent)
 {
+  selection_ = NULL;
+  drawmap_ = NULL;
+
+  selecting_ = false;
+  moving_ = false;
   dragging_ = false;
   drawing_ = false;
   erasing_ = false;
@@ -156,20 +163,48 @@ void Canvas::mousePressEvent(QMouseEvent *event)
   if (event->button() & Qt::LeftButton) {
     ToolMode mode = GlobalState::self()->toolMode();
 
+    if (mode == ToolMode_Select) {
+      selecting_ = true;
+
+      QPoint cursor;
+      if (!mapToGrid(event->pos(), cursor))
+        return;
+
+      if (!selection_) {
+        selection_ = new Selection();
+        scene()->addItem(selection_);
+      }
+
+      startPos_ = cursor;
+      selection_->set(QRect(cursor, QSize(0, 0)));
+
+      return;
+    }
+
     Document *doc = GlobalState::self()->activeDocument();
     if (!GlobalState::self()->color() || !doc)
       return;
 
-    drawboard_ = new SparseMap(doc);
+    drawmap_ = new SparseMap(doc);
 
     if (mode == ToolMode_Full || mode == ToolMode_Half ||
         mode == ToolMode_Petite || mode == ToolMode_Quarter) {
+      QPoint cursor;
+      if (!mapToGrid(event->pos(), cursor))
+        return;
+
+      if (selection_ && !selection_->within(cursor))
+        return;
+
       drawing_ = true;
     } else if (mode == ToolMode_Erase) {
       erasing_ = true;
     } else if (mode == ToolMode_Rectangle) {
       QPoint cursor;
       if (!mapToGrid(event->pos(), cursor))
+        return;
+
+      if (selection_ && !selection_->within(cursor))
         return;
 
       rectangle_ = true;
@@ -192,7 +227,16 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
   const Color *c = GlobalState::self()->color();
 
-  if (dragging_) {
+  if (selecting_) {
+    /* select */
+
+    QPoint cursor;
+
+    if (!mapToGrid(event->pos(), cursor))
+        return;
+
+    selection_->set(QRect(startPos_, cursor));
+  } else if (dragging_) {
     /* pan */
 
     QPointF delta = mapToScene(lastPos_) - mapToScene(event->pos());
@@ -205,6 +249,9 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!mapToGrid(event->pos(), cursor, subcursor))
       return;
 
+    if (selection_ && !selection_->within(cursor))
+        return;
+
     ToolMode mode = GlobalState::self()->toolMode();
     
     if (cursor != cursor_) {
@@ -212,7 +259,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
       cursor_ = cursor;
 
-      Cell *cell = drawboard_->cellAt(cursor);
+      Cell *cell = drawmap_->cellAt(cursor);
 
       if (mode == ToolMode_Full) {
         cell->addFullStitch(c);
@@ -243,6 +290,9 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!mapToGrid(event->pos(), cursor))
       return;
 
+    if (selection_ && !selection_->within(cursor))
+        return;
+
     if (cursor != cursor_) {
       cursor_ = cursor;
 
@@ -252,7 +302,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
       if (map->contains(cursor)) {
         Cell *c = map->cellAt(cursor);
         c->clearGraphicsItems();
-        drawboard_->cellAt(cursor);
+        drawmap_->cellAt(cursor);
       }
     }
   } else if (rectangle_) {
@@ -262,6 +312,9 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
     if (!mapToGrid(event->pos(), cursor))
         return;
+
+    if (selection_ && !selection_->within(cursor))
+        return;
     
     QRect rect(startPos_, cursor);
 
@@ -270,8 +323,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
     for (int y = rect.y(); y < rect.y() + rect.height(); ++y) {
       for (int x = rect.x(); x < rect.x() + rect.width(); ++x) {
-        if (!drawboard_->contains(QPoint(x, y))) {
-          Cell *cell = drawboard_->cellAt(QPoint(x, y));
+        if (!drawmap_->contains(QPoint(x, y))) {
+          Cell *cell = drawmap_->cellAt(QPoint(x, y));
           cell->addFullStitch(c);
           cell->createGraphicsItems();
         }
@@ -281,7 +334,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (rect.x() > lastRect_.x()) {
       for (int y = lastRect_.y(); y < lastRect_.y() + lastRect_.height(); ++y) {
         for (int x = lastRect_.x(); x < rect.x(); ++x) {
-          drawboard_->remove(QPoint(x, y));
+          drawmap_->remove(QPoint(x, y));
         }
       }
     }
@@ -289,7 +342,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (rect.y() > lastRect_.y()) {
       for (int y = lastRect_.y(); y < rect.y(); ++y) {
         for (int x = lastRect_.x(); x < lastRect_.x() + lastRect_.width(); ++x) {
-          drawboard_->remove(QPoint(x, y));
+          drawmap_->remove(QPoint(x, y));
         }
       }
     }
@@ -297,7 +350,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (rect.x() + rect.width() < lastRect_.x() + lastRect_.width()) {
       for (int y = lastRect_.y(); y < lastRect_.y() + lastRect_.height(); ++y) {
         for (int x = rect.x() + rect.width(); x < lastRect_.x() + lastRect_.width(); ++x) {
-          drawboard_->remove(QPoint(x, y));
+          drawmap_->remove(QPoint(x, y));
         }
       }
     }
@@ -305,7 +358,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (rect.y() + rect.height() < lastRect_.y() + lastRect_.height()) {
       for (int y = rect.y() + rect.height(); y < lastRect_.y() + lastRect_.height(); ++y) {
         for (int x = lastRect_.x(); x < lastRect_.x() + lastRect_.width(); ++x) {
-          drawboard_->remove(QPoint(x, y));
+          drawmap_->remove(QPoint(x, y));
         }
       }
     }
@@ -327,8 +380,8 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
     rectangle_ = false;
     cursor_ = QPoint(-1, -1);
     subcursor_ = Subarea_TopLeft;
-    doc->editor()->edit(new ActionDraw(doc, drawboard_));
-    delete drawboard_;
+    doc->editor()->edit(new ActionDraw(doc, drawmap_));
+    delete drawmap_;
   } else if (erasing_ && event->button() & Qt::LeftButton) {
     Document *doc = GlobalState::self()->activeDocument();
     if (!doc)
@@ -336,8 +389,20 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
 
     erasing_ = false;
     cursor_ = QPoint(-1, -1);
-    doc->editor()->edit(new ActionErase(doc, drawboard_));
-    delete drawboard_;
+    doc->editor()->edit(new ActionErase(doc, drawmap_));
+    delete drawmap_;
+  } else if (selecting_ && event->button() & Qt::LeftButton) {
+    const QRect &r = selection_->rect();
+
+    if (r.width() == 0 && r.height() == 0) {
+      delete selection_;
+      selection_ = NULL;
+      emit clearedSelection();
+    } else {
+      emit madeSelection(r);
+    }
+
+    selecting_ = false;
   }
 }
 
