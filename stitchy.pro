@@ -15,6 +15,7 @@ FORMS += \
 HEADERS += \
   canvas.h \
   cell.h \
+  clipboarddata.h \
   color.h \
   coloreditor.h \
   colormanager.h \
@@ -37,6 +38,7 @@ HEADERS += \
 SOURCES += \
   canvas.cpp \
   cell.cpp \
+  clipboarddata.cpp \
   color.cpp \
   coloreditor.cpp \
   colormanager.cpp \

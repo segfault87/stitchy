@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class QActionGroup;
+class QClipboard;
 class QCloseEvent;
 class QMenu;
 
@@ -39,6 +40,9 @@ class MainWindow : public QMainWindow
   void updateTitle();
   void setActiveDocument(Document *document);
   void documentChangeAction(Document *document);
+  void selectionChanged(const QRect &rect);
+  void selectionCleared();
+  void clipboardChanged();
 
  private:
   QAction* createAction(const QString &name, QObject *receiver,
@@ -59,9 +63,10 @@ class MainWindow : public QMainWindow
 
  private:
   PaletteWidget *palette_;
-  Canvas *graphicsView_;
+  Canvas *canvas_;
   Settings *settings_;
   GlobalState *state_;
+  QClipboard *clipboard_;
 
   QMenu *menuFile_;
   QMenu *menuEdit_;
@@ -80,6 +85,10 @@ class MainWindow : public QMainWindow
   /* edit actions */
   QAction *actionUndo_;
   QAction *actionRedo_;
+  QAction *actionCut_;
+  QAction *actionCopy_;
+  QAction *actionPaste_;
+  QAction *actionDeleteSelected_;
 
   /* view actions */
   QAction *actionZoomIn_;
@@ -106,6 +115,7 @@ class MainWindow : public QMainWindow
   QAction *actionColorEditor_;
 
   QList<QAction *> documentActions_;
+  QList<QAction *> selectionActions_;
 };
 
 #endif

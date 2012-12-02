@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <QUndoGroup>
 
 #include "colormanager.h"
@@ -25,7 +27,7 @@ GlobalState::GlobalState(QObject *parent)
 
 GlobalState::~GlobalState()
 {
-  
+
 }
 
 void GlobalState::setRenderingMode(RenderingMode mode)

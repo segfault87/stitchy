@@ -70,6 +70,8 @@ enum Subarea
   Subarea_BottomRight
 };
 
+bool FeatureMaskTest(int mask, int feature);
+
 class Cell
 {
  public:
@@ -92,6 +94,9 @@ class Cell
                         const Color *color);
   void merge(const Cell &other);
 
+  void addFeature(int feature, const Color *color);
+
+  int featureMask() const { return featureMask_; }
   bool contains(int feature) const;
   const Color* color(int feature) const;
   bool isEmpty() const;
@@ -103,7 +108,6 @@ class Cell
  private:
   QPointF subareaOffset(int feature);
   void resetPosition();
-  void addFeature(int feature, const Color *color);
   int affectedFeatures(int feature);
   void removeFeatures(int mask);
 

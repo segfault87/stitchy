@@ -91,6 +91,19 @@ bool Canvas::mapToGrid(const QPoint &pos, QPoint &out, Subarea &subareaOut)
   return true;
 }
 
+void Canvas::setDocument(Document *doc)
+{
+  if (selection_) {
+    delete selection_;
+    selection_ = NULL;
+  }
+
+  if (doc)
+    setScene(doc->scene());
+  else
+    setScene(NULL);
+}
+
 void Canvas::zoomIn()
 {
   scale(1.0 + MAGNIFICATION_RATE, 1.0 + MAGNIFICATION_RATE);
@@ -111,12 +124,56 @@ void Canvas::toggleGrid(bool enabled)
 
 }
 
+void Canvas::cut()
+{
+  if (!selection_)
+    return;
+}
+
+void Canvas::copy()
+{
+  if (!selection_)
+    return;
+
+  
+}
+
+void Canvas::paste()
+{
+
+}
+
+void Canvas::deleteSelected()
+{
+  if (!selection_)
+    return;
+
+  const QRect &rect = selection_->rect();
+  Document *d = GlobalState::self()->activeDocument();
+  if (!d)
+    return;
+
+  SparseMap *orig = d->map();
+  SparseMap *map = new SparseMap(d);
+  for (int y = rect.y(); y < rect.y() + rect.height(); ++y) {
+    for (int x = rect.x(); x < rect.x() + rect.width(); ++x) {
+      QPoint p(x, y);
+      if (orig->contains(p))
+          map->cellAt(QPoint(x, y));
+    }
+  }
+
+  d->editor()->edit(new ActionErase(d, map));
+
+  delete map;
+}
+
 void Canvas::setCenter(const QPointF& centerPoint)
 {
-  //Get the rectangle of the visible area in scene coords
+  // Get the rectangle of the visible area in scene coords
   QRectF visibleArea = mapToScene(rect()).boundingRect();
   
-  //Get the scene area
+  // Get the scene area
   QRectF sceneBounds = sceneRect();
   
   double boundX = sceneBounds.x() + visibleArea.width() / 2.0;
@@ -124,37 +181,36 @@ void Canvas::setCenter(const QPointF& centerPoint)
   double boundWidth = sceneBounds.width() - 2.0 * boundX;
   double boundHeight = sceneBounds.height() - 2.0 * boundY;
   
-  //The max boundary that the centerPoint can be to
+  // The max boundary that the centerPoint can be to
   QRectF bounds(boundX, boundY, boundWidth, boundHeight);
 
-  if(bounds.contains(centerPoint)) {
-    //We are within the bounds
+  if (bounds.contains(centerPoint)) {
+    // We are within the bounds
     center_ = centerPoint;
   } else {
-    //We need to clamp or use the center of the screen
-    if(visibleArea.contains(sceneBounds)) {
-      //Use the center of scene ie. we can see the whole scene
+    // We need to clamp or use the center of the screen
+    if (visibleArea.contains(sceneBounds)) {
+      // Use the center of scene ie. we can see the whole scene
       center_ = sceneBounds.center();
     } else {
       center_ = centerPoint;
       
-      //We need to clamp the center. The centerPoint is too large
-      if(centerPoint.x() > bounds.x() + bounds.width()) {
+      // We need to clamp the center. The centerPoint is too large
+      if (centerPoint.x() > bounds.x() + bounds.width()) {
         center_.setX(bounds.x() + bounds.width());
-      } else if(centerPoint.x() < bounds.x()) {
+      } else if (centerPoint.x() < bounds.x()) {
         center_.setX(bounds.x());
       }
       
-      if(centerPoint.y() > bounds.y() + bounds.height()) {
+      if (centerPoint.y() > bounds.y() + bounds.height()) {
         center_.setY(bounds.y() + bounds.height());
-      } else if(centerPoint.y() < bounds.y()) {
+      } else if (centerPoint.y() < bounds.y()) {
         center_.setY(bounds.y());
       }
-      
     }
   }
   
-  //Update the scrollbars
+  // Update the scrollbars
   centerOn(center_);
 }
 

@@ -27,10 +27,15 @@ class Canvas : public QGraphicsView
   void clearedSelection();
 
  public slots:
+  void setDocument(Document *doc);
   void zoomIn();
   void zoomOut();
   void zoomReset();
   void toggleGrid(bool enabled);
+  void cut();
+  void copy();
+  void paste();
+  void deleteSelected();
 
  private:
   void setCenter(const QPointF &centerPoint);

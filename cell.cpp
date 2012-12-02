@@ -24,6 +24,11 @@ const int featureMaskList[] = {
   MASK_CELL_QUARTER_BR_BS
 };
 
+bool FeatureMaskTest(int mask, int feature)
+{
+  return mask & featureMaskList[feature];
+}
+
 Cell::Cell()
     : document_(NULL)
 {

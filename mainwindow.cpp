@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QClipboard>
 #include <QCloseEvent>
 #include <QDockWidget>
 #include <QFileDialog>
@@ -27,12 +28,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
   settings_ = new Settings();
   state_ = new GlobalState(this);
+  clipboard_ = QApplication::clipboard();
 
   initWidgets();
   initActions();
   initMenus();
   initToolbars();
   initConnections();
+
+  setEnabled(selectionActions_, false);
 
   QByteArray state = settings_->state();
   QByteArray geometry = settings_->geometry();
@@ -103,8 +107,9 @@ void MainWindow::closeFile()
     return;
 
   if (state_->activeDocument()) {
-    delete state_->activeDocument();
+    Document *doc = state_->activeDocument();
     setActiveDocument(NULL);
+    delete doc;
   }
 }
 
@@ -138,8 +143,8 @@ void MainWindow::viewModeAction(QAction *action)
     return;
 
   state_->setRenderingMode(rm);
-  graphicsView_->scale(2.0, 2.0);
-  graphicsView_->scale(0.5, 0.5);
+  canvas_->scale(2.0, 2.0);
+  canvas_->scale(0.5, 0.5);
 }
 
 void MainWindow::showColorEditor()
@@ -209,13 +214,13 @@ void MainWindow::setActiveDocument(Document *document)
   if (state_->activeDocument()) {
     setEnabled(documentActions_, true);
     state_->undoGroup()->setActiveStack(document->editor());
-    graphicsView_->setScene(state_->activeDocument()->scene());
+    canvas_->setDocument(state_->activeDocument());
     connect(document, SIGNAL(documentChanged()), this, SLOT(updateTitle()));
     connect(document, SIGNAL(documentSaved()), this, SLOT(updateTitle()));
   } else {
     setEnabled(documentActions_, false);
     state_->undoGroup()->setActiveStack(NULL);
-    graphicsView_->setScene(NULL);
+    canvas_->setDocument(NULL);
   }
 
   emit needsUpdate();
@@ -227,6 +232,29 @@ void MainWindow::documentChangeAction(Document *document)
   Q_UNUSED(document);
 
   updateTitle();
+}
+
+void MainWindow::selectionChanged(const QRect &rect)
+{
+  actionModeMove_->setChecked(true);
+  toolModeAction(actionModeMove_);
+  setEnabled(selectionActions_, true);
+}
+
+void MainWindow::selectionCleared()
+{
+  setEnabled(selectionActions_, false);
+}
+
+void MainWindow::clipboardChanged()
+{
+  const QMimeData *data = clipboard_->mimeData();
+
+  if (state_->activeDocument() && data &&
+      data->hasFormat("application/vnd.kr.influx.stitchy.selection"))
+    actionPaste_->setEnabled(true);
+  else
+    actionPaste_->setEnabled(false);
 }
 
 QAction* MainWindow::createAction(const QString &name, QObject *receiver,
@@ -371,18 +399,41 @@ void MainWindow::initActions()
   actionRedo_->setShortcut(QKeySequence::Redo);
   actionRedo_->setIcon(Utils::icon("edit-redo"));
 
+  actionCut_ = createAction(tr("&Cut"),
+                            canvas_,
+                            SLOT(cut()),
+                            QKeySequence::Cut,
+                            Utils::icon("edit-cut"));
+  actionCopy_ = createAction(tr("C&opy"),
+                             canvas_,
+                             SLOT(copy()),
+                             QKeySequence::Copy,
+                             Utils::icon("edit-copy"));
+  actionPaste_ = createAction(tr("&Paste"),
+                              canvas_,
+                              SLOT(paste()),
+                              QKeySequence::Paste,
+                              Utils::icon("edit-paste"));
+  clipboardChanged();
+  actionDeleteSelected_ = createAction(tr("&Delete Selected"),
+                                       canvas_,
+                                       SLOT(deleteSelected()),
+                                       QKeySequence("Delete"),
+                                       Utils::icon("edit-delete"));
+                                       
+  
   actionZoomIn_ = createAction(tr("Zoom &In"),
-                               graphicsView_,
+                               canvas_,
                                SLOT(zoomIn()),
                                QKeySequence("Ctrl++"),
                                Utils::icon("zoom-in"));
   actionZoomOut_ = createAction(tr("Zoom &Out"),
-                                graphicsView_,
+                                canvas_,
                                 SLOT(zoomOut()),
                                 QKeySequence("Ctrl+-"),
                                 Utils::icon("zoom-out"));
   actionZoomReset_ = createAction(tr("&Reset Zoom"),
-                                  graphicsView_,
+                                  canvas_,
                                   SLOT(zoomReset()),
                                   QKeySequence("Ctrl+0"),
                                   Utils::icon("zoom-original"));
@@ -454,6 +505,8 @@ void MainWindow::initActions()
   documentActions_ << actionCloseFile_ << actionSaveFile_ <<
       actionSaveFileAs_ << actionZoomIn_ << actionZoomOut_ <<
       actionZoomReset_;
+  selectionActions_ << actionCut_ << actionCopy_ << actionPaste_ <<
+      actionDeleteSelected_;
 }
 
 void MainWindow::initMenus()
@@ -473,6 +526,11 @@ void MainWindow::initMenus()
   menuEdit_->addAction(actionUndo_);
   menuEdit_->addAction(actionRedo_);
   menuEdit_->addSeparator();
+  menuEdit_->addAction(actionCut_);
+  menuEdit_->addAction(actionCopy_);
+  menuEdit_->addAction(actionPaste_);
+  menuEdit_->addSeparator();;
+  menuEdit_->addAction(actionDeleteSelected_);
 
   menuView_ = menuBar()->addMenu(tr("&View"));
   menuView_->addAction(actionZoomOut_);
@@ -516,6 +574,12 @@ void MainWindow::initToolbars()
   toolBarEdit->setObjectName("toolbar_edit");
   toolBarEdit->addAction(actionUndo_);
   toolBarEdit->addAction(actionRedo_);
+  toolBarEdit->addSeparator();
+  toolBarEdit->addAction(actionCut_);
+  toolBarEdit->addAction(actionCopy_);
+  toolBarEdit->addAction(actionPaste_);
+  toolBarEdit->addSeparator();
+  toolBarEdit->addAction(actionDeleteSelected_);
 
   QToolBar *toolBarView = addToolBar(tr("View"));
   toolBarView->setObjectName("toolbar_view");
@@ -550,14 +614,14 @@ void MainWindow::initWidgets()
                            QDockWidget::DockWidgetFloatable);
   addDockWidget(Qt::LeftDockWidgetArea, paletteDock);
 
-  graphicsView_ = new Canvas(this);
-  setCentralWidget(graphicsView_);
+  canvas_ = new Canvas(this);
+  setCentralWidget(canvas_);
 }
 
 void MainWindow::initConnections()
 {
   connect(this, SIGNAL(needsUpdate()),
-          graphicsView_, SLOT(update()));
+          canvas_, SLOT(update()));
   connect(palette_, SIGNAL(colorSelected(const Color *)),
           state_, SLOT(setColor(const Color *)));
   connect(palette_, SIGNAL(userColorSetIsEmpty()),
@@ -571,5 +635,11 @@ void MainWindow::initConnections()
   connect(actionViewMode_, SIGNAL(triggered(QAction *)),
           this, SLOT(viewModeAction(QAction *)));
   connect(actionViewGrids_, SIGNAL(toggled(bool)),
-          graphicsView_, SLOT(toggleGrid(bool)));
+          canvas_, SLOT(toggleGrid(bool)));
+  connect(canvas_, SIGNAL(madeSelection(const QRect &)),
+          this, SLOT(selectionChanged(const QRect &)));
+  connect(canvas_, SIGNAL(clearedSelection()),
+          this, SLOT(selectionCleared()));
+  connect(clipboard_, SIGNAL(dataChanged()),
+          this, SLOT(clipboardChanged()));
 }
