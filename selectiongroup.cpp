@@ -7,30 +7,39 @@
 
 #include "clipboarddata.h"
 
-ClipboardData::ClipboardData(Document *doc)
+SelectionGroup::SelectionGroup(Document *doc)
+    : QGraphicsItemGroup()
 {
   map_ = new SparseMap(doc);
 }
 
-ClipboardData::ClipboardData(Document *doc, const QPoint &initialPosition)
-    : initialPosition_(initialPosition)
+SelectionGroup::SelectionGroup(Document *doc, const QRect &region)
+{
+  initialPosition_ = region.topLeft();
+
+  map_ = new SparseMap(doc);
+}
+
+SelectionGroup::SelectionGroup(Document *doc, const QPoint &initialPosition)
+    : QGraphicsItemGroup(), initialPosition_(initialPosition)
 {
   map_ = new SparseMap(doc);
 }
 
-ClipboardData::ClipboardData(Document *doc, QByteArray &array)
+SelectionGroup::SelectionGroup(Document *doc, QByteArray &array)
+    : QGraphicsItemGroup()
 {
   map_ = new SparseMap(doc);
 
   deserialize(array);
 }
 
-ClipboardData::~ClipboardData()
+SelectionGroup::~SelectionGroup()
 {
   delete map_;
 }
 
-QByteArray ClipboardData::serialize() const
+QByteArray SelectionGroup::serialize() const
 {
   QByteArray array;
   QDataStream stream(&array, QIODevice::WriteOnly);
@@ -59,7 +68,7 @@ QByteArray ClipboardData::serialize() const
   return array;
 }
 
-void ClipboardData::deserialize(QByteArray &array)
+void SelectionGroup::deserialize(QByteArray &array)
 {
   QDataStream stream(&array, QIODevice::ReadOnly);
 

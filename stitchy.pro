@@ -15,7 +15,6 @@ FORMS += \
 HEADERS += \
   canvas.h \
   cell.h \
-  clipboarddata.h \
   color.h \
   coloreditor.h \
   colormanager.h \
@@ -30,6 +29,7 @@ HEADERS += \
   palettemodel.h \
   palettewidget.h \
   selection.h \
+  selectiongroup.h \
   settings.h \
   sparsemap.h \
   stitch.h \
@@ -38,7 +38,6 @@ HEADERS += \
 SOURCES += \
   canvas.cpp \
   cell.cpp \
-  clipboarddata.cpp \
   color.cpp \
   coloreditor.cpp \
   colormanager.cpp \
@@ -52,6 +51,7 @@ SOURCES += \
   palettemodel.cpp \
   palettewidget.cpp \
   selection.cpp \
+  selectiongroup.cpp \
   settings.cpp \
   sparsemap.cpp \
   stitch.cpp \

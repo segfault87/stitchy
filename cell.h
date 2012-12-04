@@ -5,6 +5,8 @@
 
 #include "stitch.h"
 
+class QGraphicsItem;
+
 class Color;
 class Document;
 class DocumentIo;
@@ -102,7 +104,7 @@ class Cell
   bool isEmpty() const;
   void remove(int feature);
   
-  void createGraphicsItems();
+  void createGraphicsItems(QGraphicsItem *parent = NULL);
   void clearGraphicsItems();
   
  private:

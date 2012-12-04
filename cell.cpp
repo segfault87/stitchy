@@ -1,3 +1,4 @@
+#include <QGraphicsItem>
 #include <QGraphicsScene>
 
 #include "document.h"
@@ -188,7 +189,7 @@ void Cell::remove(int feature)
   featureMask_ = featureMask_ & ~featureMaskList[feature];
 }
 
-void Cell::createGraphicsItems()
+void Cell::createGraphicsItems(QGraphicsItem *parent)
 {
   clearGraphicsItems();
 
@@ -219,25 +220,31 @@ void Cell::createGraphicsItems()
     }
 
     if (i == CELL_FULL) {
-      it = new FullStitchItem(Utils::mapToCoord(pos_),
-                              colors_[i],
-                              document_);
+      it = new FullStitchItem(
+          Utils::mapToCoord(pos_),
+          colors_[i],
+          document_,
+          parent);
     } else if (i >= CELL_HALF_S && i <= CELL_HALF_BS) {
-      it = new HalfStitchItem(o,
-                              Utils::mapToCoord(pos_),
-                              colors_[i],
-                              document_);
+      it = new HalfStitchItem(
+          o,
+          Utils::mapToCoord(pos_),
+          colors_[i],
+          document_,
+          parent);
     } else if (i >= CELL_PETITE_TL && i <= CELL_PETITE_BR) {
       it = new PetiteStitchItem(
           Utils::mapToCoord(pos_) + subareaOffset(i),
           colors_[i],
-          document_);
+          document_,
+          parent);
     } else if (i >= CELL_QUARTER_TL_S && i <= CELL_QUARTER_BR_BS) {
       it = new QuarterStitchItem(
           o,
           Utils::mapToCoord(pos_) + subareaOffset(i),
           colors_[i],
-          document_);
+          document_,
+          parent);
     } else {
       it = NULL;
     }
@@ -245,7 +252,8 @@ void Cell::createGraphicsItems()
     if (it) {
       it->acquire();
       features_[i] = it;
-      document_->scene()->addItem(it);
+      if (!parent)
+        document_->scene()->addItem(it);
     }
   }
 }
