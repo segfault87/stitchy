@@ -7,6 +7,7 @@
 #include "editoractions.h"
 #include "globalstate.h"
 #include "selection.h"
+#include "selectiongroup.h"
 #include "sparsemap.h"
 
 #include "canvas.h"
@@ -17,6 +18,7 @@ Canvas::Canvas(QWidget *parent)
     : QGraphicsView(parent)
 {
   selection_ = NULL;
+  floatingSelection_ = NULL;
   drawmap_ = NULL;
 
   selecting_ = false;
@@ -216,6 +218,10 @@ void Canvas::setCenter(const QPointF& centerPoint)
 
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
+  Document *doc = GlobalState::self()->activeDocument();
+  if (!doc)
+    return;
+  
   if (event->button() & Qt::LeftButton) {
     ToolMode mode = GlobalState::self()->toolMode();
 
@@ -235,9 +241,23 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       selection_->set(QRect(cursor, QSize(0, 0)));
 
       return;
+    } else if (mode == ToolMode_Move) {
+      if (!selection_)
+        return;
+      
+      QPoint cursor;
+      if (!mapToGrid(event->pos(), cursor))
+        return;
+      else if (!selection_->within(cursor))
+        return;
+
+      if (!floatingSelection_) {
+        floatingSelection_ = new SelectionGroup(doc, selection_->rect(), true);
+      }
+
+      return;
     }
 
-    Document *doc = GlobalState::self()->activeDocument();
     if (!GlobalState::self()->color() || !doc)
       return;
 
@@ -282,6 +302,9 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
   const Color *c = GlobalState::self()->color();
+  Document *doc = GlobalState::self()->activeDocument();
+  if (!doc)
+    return;
 
   if (selecting_) {
     /* select */
@@ -352,7 +375,6 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (cursor != cursor_) {
       cursor_ = cursor;
 
-      Document *doc = GlobalState::self()->activeDocument();
       SparseMap *map = doc->map();
       
       if (map->contains(cursor)) {
@@ -425,13 +447,13 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void Canvas::mouseReleaseEvent(QMouseEvent *event)
 {
+  Document *doc = GlobalState::self()->activeDocument();
+  if (!doc)
+    return;
+  
   if (dragging_ && event->button() & Qt::RightButton) {
     dragging_ = false;
   } else if ((drawing_ || rectangle_) && event->button() & Qt::LeftButton) {
-    Document *doc = GlobalState::self()->activeDocument();
-    if (!doc)
-      return;
-    
     drawing_ = false;
     rectangle_ = false;
     cursor_ = QPoint(-1, -1);
@@ -439,10 +461,6 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
     doc->editor()->edit(new ActionDraw(doc, drawmap_));
     delete drawmap_;
   } else if (erasing_ && event->button() & Qt::LeftButton) {
-    Document *doc = GlobalState::self()->activeDocument();
-    if (!doc)
-      return;
-
     erasing_ = false;
     cursor_ = QPoint(-1, -1);
     doc->editor()->edit(new ActionErase(doc, drawmap_));

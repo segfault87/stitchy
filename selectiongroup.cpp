@@ -1,11 +1,12 @@
 #include <QDataStream>
+#include <QGraphicsScene>
 
 #include "cell.h"
 #include "document.h"
 #include "globalstate.h"
 #include "sparsemap.h"
 
-#include "clipboarddata.h"
+#include "selectiongroup.h"
 
 SelectionGroup::SelectionGroup(Document *doc)
     : QGraphicsItemGroup()
@@ -13,11 +14,13 @@ SelectionGroup::SelectionGroup(Document *doc)
   map_ = new SparseMap(doc);
 }
 
-SelectionGroup::SelectionGroup(Document *doc, const QRect &region)
+SelectionGroup::SelectionGroup(Document *doc, const QRect &region, bool move)
 {
   initialPosition_ = region.topLeft();
 
   map_ = new SparseMap(doc);
+
+  initialize(doc, region, move);
 }
 
 SelectionGroup::SelectionGroup(Document *doc, const QPoint &initialPosition)
@@ -37,6 +40,11 @@ SelectionGroup::SelectionGroup(Document *doc, QByteArray &array)
 SelectionGroup::~SelectionGroup()
 {
   delete map_;
+}
+
+void SelectionGroup::moveTo(const QPoint &p)
+{
+  setPos(QPointF(p.x() * 10.0f, p.y() * 10.0f));
 }
 
 QByteArray SelectionGroup::serialize() const
@@ -101,4 +109,32 @@ void SelectionGroup::deserialize(QByteArray &array)
 
     cell->createGraphicsItems();
   }
+}
+
+void SelectionGroup::initialize(Document *doc, const QRect &region, bool move)
+{
+  SparseMap *map = doc->map();
+
+  initialPosition_ = region.topLeft();
+  
+  for (int y = region.y(); y < region.y() + region.height(); ++y) {
+    for (int x = region.x() ; x < region.x() + region.width(); ++x) {
+      QPoint point(x, y);
+      if (map->contains(point)) {
+        Cell *o = map->cellAt(point);
+        
+        QPoint adjusted(x - region.x(), y - region.y());
+        Cell *c = map_->cellAt(adjusted);
+        c->merge(*o);
+        c->createGraphicsItems(this);
+        
+        if (move)
+          map->remove(point);
+      }
+    }
+  }
+
+  moveTo(initialPosition_);
+
+  doc->scene()->addItem(this);
 }
