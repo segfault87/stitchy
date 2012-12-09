@@ -9,6 +9,16 @@ SparseMap::SparseMap(Document *parent)
 
 }
 
+SparseMap::SparseMap(const SparseMap &other)
+{
+  document_ = other.document_;
+  
+  const CellMap &cells = other.cells();
+  for (CellMap::ConstIterator it = cells.begin(); it != cells.end(); ++it) {
+    cells_[it.key()] = new Cell(*it.value());
+  }
+}
+
 SparseMap::~SparseMap()
 {
   clear();

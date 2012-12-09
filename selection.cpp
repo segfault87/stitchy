@@ -9,7 +9,7 @@ Selection::Selection()
 
 Selection::~Selection()
 {
-
+  
 }
 
 void Selection::paint(QPainter *painter,
@@ -44,6 +44,13 @@ void Selection::set(const QRect &rect)
 
   if (!rect_.isValid())
     rect_ = rect_.normalized();
+
+  resetGeometry();
+}
+
+void Selection::move(const QPoint &point)
+{
+  rect_.moveTopLeft(point);
 
   resetGeometry();
 }

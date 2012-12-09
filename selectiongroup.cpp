@@ -16,15 +16,15 @@ SelectionGroup::SelectionGroup(Document *doc)
 
 SelectionGroup::SelectionGroup(Document *doc, const QRect &region, bool move)
 {
-  initialPosition_ = region.topLeft();
+  position_ = region.topLeft();
 
   map_ = new SparseMap(doc);
 
   initialize(doc, region, move);
 }
 
-SelectionGroup::SelectionGroup(Document *doc, const QPoint &initialPosition)
-    : QGraphicsItemGroup(), initialPosition_(initialPosition)
+SelectionGroup::SelectionGroup(Document *doc, const QPoint &position)
+    : QGraphicsItemGroup(), position_(position)
 {
   map_ = new SparseMap(doc);
 }
@@ -44,7 +44,16 @@ SelectionGroup::~SelectionGroup()
 
 void SelectionGroup::moveTo(const QPoint &p)
 {
+  position_ = p;
+
   setPos(QPointF(p.x() * 10.0f, p.y() * 10.0f));
+}
+
+void SelectionGroup::moveRel(const QPoint &delta)
+{
+  position_ += delta;
+  
+  setPos(QPointF(position_.x() * 10.0f, position_.y() * 10.0f));
 }
 
 QByteArray SelectionGroup::serialize() const
@@ -52,7 +61,7 @@ QByteArray SelectionGroup::serialize() const
   QByteArray array;
   QDataStream stream(&array, QIODevice::WriteOnly);
 
-  stream << initialPosition_.x() << initialPosition_.y();
+  stream << position_.x() << position_.y();
   
   const CellMap &map = map_->cells();
   stream << map.size();
@@ -82,7 +91,7 @@ void SelectionGroup::deserialize(QByteArray &array)
 
   int x, y;
   stream >> x >> y;
-  initialPosition_ = QPoint(x, y);
+  position_ = QPoint(x, y);
 
   map_->clear();
   int len;
@@ -115,7 +124,7 @@ void SelectionGroup::initialize(Document *doc, const QRect &region, bool move)
 {
   SparseMap *map = doc->map();
 
-  initialPosition_ = region.topLeft();
+  position_ = region.topLeft();
   
   for (int y = region.y(); y < region.y() + region.height(); ++y) {
     for (int x = region.x() ; x < region.x() + region.width(); ++x) {
@@ -134,7 +143,7 @@ void SelectionGroup::initialize(Document *doc, const QRect &region, bool move)
     }
   }
 
-  moveTo(initialPosition_);
+  moveTo(position_);
 
   doc->scene()->addItem(this);
 }

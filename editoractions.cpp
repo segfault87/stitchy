@@ -1,5 +1,6 @@
 #include "cell.h"
 #include "document.h"
+#include "selectiongroup.h"
 #include "sparsemap.h"
 
 #include "editoractions.h"
@@ -99,4 +100,51 @@ void ActionErase::redo()
 void ActionErase::undo()
 {
   mergeWith(previousState_);
+}
+
+ActionMove::ActionMove(Document *document, const QPoint &originalPosition,
+		       SelectionGroup *group)
+  : EditorAction(document), originalPosition_(originalPosition)
+{
+  setText(QObject::tr("Moving"));
+
+  setData(group);
+}
+
+ActionMove::~ActionMove()
+{
+  delete map_;
+}
+
+void ActionMove::redo()
+{
+  SparseMap *orig = document_->map();
+
+  const CellMap &cells = map_->cells();
+  
+}
+
+void ActionMove::undo()
+{
+  SparseMap *orig = document_->map();
+}
+
+void ActionMove::setData(SelectionGroup *group)
+{
+  targetPosition_ = group->position();
+  map_ = new SparseMap(*group->map());
+
+  const CellMap &cells = map_->cells();
+  const CellMap &doccells = document_->map()->cells();
+
+  for (CellMap::ConstIterator it = cells.begin(); it != cells.end(); ++it) {
+    QPoint p(targetPosition_ + it.key());
+    if (doccells.contains(p)) {
+      previousState.append(Cell(p, document_));
+    } else {
+      Cell c(*doccells.cellAt(p));
+      c.move(p);
+      previousState.append(c);
+    }
+  }
 }

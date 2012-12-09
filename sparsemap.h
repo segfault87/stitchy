@@ -13,6 +13,7 @@ class SparseMap
 {
  public:
   SparseMap(Document *parent);
+  SparseMap(const SparseMap &other);
   ~SparseMap();
 
   bool contains(const QPoint &pos) const;

@@ -34,7 +34,12 @@ Canvas::Canvas(QWidget *parent)
 
 Canvas::~Canvas()
 {
-
+  if (floatingSelection_)
+    delete floatingSelection_;
+  if (selection_)
+    delete selection_;
+  if (drawmap_)
+    delete drawmap_;
 }
 
 bool Canvas::mapToGrid(const QPoint &pos, QPoint &out)
@@ -244,6 +249,8 @@ void Canvas::mousePressEvent(QMouseEvent *event)
     } else if (mode == ToolMode_Move) {
       if (!selection_)
         return;
+
+      moving_ = true;
       
       QPoint cursor;
       if (!mapToGrid(event->pos(), cursor))
@@ -251,9 +258,11 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       else if (!selection_->within(cursor))
         return;
 
-      if (!floatingSelection_) {
+      if (!floatingSelection_)
         floatingSelection_ = new SelectionGroup(doc, selection_->rect(), true);
-      }
+
+      lastPos_ = cursor;
+      startPos_ = cursor;
 
       return;
     }
@@ -442,6 +451,18 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     }
 
     lastRect_ = rect;
+  } else if (moving_) {
+    if (!floatingSelection_)
+      return;
+
+    QPoint cursor;
+    if (!mapToGrid(event->pos(), cursor))
+      return;
+
+    floatingSelection_->moveRel(cursor - lastPos_);
+    selection_->move(floatingSelection_->position());
+
+    lastPos_ = cursor;
   }
 }
 
@@ -453,30 +474,39 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
   
   if (dragging_ && event->button() & Qt::RightButton) {
     dragging_ = false;
-  } else if ((drawing_ || rectangle_) && event->button() & Qt::LeftButton) {
-    drawing_ = false;
-    rectangle_ = false;
-    cursor_ = QPoint(-1, -1);
-    subcursor_ = Subarea_TopLeft;
-    doc->editor()->edit(new ActionDraw(doc, drawmap_));
-    delete drawmap_;
-  } else if (erasing_ && event->button() & Qt::LeftButton) {
-    erasing_ = false;
-    cursor_ = QPoint(-1, -1);
-    doc->editor()->edit(new ActionErase(doc, drawmap_));
-    delete drawmap_;
-  } else if (selecting_ && event->button() & Qt::LeftButton) {
-    const QRect &r = selection_->rect();
-
-    if (r.width() == 0 && r.height() == 0) {
-      delete selection_;
-      selection_ = NULL;
-      emit clearedSelection();
-    } else {
-      emit madeSelection(r);
+  } else if (event->button() & Qt::LeftButton) {
+    if (drawing_ || rectangle_) {
+      drawing_ = false;
+      rectangle_ = false;
+      cursor_ = QPoint(-1, -1);
+      subcursor_ = Subarea_TopLeft;
+      doc->editor()->edit(new ActionDraw(doc, drawmap_));
+      delete drawmap_;
+      drawmap_ = NULL;
+    } else if (erasing_) {
+      erasing_ = false;
+      cursor_ = QPoint(-1, -1);
+      doc->editor()->edit(new ActionErase(doc, drawmap_));
+      delete drawmap_;
+      drawmap_ = NULL;
+    } else if (selecting_) {
+      const QRect &r = selection_->rect();
+      
+      if (r.width() == 0 && r.height() == 0) {
+	delete selection_;
+	selection_ = NULL;
+	emit clearedSelection();
+      } else {
+	emit madeSelection(r);
+      }
+      
+      selecting_ = false;
+    } else if (moving_) {
+      moving_ = false;
+      doc->editor()->edit(new ActionMove(doc, startPos_, floatingSelection_));
+      delete floatingSelection_;
+      floatingSelection_ = NULL;
     }
-
-    selecting_ = false;
   }
 }
 
@@ -492,5 +522,3 @@ void Canvas::wheelEvent(QWheelEvent *event)
 
   scale(mag, mag);
 }
-
-

@@ -17,6 +17,7 @@ class Selection : public QGraphicsItem
   const QRect& rect() const { return rect_; }
 
   void set(const QRect &rect);
+  void move(const QPoint &point);
   void clear();
 
   bool within(const QPoint &point) const;

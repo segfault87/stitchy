@@ -13,13 +13,15 @@ class SelectionGroup : public QGraphicsItemGroup
  public:
   SelectionGroup(Document *doc);
   SelectionGroup(Document *doc, const QRect &region, bool move = false);
-  SelectionGroup(Document *doc, const QPoint &initialPosition);
+  SelectionGroup(Document *doc, const QPoint &position);
   SelectionGroup(Document *doc, QByteArray &array);
   ~SelectionGroup();
 
-  const QPoint& initialPosition() { return initialPosition_; }
+  const QPoint& position() { return position_; }
+  const SparseMap* map() { return map_; }
 
   void moveTo(const QPoint &p);
+  void moveRel(const QPoint &delta);
 
   QByteArray serialize() const;
 
@@ -28,7 +30,7 @@ class SelectionGroup : public QGraphicsItemGroup
   void initialize(Document *doc, const QRect &region, bool move = false);
 
  private:
-  QPoint initialPosition_;
+  QPoint position_;
   SparseMap *map_;
 };
 

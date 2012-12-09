@@ -5,6 +5,7 @@
 #include <QUndoCommand>
 
 class Cell;
+class SelectionGroup;
 class SparseMap;
 
 class EditorAction : public QUndoCommand
@@ -49,6 +50,26 @@ class ActionErase : public ActionMerge
 
   void redo();
   void undo();
+};
+
+class ActionMove : public EditorAction
+{
+ public:
+  ActionMove(Document *document, const QPoint &originalPosition,
+	     SelectionGroup *group);
+  ~ActionMove();
+
+  void redo();
+  void undo();
+
+ private:
+  void setData(SelectionGroup *group);
+
+ private:
+  QPoint originalPosition_;
+  QPoint targetPosition_;
+  SparseMap *map_;
+  QList<Cell> previousState_;
 };
 
 #endif
