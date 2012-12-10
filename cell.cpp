@@ -156,6 +156,8 @@ void Cell::merge(const Cell &other)
     if (other.contains(i))
       addFeature(i, other.color(i));
   }
+
+  clearGraphicsItems();
 }
 
 bool Cell::contains(int feature) const
@@ -191,9 +193,13 @@ void Cell::remove(int feature)
 
 void Cell::createGraphicsItems(QGraphicsItem *parent)
 {
-  clearGraphicsItems();
-
   for (int i = 0; i < CELL_COUNT; ++i) {
+    if (features_[i]) {
+      features_[i]->release();
+      delete features_[i];
+      features_[i] = NULL;
+    }
+
     if ((featureMask_ & featureMaskList[i]) == 0)
       continue;
 

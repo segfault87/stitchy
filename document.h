@@ -24,7 +24,8 @@ class Document : public QObject
   Document(const QSize &size, QObject *parent = NULL);
   ~Document();
 
-  const QSize& size() { return size_; }
+  const QSize& size() const { return size_; }
+  const QRect& boundingRect() const;
   const QString& name() const { return name_; }
   const QString& title() const { return title_; }
   const QString& author() const { return author_; }

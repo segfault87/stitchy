@@ -121,30 +121,70 @@ void ActionMove::redo()
   SparseMap *orig = document_->map();
 
   const CellMap &cells = map_->cells();
-  
+  for (CellMap::ConstIterator it = cells.begin(); it != cells.end(); ++it) {
+    QPoint po = originalPosition_ + it.key();
+    QPoint pt = targetPosition_ + it.key();
+
+    /* remove original pos */
+    if (orig->contains(po))
+      orig->remove(po);
+
+    /* add new */
+    Cell *c = orig->cellAt(pt);
+    if (!c)
+      continue;
+    c->merge(*it.value());
+    c->createGraphicsItems();
+  }
 }
 
 void ActionMove::undo()
 {
   SparseMap *orig = document_->map();
+
+  foreach (const Cell &c, previousState_) {
+    Cell *newcell = orig->overwrite(c);
+    if (newcell)
+      newcell->createGraphicsItems();
+  }
+
+  const CellMap &cells = map_->cells();
+  for (CellMap::ConstIterator it = cells.begin(); it != cells.end(); ++it) {
+    QPoint po(originalPosition_ + it.key());
+    QPoint pt(targetPosition_ + it.key());
+
+    if (orig->contains(pt))
+      orig->remove(pt);
+    
+    /* add new */
+    Cell *c = orig->cellAt(po);
+    if (!c)
+      continue;
+    c->merge(*it.value());
+    c->createGraphicsItems();
+  }
 }
 
 void ActionMove::setData(SelectionGroup *group)
 {
   targetPosition_ = group->position();
+  SparseMap *origmap = document_->map();
   map_ = new SparseMap(*group->map());
 
   const CellMap &cells = map_->cells();
-  const CellMap &doccells = document_->map()->cells();
+  const CellMap &doccells = origmap->cells();
 
   for (CellMap::ConstIterator it = cells.begin(); it != cells.end(); ++it) {
     QPoint p(targetPosition_ + it.key());
-    if (doccells.contains(p)) {
-      previousState.append(Cell(p, document_));
+    if (origmap->contains(p)) {
+      previousState_.append(Cell(p, document_));
     } else {
-      Cell c(*doccells.cellAt(p));
+      const Cell *origcell = origmap->cellAt(p);
+      if (!origcell)
+        continue;
+      Cell c(*origcell);
       c.move(p);
-      previousState.append(c);
+      previousState_.append(c);
     }
   }
 }

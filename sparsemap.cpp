@@ -31,6 +31,9 @@ bool SparseMap::contains(const QPoint &pos) const
 
 Cell* SparseMap::cellAt(const QPoint &pos)
 {
+  if (!document_->boundingRect().contains(pos))
+    return NULL;
+
   CellMap::iterator it = cells_.find(pos);
 
   if (it == cells_.end()) {
@@ -44,6 +47,9 @@ Cell* SparseMap::cellAt(const QPoint &pos)
 
 Cell* SparseMap::overwrite(const Cell &c)
 {
+  if (!document_->boundingRect().contains(c.pos()))
+    return NULL;
+
   if (cells_.contains(c.pos())) {
     delete cells_[c.pos()];
     cells_.remove(c.pos());
@@ -61,6 +67,9 @@ Cell* SparseMap::overwrite(const Cell &c)
 
 Cell* SparseMap::merge(const Cell &c)
 {
+  if (!document_->boundingRect().contains(c.pos()))
+    return NULL;
+
   if (cells_.contains(c.pos())) {
     Cell *oc = cells_[c.pos()];
     oc->merge(c);

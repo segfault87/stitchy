@@ -262,7 +262,6 @@ void Canvas::mousePressEvent(QMouseEvent *event)
         floatingSelection_ = new SelectionGroup(doc, selection_->rect(), true);
 
       lastPos_ = cursor;
-      startPos_ = cursor;
 
       return;
     }
@@ -503,7 +502,8 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
       selecting_ = false;
     } else if (moving_) {
       moving_ = false;
-      doc->editor()->edit(new ActionMove(doc, startPos_, floatingSelection_));
+      doc->editor()->edit(new ActionMove(doc, selection_->rect().topLeft(),
+                                         floatingSelection_));
       delete floatingSelection_;
       floatingSelection_ = NULL;
     }

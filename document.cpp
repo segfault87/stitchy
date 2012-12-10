@@ -54,6 +54,11 @@ Document::~Document()
   delete map_;
 }
 
+const QRect& Document::boundingRect() const
+{
+  return QRect(QPoint(0, 0), size_);
+}
+
 void Document::acquire(StitchItem *item)
 {
   colors_.acquire(item);
