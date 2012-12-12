@@ -344,9 +344,11 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (cursor != cursor_) {
       /* draw */
 
-      cursor_ = cursor;
-
       Cell *cell = drawmap_->cellAt(cursor);
+      if (!cell)
+        return;
+      
+      cursor_ = cursor;
 
       if (mode == ToolMode_Full) {
         cell->addFullStitch(c);
