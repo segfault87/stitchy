@@ -259,7 +259,7 @@ void Cell::createGraphicsItems(QGraphicsItem *parent)
       it->acquire();
       features_[i] = it;
       if (!parent)
-        document_->scene()->addItem(it);
+        document_->addItem(it);
     }
   }
 }

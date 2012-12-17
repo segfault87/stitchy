@@ -17,7 +17,6 @@
 Canvas::Canvas(QWidget *parent)
     : QGraphicsView(parent)
 {
-  selection_ = NULL;
   floatingSelection_ = NULL;
   drawmap_ = NULL;
 
@@ -36,8 +35,6 @@ Canvas::~Canvas()
 {
   if (floatingSelection_)
     delete floatingSelection_;
-  if (selection_)
-    delete selection_;
   if (drawmap_)
     delete drawmap_;
 }
@@ -100,13 +97,8 @@ bool Canvas::mapToGrid(const QPoint &pos, QPoint &out, Subarea &subareaOut)
 
 void Canvas::setDocument(Document *doc)
 {
-  if (selection_) {
-    delete selection_;
-    selection_ = NULL;
-  }
-
   if (doc)
-    setScene(doc->scene());
+    setScene(doc);
   else
     setScene(NULL);
 }
@@ -133,16 +125,20 @@ void Canvas::toggleGrid(bool enabled)
 
 void Canvas::cut()
 {
-  if (!selection_)
+  Document *d = GlobalState::self()->activeDocument();
+  if (!d)
+    return;
+  if (!d->selection())
     return;
 }
 
 void Canvas::copy()
 {
-  if (!selection_)
+  Document *d = GlobalState::self()->activeDocument();
+  if (!d)
     return;
-
-  
+  if (!d->selection())
+    return;
 }
 
 void Canvas::paste()
@@ -152,13 +148,14 @@ void Canvas::paste()
 
 void Canvas::deleteSelected()
 {
-  if (!selection_)
-    return;
-
-  const QRect &rect = selection_->rect();
   Document *d = GlobalState::self()->activeDocument();
   if (!d)
     return;
+  if (!d->selection())
+    return;
+  
+  Selection *selection = d->selection();
+  const QRect &rect = selection->rect();
 
   SparseMap *orig = d->map();
   SparseMap *map = new SparseMap(d);
@@ -236,30 +233,33 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       QPoint cursor;
       if (!mapToGrid(event->pos(), cursor))
         return;
-
-      if (!selection_) {
-        selection_ = new Selection();
-        scene()->addItem(selection_);
-      }
+      
+      Selection *sel;
+      if (!doc->selection())
+        sel = doc->createSelection();
+      else
+        sel = doc->selection();
 
       startPos_ = cursor;
-      selection_->set(QRect(cursor, QSize(0, 0)));
+      sel->set(QRect(cursor, QSize(0, 0)));
 
       return;
     } else if (mode == ToolMode_Move) {
-      if (!selection_)
+      if (!doc->selection())
         return;
+      
+      Selection *sel = doc->selection();
 
       moving_ = true;
       
       QPoint cursor;
       if (!mapToGrid(event->pos(), cursor))
         return;
-      else if (!selection_->within(cursor))
+      else if (!sel->within(cursor))
         return;
 
       if (!floatingSelection_)
-        floatingSelection_ = new SelectionGroup(doc, selection_->rect(), true);
+        floatingSelection_ = new SelectionGroup(doc, sel->rect(), true);
 
       lastPos_ = cursor;
 
@@ -271,13 +271,15 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 
     drawmap_ = new SparseMap(doc);
 
+    Selection *sel = doc->selection();
+
     if (mode == ToolMode_Full || mode == ToolMode_Half ||
         mode == ToolMode_Petite || mode == ToolMode_Quarter) {
       QPoint cursor;
       if (!mapToGrid(event->pos(), cursor))
         return;
-
-      if (selection_ && !selection_->within(cursor))
+      
+      if (sel && !sel->within(cursor))
         return;
 
       drawing_ = true;
@@ -288,7 +290,7 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       if (!mapToGrid(event->pos(), cursor))
         return;
 
-      if (selection_ && !selection_->within(cursor))
+      if (sel && !sel->within(cursor))
         return;
 
       rectangle_ = true;
@@ -322,7 +324,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!mapToGrid(event->pos(), cursor))
         return;
 
-    selection_->set(QRect(startPos_, cursor));
+    doc->selection()->set(QRect(startPos_, cursor));
   } else if (dragging_) {
     /* pan */
 
@@ -336,7 +338,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!mapToGrid(event->pos(), cursor, subcursor))
       return;
 
-    if (selection_ && !selection_->within(cursor))
+    Selection *sel = doc->selection();
+    if (sel && !sel->within(cursor))
         return;
 
     ToolMode mode = GlobalState::self()->toolMode();
@@ -379,7 +382,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!mapToGrid(event->pos(), cursor))
       return;
 
-    if (selection_ && !selection_->within(cursor))
+    Selection *sel = doc->selection();
+    if (sel && !sel->within(cursor))
         return;
 
     if (cursor != cursor_) {
@@ -401,7 +405,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!mapToGrid(event->pos(), cursor))
         return;
 
-    if (selection_ && !selection_->within(cursor))
+    Selection *sel = doc->selection();
+    if (sel && !sel->within(cursor))
         return;
     
     QRect rect(startPos_, cursor);
@@ -456,12 +461,16 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!floatingSelection_)
       return;
 
+    Selection *sel = doc->selection();
+    if (!sel)
+      return;
+
     QPoint cursor;
     if (!mapToGrid(event->pos(), cursor))
       return;
 
     floatingSelection_->moveRel(cursor - lastPos_);
-    selection_->move(floatingSelection_->position());
+    sel->move(floatingSelection_->position());
 
     lastPos_ = cursor;
   }
@@ -491,11 +500,11 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
       delete drawmap_;
       drawmap_ = NULL;
     } else if (selecting_) {
-      const QRect &r = selection_->rect();
+      Selection *sel = doc->selection();
+      const QRect &r = sel->rect();
       
       if (r.width() == 0 && r.height() == 0) {
-	delete selection_;
-	selection_ = NULL;
+        doc->clearSelection();
 	emit clearedSelection();
       } else {
 	emit madeSelection(r);
@@ -503,8 +512,9 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
       
       selecting_ = false;
     } else if (moving_) {
+      Selection *sel = doc->selection();
       moving_ = false;
-      doc->editor()->edit(new ActionMove(doc, selection_->rect().topLeft(),
+      doc->editor()->edit(new ActionMove(doc, sel->rect().topLeft(),
                                          floatingSelection_));
       delete floatingSelection_;
       floatingSelection_ = NULL;

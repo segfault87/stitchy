@@ -145,5 +145,5 @@ void SelectionGroup::initialize(Document *doc, const QRect &region, bool move)
 
   moveTo(position_);
 
-  doc->scene()->addItem(this);
+  doc->addItem(this);
 }

@@ -1,6 +1,7 @@
 #ifndef _DOCUMENT_H_
 #define _DOCUMENT_H_
 
+#include <QGraphicsScene>
 #include <QSet>
 #include <QSize>
 #include <QObject>
@@ -9,13 +10,13 @@
 
 class QGraphicsItem;
 class QGraphicsItemGroup;
-class QGraphicsScene;
 
 class Editor;
+class Selection;
 class SparseMap;
 class StitchItem;
 
-class Document : public QObject
+class Document : public QGraphicsScene
 {
   Q_OBJECT;
 
@@ -25,17 +26,20 @@ class Document : public QObject
   ~Document();
 
   const QSize& size() const { return size_; }
-  const QRect& boundingRect() const;
+  QRect boundingRect() const;
   const QString& name() const { return name_; }
   const QString& title() const { return title_; }
   const QString& author() const { return author_; }
   bool changed() const { return changed_; }
 
   Editor* editor() { return editor_; }
-  QGraphicsScene* scene() { return scene_; }
   ColorUsageTracker* colorTracker() { return &colors_; }
   SparseMap* map() { return map_; }
-
+  
+  Selection* createSelection();
+  Selection* selection() { return selection_; }
+  void clearSelection();
+  
   void acquire(StitchItem *item);
   void release(StitchItem *item);
 
@@ -65,9 +69,9 @@ class Document : public QObject
 
   bool changed_;
 
+  Selection *selection_;
   Editor *editor_;
   SparseMap *map_;
-  QGraphicsScene *scene_;
   QGraphicsItemGroup *grid_;
   ColorUsageTracker colors_;
   QSet<StitchItem *> stitches_;

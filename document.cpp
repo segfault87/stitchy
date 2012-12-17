@@ -8,17 +8,18 @@
 #include "editor.h"
 #include "globalstate.h"
 #include "sparsemap.h"
+#include "selection.h"
 #include "stitch.h"
 #include "utils.h"
 
 #include "document.h"
 
 Document::Document(QObject *parent)
-    : QObject(parent)
+    : QGraphicsScene(parent)
 {
+  selection_ = NULL;
   changed_ = false;
 
-  scene_ = new QGraphicsScene(this);
   editor_ = new Editor(this);
   map_ = new SparseMap(this);
 
@@ -31,11 +32,11 @@ Document::Document(QObject *parent)
 }
 
 Document::Document(const QSize &size, QObject *parent)
-    : QObject(parent), size_(size)
+    : QGraphicsScene(parent), size_(size)
 {
+  selection_ = NULL;
   changed_ = false;
 
-  scene_ = new QGraphicsScene(this);
   editor_ = new Editor(this);
   map_ = new SparseMap(this);
 
@@ -51,12 +52,32 @@ Document::~Document()
 {
   GlobalState::self()->undoGroup()->removeStack(editor_);
 
+  if (selection_)
+    delete selection_;
+
   delete map_;
 }
 
-const QRect& Document::boundingRect() const
+QRect Document::boundingRect() const
 {
   return QRect(QPoint(0, 0), size_);
+}
+
+Selection* Document::createSelection()
+{
+  if (selection_)
+    delete selection_;
+
+  selection_ = new Selection();
+  addItem(selection_);
+}
+
+void Document::clearSelection()
+{
+  if (selection_) {
+    delete selection_;
+    selection_ = NULL;
+  }
 }
 
 void Document::acquire(StitchItem *item)
@@ -116,7 +137,7 @@ void Document::resetGrid()
     delete grid_;
 
   grid_ = grid();
-  scene_->addItem(grid_);
+  addItem(grid_);
 }
 
 QGraphicsItemGroup* Document::grid()

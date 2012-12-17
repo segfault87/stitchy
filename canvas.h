@@ -8,7 +8,6 @@
 class QMouseEvent;
 class QWheelEvent;
 
-class Selection;
 class SelectionGroup;
 class SparseMap;
 
@@ -47,7 +46,6 @@ class Canvas : public QGraphicsView
   void wheelEvent(QWheelEvent *event);
 
  private:
-  Selection *selection_;
   SelectionGroup *floatingSelection_;
   SparseMap *drawmap_;
 
