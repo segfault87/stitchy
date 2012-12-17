@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include <QPainter>
 
 #include "selection.h"
@@ -11,7 +9,6 @@ Selection::Selection()
 
 Selection::~Selection()
 {
-  printf("destructor called!\n");
 }
 
 void Selection::paint(QPainter *painter,

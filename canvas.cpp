@@ -249,14 +249,17 @@ void Canvas::mousePressEvent(QMouseEvent *event)
         return;
       
       Selection *sel = doc->selection();
-
-      moving_ = true;
       
       QPoint cursor;
       if (!mapToGrid(event->pos(), cursor))
         return;
-      else if (!sel->within(cursor))
+      else if (sel && !sel->within(cursor)) {
+        doc->clearSelection();
+	emit clearedSelection();
         return;
+      }
+
+      moving_ = true;
 
       if (!floatingSelection_)
         floatingSelection_ = new SelectionGroup(doc, sel->rect(), true);

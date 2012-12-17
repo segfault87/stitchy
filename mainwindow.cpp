@@ -243,6 +243,8 @@ void MainWindow::selectionChanged(const QRect &rect)
 
 void MainWindow::selectionCleared()
 {
+  actionModeSelect_->setChecked(true);
+  toolModeAction(actionModeSelect_);
   setEnabled(selectionActions_, false);
 }
 

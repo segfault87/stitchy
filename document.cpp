@@ -70,6 +70,8 @@ Selection* Document::createSelection()
 
   selection_ = new Selection();
   addItem(selection_);
+
+  return selection_;
 }
 
 void Document::clearSelection()
