@@ -74,6 +74,16 @@ Selection* Document::createSelection()
   return selection_;
 }
 
+Selection* Document::createSelection(const QRect &region)
+{
+  Selection *s = createSelection();
+  s->set(region);
+
+  emit madeSelection(region);
+
+  return s;
+}
+
 void Document::clearSelection()
 {
   if (selection_) {

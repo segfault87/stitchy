@@ -60,6 +60,8 @@ class MainWindow : public QMainWindow
   void initMenus();
   void initToolbars();
   void initConnections();
+  void initConnections(Document *doc);
+  void disconnectConnections(Document *doc);
 
  private:
   PaletteWidget *palette_;

@@ -1,5 +1,6 @@
 #include "cell.h"
 #include "document.h"
+#include "selection.h"
 #include "selectiongroup.h"
 #include "sparsemap.h"
 
@@ -49,7 +50,7 @@ void ActionMerge::replaceWith(const QList<Cell> &cells)
   }
 }
 
-void ActionMerge::mergeWith(const QList<Cell> &cells)
+void ActionMerge::mergeWith_(const QList<Cell> &cells)
 {
   SparseMap *map = document_->map();
 
@@ -73,7 +74,7 @@ ActionDraw::~ActionDraw()
 
 void ActionDraw::redo()
 {
-  mergeWith(drawn_);
+  mergeWith_(drawn_);
 }
 
 void ActionDraw::undo()
@@ -99,13 +100,15 @@ void ActionErase::redo()
 
 void ActionErase::undo()
 {
-  mergeWith(previousState_);
+  mergeWith_(previousState_);
 }
 
 ActionMove::ActionMove(Document *document, const QPoint &originalPosition,
-		       SelectionGroup *group)
-  : EditorAction(document), originalPosition_(originalPosition)
+		       const QSize &size, SelectionGroup *group)
+  : EditorAction(document), size_(size), originalPosition_(originalPosition)
 {
+  map_ = NULL;
+
   setText(QObject::tr("Moving"));
 
   setData(group);
@@ -113,7 +116,8 @@ ActionMove::ActionMove(Document *document, const QPoint &originalPosition,
 
 ActionMove::~ActionMove()
 {
-  delete map_;
+  if (map_)
+    delete map_;
 }
 
 void ActionMove::redo()
@@ -136,14 +140,19 @@ void ActionMove::redo()
     c->merge(*it.value());
     c->createGraphicsItems();
   }
+
+  document_->createSelection(QRect(targetPosition_, size_));
 }
 
 void ActionMove::undo()
 {
   SparseMap *orig = document_->map();
 
+  QSet<QPoint> prevSet;
+
   foreach (const Cell &c, previousState_) {
     Cell *newcell = orig->overwrite(c);
+    prevSet.insert(c.pos());
     if (newcell)
       newcell->createGraphicsItems();
   }
@@ -153,7 +162,7 @@ void ActionMove::undo()
     QPoint po(originalPosition_ + it.key());
     QPoint pt(targetPosition_ + it.key());
 
-    if (orig->contains(pt))
+    if (orig->contains(pt) && !prevSet.contains(pt))
       orig->remove(pt);
     
     /* add new */
@@ -163,28 +172,36 @@ void ActionMove::undo()
     c->merge(*it.value());
     c->createGraphicsItems();
   }
+
+  document_->createSelection(QRect(originalPosition_, size_));
 }
 
 void ActionMove::setData(SelectionGroup *group)
 {
+  if (map_)
+    delete map_;
+
   targetPosition_ = group->position();
   SparseMap *origmap = document_->map();
   map_ = new SparseMap(*group->map());
 
   const CellMap &cells = map_->cells();
-  const CellMap &doccells = origmap->cells();
-
+  previousState_.clear();
   for (CellMap::ConstIterator it = cells.begin(); it != cells.end(); ++it) {
-    QPoint p(targetPosition_ + it.key());
-    if (origmap->contains(p)) {
-      previousState_.append(Cell(p, document_));
-    } else {
-      const Cell *origcell = origmap->cellAt(p);
+    QPoint t(targetPosition_ + it.key());
+    if (origmap->contains(t)) {
+      const Cell *origcell = origmap->cellAt(t);
       if (!origcell)
         continue;
-      Cell c(*origcell);
-      c.move(p);
-      previousState_.append(c);
+      previousState_.append(Cell(*origcell));
+    } else {
+      previousState_.append(Cell(t, document_));
     }
   }
 }
+
+uint qHash(const QPoint &p)
+{
+  return qHash((quint64)p.x() << 32 | (quint64)p.y());
+}
+

@@ -36,6 +36,7 @@ class Canvas : public QGraphicsView
   void copy();
   void paste();
   void deleteSelected();
+  void clearSelection();
 
  private:
   void setCenter(const QPointF &centerPoint);

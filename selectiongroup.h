@@ -11,6 +11,8 @@ class SparseMap;
 class SelectionGroup : public QGraphicsItemGroup
 {
  public:
+  static const char* mimeType();
+
   SelectionGroup(Document *doc);
   SelectionGroup(Document *doc, const QRect &region, bool move = false);
   SelectionGroup(Document *doc, const QPoint &position);

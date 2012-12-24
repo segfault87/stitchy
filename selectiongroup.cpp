@@ -8,6 +8,11 @@
 
 #include "selectiongroup.h"
 
+const char* SelectionGroup::mimeType()
+{
+  return "application/vnd.kr.influx.stitchy.selection";
+}
+
 SelectionGroup::SelectionGroup(Document *doc)
     : QGraphicsItemGroup()
 {

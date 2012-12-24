@@ -18,6 +18,7 @@
 #include "globalstate.h"
 #include "newdocumentdialog.h"
 #include "palettewidget.h"
+#include "selectiongroup.h"
 #include "settings.h"
 #include "utils.h"
 
@@ -209,14 +210,16 @@ void MainWindow::updateTitle()
 
 void MainWindow::setActiveDocument(Document *document)
 {
+  if (state_->activeDocument())
+    disconnectConnections(state_->activeDocument());
+
   state_->setActiveDocument(document);
 
   if (state_->activeDocument()) {
     setEnabled(documentActions_, true);
     state_->undoGroup()->setActiveStack(document->editor());
     canvas_->setDocument(state_->activeDocument());
-    connect(document, SIGNAL(documentChanged()), this, SLOT(updateTitle()));
-    connect(document, SIGNAL(documentSaved()), this, SLOT(updateTitle()));
+    initConnections(document);
   } else {
     setEnabled(documentActions_, false);
     state_->undoGroup()->setActiveStack(NULL);
@@ -253,7 +256,7 @@ void MainWindow::clipboardChanged()
   const QMimeData *data = clipboard_->mimeData();
 
   if (state_->activeDocument() && data &&
-      data->hasFormat("application/vnd.kr.influx.stitchy.selection"))
+      data->hasFormat(SelectionGroup::mimeType()))
     actionPaste_->setEnabled(true);
   else
     actionPaste_->setEnabled(false);
@@ -644,4 +647,19 @@ void MainWindow::initConnections()
           this, SLOT(selectionCleared()));
   connect(clipboard_, SIGNAL(dataChanged()),
           this, SLOT(clipboardChanged()));
+}
+
+void MainWindow::initConnections(Document *doc)
+{
+  connect(doc, SIGNAL(documentChanged()), this, SLOT(updateTitle()));
+  connect(doc, SIGNAL(documentSaved()), this, SLOT(updateTitle()));
+  connect(doc, SIGNAL(madeSelection(const QRect &)),
+	  canvas_, SIGNAL(madeSelection(const QRect &)));
+}
+
+void MainWindow::disconnectConnections(Document *doc)
+{
+  disconnect(doc, SIGNAL(documentChanged()));
+  disconnect(doc, SIGNAL(documentSaved()));
+  disconnect(doc, SIGNAL(madeSelection(const QRect &)));
 }

@@ -26,7 +26,7 @@ class ActionMerge : public EditorAction
 
  protected:
   void replaceWith(const QList<Cell> &cells);
-  void mergeWith(const QList<Cell> &cells);
+  void mergeWith_(const QList<Cell> &cells);
 
   QList<Cell> previousState_;
   QList<Cell> drawn_;
@@ -56,7 +56,7 @@ class ActionMove : public EditorAction
 {
  public:
   ActionMove(Document *document, const QPoint &originalPosition,
-	     SelectionGroup *group);
+	     const QSize &size, SelectionGroup *group);
   ~ActionMove();
 
   void redo();
@@ -66,6 +66,7 @@ class ActionMove : public EditorAction
   void setData(SelectionGroup *group);
 
  private:
+  QSize size_;
   QPoint originalPosition_;
   QPoint targetPosition_;
   SparseMap *map_;

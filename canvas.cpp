@@ -1,3 +1,5 @@
+#include <QApplication>
+#include <QClipboard>
 #include <QMouseEvent>
 #include <QWheelEvent>
 
@@ -130,6 +132,10 @@ void Canvas::cut()
     return;
   if (!d->selection())
     return;
+
+  copy();
+  deleteSelected();
+  clearSelection();
 }
 
 void Canvas::copy()
@@ -139,6 +145,14 @@ void Canvas::copy()
     return;
   if (!d->selection())
     return;
+
+  SelectionGroup *grp = new SelectionGroup(d, d->selection()->rect(), false);
+  QClipboard *clipboard = QApplication::clipboard();
+  QMimeData *mimeData = new QMimeData();
+  mimeData->setData(SelectionGroup::mimeType(), grp->serialize());
+  clipboard->setMimeData(mimeData);
+    
+  delete grp;
 }
 
 void Canvas::paste()
@@ -170,6 +184,18 @@ void Canvas::deleteSelected()
   d->editor()->edit(new ActionErase(d, map));
 
   delete map;
+}
+
+void Canvas::clearSelection()
+{
+  Document *doc = GlobalState::self()->activeDocument();
+  if (!doc)
+    return;
+
+  if (doc->selection()) {
+    doc->clearSelection();
+    emit clearedSelection();
+  }
 }
 
 void Canvas::setCenter(const QPointF& centerPoint)
@@ -254,8 +280,7 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       if (!mapToGrid(event->pos(), cursor))
         return;
       else if (sel && !sel->within(cursor)) {
-        doc->clearSelection();
-	emit clearedSelection();
+        clearSelection();
         return;
       }
 
@@ -264,6 +289,7 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       if (!floatingSelection_)
         floatingSelection_ = new SelectionGroup(doc, sel->rect(), true);
 
+      startPos_ = sel->rect().topLeft();
       lastPos_ = cursor;
 
       return;
@@ -517,8 +543,9 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
     } else if (moving_) {
       Selection *sel = doc->selection();
       moving_ = false;
-      doc->editor()->edit(new ActionMove(doc, sel->rect().topLeft(),
+      doc->editor()->edit(new ActionMove(doc, startPos_, sel->rect().size(),
                                          floatingSelection_));
+      startPos_ = QPoint();
       delete floatingSelection_;
       floatingSelection_ = NULL;
     }

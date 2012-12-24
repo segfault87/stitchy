@@ -37,6 +37,7 @@ class Document : public QGraphicsScene
   SparseMap* map() { return map_; }
   
   Selection* createSelection();
+  Selection* createSelection(const QRect &region);
   Selection* selection() { return selection_; }
   void clearSelection();
   
@@ -46,6 +47,7 @@ class Document : public QGraphicsScene
  signals:
   void documentChanged();
   void documentSaved();
+  void madeSelection(const QRect &rect);
 
  public slots:
   void setName(const QString &name);

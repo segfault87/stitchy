@@ -116,15 +116,22 @@ void PositionedStitchItem::paint(QPainter *painter,
       paintStitch(painter);
       break;
     default:
-      painter->scale(size_.width(), size_.height());
-      painter->setPen(QPen(color_->color().darker(), 0.5 / size_.width()));
-      paintStitch(painter);
+      const QRectF &rect = boundingRect();
+      qreal borderw = rect.width() * 0.2;
+      qreal borderh = rect.height() * 0.2;
+      painter->setPen(Qt::NoPen);
+      painter->setBrush(color_->color());
+      painter->drawRect(rect);
+      painter->setBrush(Qt::white);
+      painter->drawRect(borderw, borderh,
+			rect.width() - (borderw * 2), rect.height() - (borderh * 2));
       painter->setPen(Qt::black);
       QFont fnt;
       fnt.setPointSizeF(12);
       painter->setFont(fnt);
-      painter->scale(0.03, 0.03);
-      painter->drawText(QRectF(0.0, 0.0, 100.0, 100.0), color_->id());
+      painter->scale(0.25, 0.25);
+      QRectF normalized(rect.x() * 4.0, rect.y() * 4.0, rect.width() * 4.0, rect.height() * 4.0);
+      painter->drawText(normalized, Qt::AlignHCenter | Qt::AlignVCenter, color_->id());
       break;
   }
 }
