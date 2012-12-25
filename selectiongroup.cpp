@@ -20,26 +20,25 @@ SelectionGroup::SelectionGroup(Document *doc)
 }
 
 SelectionGroup::SelectionGroup(Document *doc, const QRect &region, bool move)
+  : QGraphicsItemGroup(), region_(region)
 {
-  position_ = region.topLeft();
-
   map_ = new SparseMap(doc);
 
   initialize(doc, region, move);
 }
 
-SelectionGroup::SelectionGroup(Document *doc, const QPoint &position)
-    : QGraphicsItemGroup(), position_(position)
+SelectionGroup::SelectionGroup(Document *doc, const QRect &region)
+    : QGraphicsItemGroup(), region_(region)
 {
   map_ = new SparseMap(doc);
 }
 
-SelectionGroup::SelectionGroup(Document *doc, QByteArray &array)
+SelectionGroup::SelectionGroup(Document *doc, const QByteArray &array)
     : QGraphicsItemGroup()
 {
   map_ = new SparseMap(doc);
 
-  deserialize(array);
+  deserialize(doc, array);
 }
 
 SelectionGroup::~SelectionGroup()
@@ -49,16 +48,16 @@ SelectionGroup::~SelectionGroup()
 
 void SelectionGroup::moveTo(const QPoint &p)
 {
-  position_ = p;
+  region_.moveTopLeft(p);
 
   setPos(QPointF(p.x() * 10.0f, p.y() * 10.0f));
 }
 
 void SelectionGroup::moveRel(const QPoint &delta)
 {
-  position_ += delta;
+  region_.moveTopLeft(region_.topLeft() + delta);
   
-  setPos(QPointF(position_.x() * 10.0f, position_.y() * 10.0f));
+  setPos(QPointF(region_.x() * 10.0f, region_.y() * 10.0f));
 }
 
 QByteArray SelectionGroup::serialize() const
@@ -66,7 +65,7 @@ QByteArray SelectionGroup::serialize() const
   QByteArray array;
   QDataStream stream(&array, QIODevice::WriteOnly);
 
-  stream << position_.x() << position_.y();
+  stream << region_.x() << region_.y() << region_.width() << region_.height();
   
   const CellMap &map = map_->cells();
   stream << map.size();
@@ -79,10 +78,10 @@ QByteArray SelectionGroup::serialize() const
         const Color *color = c->color(i);
         stream << i;
         if (color->parent())
-          stream << color->parent()->name();
+          stream << color->parent()->id();
         else
           stream << "";
-        stream << color->name();
+        stream << color->id();
       }
     }
   }
@@ -90,13 +89,13 @@ QByteArray SelectionGroup::serialize() const
   return array;
 }
 
-void SelectionGroup::deserialize(QByteArray &array)
+void SelectionGroup::deserialize(Document *doc, const QByteArray &array)
 {
-  QDataStream stream(&array, QIODevice::ReadOnly);
+  QDataStream stream(const_cast<QByteArray *>(&array), QIODevice::ReadOnly);
 
-  int x, y;
-  stream >> x >> y;
-  position_ = QPoint(x, y);
+  int x, y, w, h;
+  stream >> x >> y >> w >> h;
+  region_ = QRect(x, y, w, h);
 
   map_->clear();
   int len;
@@ -121,15 +120,18 @@ void SelectionGroup::deserialize(QByteArray &array)
       }
     }
 
-    cell->createGraphicsItems();
+    cell->createGraphicsItems(this);
   }
+
+  moveTo(position());
+  doc->addItem(this);
 }
 
 void SelectionGroup::initialize(Document *doc, const QRect &region, bool move)
 {
   SparseMap *map = doc->map();
 
-  position_ = region.topLeft();
+  region_ = region;
   
   for (int y = region.y(); y < region.y() + region.height(); ++y) {
     for (int x = region.x() ; x < region.x() + region.width(); ++x) {
@@ -148,7 +150,6 @@ void SelectionGroup::initialize(Document *doc, const QRect &region, bool move)
     }
   }
 
-  moveTo(position_);
-
+  moveTo(position());
   doc->addItem(this);
 }

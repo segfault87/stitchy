@@ -20,6 +20,7 @@ Canvas::Canvas(QWidget *parent)
     : QGraphicsView(parent)
 {
   floatingSelection_ = NULL;
+  pastedSelection_ = NULL;
   drawmap_ = NULL;
 
   selecting_ = false;
@@ -37,6 +38,8 @@ Canvas::~Canvas()
 {
   if (floatingSelection_)
     delete floatingSelection_;
+  if (pastedSelection_)
+    delete pastedSelection_;
   if (drawmap_)
     delete drawmap_;
 }
@@ -151,13 +154,36 @@ void Canvas::copy()
   QMimeData *mimeData = new QMimeData();
   mimeData->setData(SelectionGroup::mimeType(), grp->serialize());
   clipboard->setMimeData(mimeData);
-    
+  
   delete grp;
 }
 
 void Canvas::paste()
 {
+  Document *d = GlobalState::self()->activeDocument();
+  if (!d)
+    return;
+  
+  QClipboard *clipboard = QApplication::clipboard();
+  const QMimeData *data = clipboard->mimeData();
+  if (!data)
+    return;
+  if (!data->hasFormat(SelectionGroup::mimeType()))
+    return;
 
+  paste(data->data(SelectionGroup::mimeType()));
+}
+
+void Canvas::paste(const QByteArray &data)
+{
+  Document *d = GlobalState::self()->activeDocument();
+  if (!d)
+    return;
+
+  if (pastedSelection_)
+    commitPaste();
+  pastedSelection_ = new SelectionGroup(d, data);
+  d->createSelection(pastedSelection_->region());
 }
 
 void Canvas::deleteSelected()
@@ -196,6 +222,37 @@ void Canvas::clearSelection()
     doc->clearSelection();
     emit clearedSelection();
   }
+}
+
+void Canvas::clearFloatingSelection()
+{
+  if (floatingSelection_) {
+    delete floatingSelection_;
+    floatingSelection_ = NULL;
+  }
+  if (pastedSelection_) {
+    delete pastedSelection_;
+    pastedSelection_ = NULL;
+  }
+
+  clearSelection();
+}
+
+void Canvas::moveFloatingSelection(const QPoint &pos)
+{
+  if (!pastedSelection_)
+    return;
+
+  pastedSelection_->moveTo(pos);
+}
+
+void Canvas::commitPaste()
+{
+  if (!pastedSelection_)
+    return;
+
+  delete pastedSelection_;
+  pastedSelection_ = NULL;
 }
 
 void Canvas::setCenter(const QPointF& centerPoint)
@@ -286,7 +343,7 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 
       moving_ = true;
 
-      if (!floatingSelection_)
+      if (!pastedSelection_ && !floatingSelection_)
         floatingSelection_ = new SelectionGroup(doc, sel->rect(), true);
 
       startPos_ = sel->rect().topLeft();
@@ -487,7 +544,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
     lastRect_ = rect;
   } else if (moving_) {
-    if (!floatingSelection_)
+    if (!floatingSelection_ && !pastedSelection_)
       return;
 
     Selection *sel = doc->selection();
@@ -498,8 +555,17 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     if (!mapToGrid(event->pos(), cursor))
       return;
 
-    floatingSelection_->moveRel(cursor - lastPos_);
-    sel->move(floatingSelection_->position());
+    SelectionGroup *selgroup;
+    if (floatingSelection_)
+      selgroup = floatingSelection_;
+    else if (pastedSelection_)
+      selgroup = pastedSelection_;
+    QRect tpos = selgroup->region();
+    tpos.moveTopLeft(tpos.topLeft() + (cursor - lastPos_));
+    if (!QRect(QPoint(0, 0), doc->size()).contains(tpos))
+      return;
+    selgroup->moveRel(cursor - lastPos_);
+    sel->move(selgroup->position());
 
     lastPos_ = cursor;
   }
@@ -543,11 +609,13 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
     } else if (moving_) {
       Selection *sel = doc->selection();
       moving_ = false;
-      doc->editor()->edit(new ActionMove(doc, startPos_, sel->rect().size(),
-                                         floatingSelection_));
+      if (floatingSelection_) {
+	doc->editor()->edit(new ActionMove(doc, startPos_, sel->rect().size(),
+					   floatingSelection_));
+	delete floatingSelection_;
+	floatingSelection_ = NULL;
+      }
       startPos_ = QPoint();
-      delete floatingSelection_;
-      floatingSelection_ = NULL;
     }
   }
 }

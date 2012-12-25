@@ -1,3 +1,4 @@
+#include "canvas.h"
 #include "cell.h"
 #include "document.h"
 #include "selection.h"
@@ -17,7 +18,18 @@ EditorAction::~EditorAction()
   
 }
 
-ActionMerge::ActionMerge(Document *document, SparseMap *map)
+CanvasAction::CanvasAction(Document *document, Canvas *canvas)
+  : EditorAction(document), canvas_(canvas)
+{
+
+}
+
+CanvasAction::~CanvasAction()
+{
+
+}
+
+MergeAction::MergeAction(Document *document, SparseMap *map)
     : EditorAction(document)
 {
   const CellMap &cells = document->map()->cells();
@@ -34,12 +46,12 @@ ActionMerge::ActionMerge(Document *document, SparseMap *map)
   }
 }
 
-ActionMerge::~ActionMerge()
+MergeAction::~MergeAction()
 {
 
 }
 
-void ActionMerge::replaceWith(const QList<Cell> &cells)
+void MergeAction::replaceWith(const QList<Cell> &cells)
 {
   SparseMap *map = document_->map();
 
@@ -50,7 +62,7 @@ void ActionMerge::replaceWith(const QList<Cell> &cells)
   }
 }
 
-void ActionMerge::mergeWith_(const QList<Cell> &cells)
+void MergeAction::mergeWith_(const QList<Cell> &cells)
 {
   SparseMap *map = document_->map();
 
@@ -62,7 +74,7 @@ void ActionMerge::mergeWith_(const QList<Cell> &cells)
 }
 
 ActionDraw::ActionDraw(Document *document, SparseMap *map)
-    : ActionMerge(document, map)
+    : MergeAction(document, map)
 {
   setText(QObject::tr("Drawing"));
 }
@@ -83,7 +95,7 @@ void ActionDraw::undo()
 }
 
 ActionErase::ActionErase(Document *document, SparseMap *map)
-    : ActionMerge(document, map)
+    : MergeAction(document, map)
 {
   setText(QObject::tr("Erasing"));
 }
@@ -181,7 +193,7 @@ void ActionMove::setData(SelectionGroup *group)
   if (map_)
     delete map_;
 
-  targetPosition_ = group->position();
+  targetPosition_ = group->region().topLeft();
   SparseMap *origmap = document_->map();
   map_ = new SparseMap(*group->map());
 
@@ -198,6 +210,49 @@ void ActionMove::setData(SelectionGroup *group)
       previousState_.append(Cell(t, document_));
     }
   }
+}
+
+ActionPaste::ActionPaste(Document *document, Canvas *canvas, const QByteArray &data)
+  : CanvasAction(document, canvas), data_(data)
+{
+  setText(QObject::tr("Pasting"));
+}
+
+ActionPaste::~ActionPaste()
+{
+
+}
+
+void ActionPaste::redo()
+{
+  canvas_->paste(data_);
+}
+
+void ActionPaste::undo()
+{
+  canvas_->clearFloatingSelection();
+}
+
+ActionFloatMove::ActionFloatMove(Document *document, Canvas *canvas,
+				 const QPoint &from, const QPoint &to)
+  : CanvasAction(document, canvas), from_(from), to_(to)
+{
+
+}
+
+ActionFloatMove::~ActionFloatMove()
+{
+
+}
+
+void ActionFloatMove::redo()
+{
+  canvas_->moveFloatingSelection(to_);
+}
+
+void ActionFloatMove::undo()
+{
+  canvas_->moveFloatingSelection(from_);
 }
 
 uint qHash(const QPoint &p)

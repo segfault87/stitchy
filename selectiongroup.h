@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <QGraphicsItemGroup>
 #include <QPoint>
+#include <QRect>
 
 class Document;
 class SparseMap;
@@ -15,11 +16,12 @@ class SelectionGroup : public QGraphicsItemGroup
 
   SelectionGroup(Document *doc);
   SelectionGroup(Document *doc, const QRect &region, bool move = false);
-  SelectionGroup(Document *doc, const QPoint &position);
-  SelectionGroup(Document *doc, QByteArray &array);
+  SelectionGroup(Document *doc, const QRect &region);
+  SelectionGroup(Document *doc, const QByteArray &array);
   ~SelectionGroup();
 
-  const QPoint& position() { return position_; }
+  QPoint position() { return region_.topLeft(); }
+  const QRect& region() { return region_; }
   const SparseMap* map() { return map_; }
 
   void moveTo(const QPoint &p);
@@ -28,11 +30,11 @@ class SelectionGroup : public QGraphicsItemGroup
   QByteArray serialize() const;
 
  private:
-  void deserialize(QByteArray &array);
+  void deserialize(Document *doc, const QByteArray &array);
   void initialize(Document *doc, const QRect &region, bool move = false);
 
  private:
-  QPoint position_;
+  QRect region_;
   SparseMap *map_;
 };
 

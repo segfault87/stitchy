@@ -20,7 +20,7 @@ class Canvas : public QGraphicsView
   ~Canvas();
 
   bool mapToGrid(const QPoint &pos, QPoint &out);
-  bool mapToGrid(const QPoint &pos, QPoint &out, Subarea &subareaOut);
+  bool mapToGrid(const QPoint &pos, QPoint &out, Subarea &subareaOut);  
   
  signals:
   void madeSelection(const QRect &rect);
@@ -35,10 +35,14 @@ class Canvas : public QGraphicsView
   void cut();
   void copy();
   void paste();
+  void paste(const QByteArray &data);
   void deleteSelected();
   void clearSelection();
+  void clearFloatingSelection();
+  void moveFloatingSelection(const QPoint &pos);
 
  private:
+  void commitPaste();
   void setCenter(const QPointF &centerPoint);
 
   void mousePressEvent(QMouseEvent *event);
@@ -48,6 +52,7 @@ class Canvas : public QGraphicsView
 
  private:
   SelectionGroup *floatingSelection_;
+  SelectionGroup *pastedSelection_;
   SparseMap *drawmap_;
 
   /* states */
