@@ -20,7 +20,6 @@ Canvas::Canvas(QWidget *parent)
     : QGraphicsView(parent)
 {
   floatingSelection_ = NULL;
-  pastedSelection_ = NULL;
   drawmap_ = NULL;
 
   selecting_ = false;
@@ -38,8 +37,6 @@ Canvas::~Canvas()
 {
   if (floatingSelection_)
     delete floatingSelection_;
-  if (pastedSelection_)
-    delete pastedSelection_;
   if (drawmap_)
     delete drawmap_;
 }
@@ -171,19 +168,22 @@ void Canvas::paste()
   if (!data->hasFormat(SelectionGroup::mimeType()))
     return;
 
-  paste(data->data(SelectionGroup::mimeType()));
+  paste(data->data(SelectionGroup::mimeType()), true);
 }
 
-void Canvas::paste(const QByteArray &data)
+void Canvas::paste(const QByteArray &data, bool action)
 {
   Document *d = GlobalState::self()->activeDocument();
   if (!d)
     return;
-
-  if (pastedSelection_)
+  
+  if (action) {
+    d->editor()->edit(new ActionPaste(d, this, data));
+  } else {
     commitPaste();
-  pastedSelection_ = new SelectionGroup(d, data);
-  d->createSelection(pastedSelection_->region());
+    d->createFloatingSelection(data);
+    d->createSelection(d->floatingSelection()->region());
+  }
 }
 
 void Canvas::deleteSelected()
@@ -226,33 +226,40 @@ void Canvas::clearSelection()
 
 void Canvas::clearFloatingSelection()
 {
+  Document *doc = GlobalState::self()->activeDocument();
+  if (!doc)
+    return;
+
   if (floatingSelection_) {
     delete floatingSelection_;
     floatingSelection_ = NULL;
   }
-  if (pastedSelection_) {
-    delete pastedSelection_;
-    pastedSelection_ = NULL;
-  }
 
+  doc->clearFloatingSelection();
   clearSelection();
 }
 
 void Canvas::moveFloatingSelection(const QPoint &pos)
 {
-  if (!pastedSelection_)
+  Document *doc = GlobalState::self()->activeDocument();
+  if (!doc)
     return;
 
-  pastedSelection_->moveTo(pos);
+  if (!doc->floatingSelection())
+    return;
+
+  doc->floatingSelection()->moveTo(pos);
+  if (doc->selection())
+    doc->selection()->move(pos);
 }
 
 void Canvas::commitPaste()
 {
-  if (!pastedSelection_)
+  Document *doc = GlobalState::self()->activeDocument();
+  if (!doc || !doc->floatingSelection())
     return;
 
-  delete pastedSelection_;
-  pastedSelection_ = NULL;
+  doc->editor()->edit(new ActionFloatCommit(doc, this, doc->floatingSelection()));
 }
 
 void Canvas::setCenter(const QPointF& centerPoint)
@@ -311,11 +318,11 @@ void Canvas::mousePressEvent(QMouseEvent *event)
     ToolMode mode = GlobalState::self()->toolMode();
 
     if (mode == ToolMode_Select) {
-      selecting_ = true;
-
       QPoint cursor;
       if (!mapToGrid(event->pos(), cursor))
         return;
+
+      selecting_ = true;
       
       Selection *sel;
       if (!doc->selection())
@@ -334,16 +341,17 @@ void Canvas::mousePressEvent(QMouseEvent *event)
       Selection *sel = doc->selection();
       
       QPoint cursor;
-      if (!mapToGrid(event->pos(), cursor))
+      if (!mapToGrid(event->pos(), cursor)) {
         return;
-      else if (sel && !sel->within(cursor)) {
+      } else if (sel && !sel->within(cursor)) {
+        commitPaste();
         clearSelection();
         return;
       }
 
       moving_ = true;
 
-      if (!pastedSelection_ && !floatingSelection_)
+      if (!doc->floatingSelection() && !floatingSelection_)
         floatingSelection_ = new SelectionGroup(doc, sel->rect(), true);
 
       startPos_ = sel->rect().topLeft();
@@ -544,7 +552,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
     lastRect_ = rect;
   } else if (moving_) {
-    if (!floatingSelection_ && !pastedSelection_)
+    if (!floatingSelection_ && !doc->floatingSelection())
       return;
 
     Selection *sel = doc->selection();
@@ -558,8 +566,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     SelectionGroup *selgroup;
     if (floatingSelection_)
       selgroup = floatingSelection_;
-    else if (pastedSelection_)
-      selgroup = pastedSelection_;
+    else if (doc->floatingSelection())
+      selgroup = doc->floatingSelection();
     QRect tpos = selgroup->region();
     tpos.moveTopLeft(tpos.topLeft() + (cursor - lastPos_));
     if (!QRect(QPoint(0, 0), doc->size()).contains(tpos))
@@ -614,6 +622,9 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event)
 					   floatingSelection_));
 	delete floatingSelection_;
 	floatingSelection_ = NULL;
+      } else if (doc->floatingSelection()) {
+        doc->editor()->edit(new ActionFloatMove(doc, this, startPos_,
+                                                sel->rect().topLeft()));
       }
       startPos_ = QPoint();
     }

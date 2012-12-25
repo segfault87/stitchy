@@ -13,6 +13,7 @@ class QGraphicsItemGroup;
 
 class Editor;
 class Selection;
+class SelectionGroup;
 class SparseMap;
 class StitchItem;
 
@@ -40,6 +41,10 @@ class Document : public QGraphicsScene
   Selection* createSelection(const QRect &region);
   Selection* selection() { return selection_; }
   void clearSelection();
+
+  SelectionGroup* createFloatingSelection(const QByteArray &data);
+  SelectionGroup* floatingSelection() { return floatingSelection_; }
+  void clearFloatingSelection();
   
   void acquire(StitchItem *item);
   void release(StitchItem *item);
@@ -72,6 +77,7 @@ class Document : public QGraphicsScene
   bool changed_;
 
   Selection *selection_;
+  SelectionGroup *floatingSelection_;
   Editor *editor_;
   SparseMap *map_;
   QGraphicsItemGroup *grid_;

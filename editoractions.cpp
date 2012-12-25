@@ -29,7 +29,8 @@ CanvasAction::~CanvasAction()
 
 }
 
-MergeAction::MergeAction(Document *document, SparseMap *map)
+MergeAction::MergeAction(Document *document, const SparseMap *map,
+                         const QPoint &offset)
     : EditorAction(document)
 {
   const CellMap &cells = document->map()->cells();
@@ -38,11 +39,18 @@ MergeAction::MergeAction(Document *document, SparseMap *map)
   for (CellMap::ConstIterator it = newcells.begin();
        it != newcells.end();
        ++it) {
-    if (cells.contains(it.key()))
-      previousState_.append(Cell(*cells[it.key()]));
-    else 
-      previousState_.append(Cell(it.key(), document_));
-    drawn_.append(Cell(*it.value()));
+    QPoint adjusted = it.key() + offset;
+
+    if (cells.contains(adjusted)) {
+      Cell c = *cells[it.key()];
+      c.move(adjusted);
+      previousState_.append(c);
+    } else {
+      previousState_.append(Cell(adjusted, document_));
+    }
+    Cell nc = *it.value();
+    nc.move(adjusted);
+    drawn_.append(nc);
   }
 }
 
@@ -225,7 +233,7 @@ ActionPaste::~ActionPaste()
 
 void ActionPaste::redo()
 {
-  canvas_->paste(data_);
+  canvas_->paste(data_, false);
 }
 
 void ActionPaste::undo()
@@ -237,7 +245,7 @@ ActionFloatMove::ActionFloatMove(Document *document, Canvas *canvas,
 				 const QPoint &from, const QPoint &to)
   : CanvasAction(document, canvas), from_(from), to_(to)
 {
-
+  setText(QObject::tr("Moving Selection"));
 }
 
 ActionFloatMove::~ActionFloatMove()
@@ -253,6 +261,35 @@ void ActionFloatMove::redo()
 void ActionFloatMove::undo()
 {
   canvas_->moveFloatingSelection(from_);
+}
+
+ActionFloatCommit::ActionFloatCommit(Document *document, Canvas *canvas,
+                                     SelectionGroup *group)
+    : MergeAction(document, group->map(), group->region().topLeft()),
+      canvas_(canvas)
+{
+  setText(QObject::tr("Collapsing Selection"));
+
+  data_ = group->serialize();
+}
+
+ActionFloatCommit::~ActionFloatCommit()
+{
+
+}
+
+void ActionFloatCommit::redo()
+{
+  mergeWith_(drawn_);
+
+  canvas_->clearFloatingSelection();
+}
+
+void ActionFloatCommit::undo()
+{
+  replaceWith(previousState_);
+
+  canvas_->paste(data_, false);
 }
 
 uint qHash(const QPoint &p)

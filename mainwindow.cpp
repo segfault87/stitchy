@@ -158,6 +158,9 @@ void MainWindow::toolModeAction(QAction *action)
 {
   ToolMode t;
 
+  if (state_->toolMode() == ToolMode_Move && action != actionModeMove_)
+    canvas_->commitPaste();
+
   if (action == actionModeSelect_)
     t = ToolMode_Select;
   else if (action == actionModeMove_)
@@ -510,7 +513,7 @@ void MainWindow::initActions()
   documentActions_ << actionCloseFile_ << actionSaveFile_ <<
       actionSaveFileAs_ << actionZoomIn_ << actionZoomOut_ <<
       actionZoomReset_;
-  selectionActions_ << actionCut_ << actionCopy_ << actionPaste_ <<
+  selectionActions_ << actionCut_ << actionCopy_ <<
       actionDeleteSelected_;
 }
 

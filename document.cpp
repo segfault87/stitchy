@@ -9,6 +9,7 @@
 #include "globalstate.h"
 #include "sparsemap.h"
 #include "selection.h"
+#include "selectiongroup.h"
 #include "stitch.h"
 #include "utils.h"
 
@@ -18,6 +19,7 @@ Document::Document(QObject *parent)
     : QGraphicsScene(parent)
 {
   selection_ = NULL;
+  floatingSelection_ = NULL;
   changed_ = false;
 
   editor_ = new Editor(this);
@@ -35,6 +37,7 @@ Document::Document(const QSize &size, QObject *parent)
     : QGraphicsScene(parent), size_(size)
 {
   selection_ = NULL;
+  floatingSelection_ = NULL;
   changed_ = false;
 
   editor_ = new Editor(this);
@@ -54,6 +57,8 @@ Document::~Document()
 
   if (selection_)
     delete selection_;
+  if (floatingSelection_)
+    delete floatingSelection_;
 
   delete map_;
 }
@@ -89,6 +94,24 @@ void Document::clearSelection()
   if (selection_) {
     delete selection_;
     selection_ = NULL;
+  }
+}
+
+SelectionGroup* Document::createFloatingSelection(const QByteArray &data)
+{
+  if (floatingSelection_)
+    delete floatingSelection_;
+
+  floatingSelection_ = new SelectionGroup(this, data);
+
+  return floatingSelection_;
+}
+
+void Document::clearFloatingSelection()
+{
+  if (floatingSelection_) {
+    delete floatingSelection_;
+    floatingSelection_ = NULL;
   }
 }
 

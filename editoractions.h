@@ -32,7 +32,8 @@ class CanvasAction : public EditorAction
 class MergeAction : public EditorAction
 {
  public:
-  MergeAction(Document *document, SparseMap *map);
+  MergeAction(Document *document, const SparseMap *map,
+              const QPoint &point = QPoint());
   virtual ~MergeAction();
 
  protected:
@@ -115,7 +116,8 @@ class ActionFloatMove : public CanvasAction
 class ActionFloatCommit : public MergeAction
 {
  public:
-  ActionFloatCommit(Document *document, Canvas *canvas);
+  ActionFloatCommit(Document *document, Canvas *canvas,
+                    SelectionGroup *group);
   ~ActionFloatCommit();
 
   void redo();

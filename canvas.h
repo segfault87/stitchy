@@ -35,14 +35,14 @@ class Canvas : public QGraphicsView
   void cut();
   void copy();
   void paste();
-  void paste(const QByteArray &data);
+  void paste(const QByteArray &data, bool action = false);
   void deleteSelected();
   void clearSelection();
   void clearFloatingSelection();
   void moveFloatingSelection(const QPoint &pos);
+  void commitPaste();
 
  private:
-  void commitPaste();
   void setCenter(const QPointF &centerPoint);
 
   void mousePressEvent(QMouseEvent *event);
@@ -52,7 +52,6 @@ class Canvas : public QGraphicsView
 
  private:
   SelectionGroup *floatingSelection_;
-  SelectionGroup *pastedSelection_;
   SparseMap *drawmap_;
 
   /* states */
