@@ -41,13 +41,10 @@ MergeAction::MergeAction(Document *document, const SparseMap *map,
        ++it) {
     QPoint adjusted = it.key() + offset;
 
-    if (cells.contains(adjusted)) {
-      Cell c = *cells[it.key()];
-      c.move(adjusted);
-      previousState_.append(c);
-    } else {
+    if (cells.contains(adjusted))
+      previousState_.append(*cells[adjusted]);
+    else
       previousState_.append(Cell(adjusted, document_));
-    }
     Cell nc = *it.value();
     nc.move(adjusted);
     drawn_.append(nc);
