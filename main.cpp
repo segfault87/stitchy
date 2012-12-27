@@ -1,5 +1,6 @@
 #include <QApplication>
 
+#include "common.h"
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -8,8 +9,8 @@ int main(int argc, char *argv[])
 
   QCoreApplication::setOrganizationName("Influx");
   QCoreApplication::setOrganizationDomain("influx.kr");
-  QCoreApplication::setApplicationName("Stitcher");
-  QCoreApplication::setApplicationVersion("0.5.1");
+  QCoreApplication::setApplicationName("Stitchy");
+  QCoreApplication::setApplicationVersion(VERSION);
 
   MainWindow mw;
   mw.show();

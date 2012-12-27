@@ -1,8 +1,11 @@
 CONFIG += qt debug
 TEMPLATE = app
-TARGET = 
+TARGET = Stitchy
+VERSION = 0.5.1
+
 DEPENDPATH += .
 INCLUDEPATH += .
+DEFINES += VERSION=\"$${VERSION}\"
 LIBS += -lqjson
 
 # Input

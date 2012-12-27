@@ -178,7 +178,7 @@ void MainWindow::quit()
 void MainWindow::about()
 {
   QMessageBox::about(this, tr("About Stitchy"),
-		     tr("<qt><h2>Stitchy - A free cross-stitch pattern designer for Windows, Mac OS X and Unix.</h2>Copyright (c) 2012 Park Joon-Kyu &lt;segfault87@gmail.com&gt;<br><br>This software is a free software. Visit <a href=\"https://github.com/segfault87/stitchy\">GitHub page</a> to find out more.</qt>"));
+		     tr("<qt><h2>Stitchy - A free cross-stitch pattern designer for Windows, Mac OS X and Unix.</h2>Version %1<br>Copyright (c) 2012 Park Joon-Kyu &lt;segfault87@gmail.com&gt;<br><br>This software is a free software. Visit <a href=\"https://github.com/segfault87/stitchy\">GitHub page</a> to find out more.</qt>").arg(VERSION));
 }
 
 void MainWindow::viewModeAction(QAction *action)
