@@ -15,7 +15,9 @@
 #include "coloreditor.h"
 #include "document.h"
 #include "documentio.h"
+#include "documentpropertiesdialog.h"
 #include "globalstate.h"
+#include "importdialog.h"
 #include "newdocumentdialog.h"
 #include "palettewidget.h"
 #include "selectiongroup.h"
@@ -114,14 +116,32 @@ void MainWindow::importFile()
 
   if (!path.isEmpty()) {
     QImage image(path);
+
+    if (image.isNull()) {
+      QMessageBox::critical(this, tr("Error"), tr("Error loading image file."));
+      return;
+    }
+
+    ImportDialog diag(image, this);
+    diag.show();
+    diag.exec();
+
+    if (diag.result() != QDialog::Accepted)
+      return;
+
+    const QColor *transparentColor = NULL;
+    if (diag.hasTransparent())
+      transparentColor = &diag.transparentColor();
+
     Document *doc = DocumentFactory::load(image, 
-					  GlobalState::self()->colorManager()->colorManager("dmc"),
-					  60,
-					  NULL);
+					  diag.colorManager(),
+					  diag.documentWidth(),
+					  transparentColor);
     if (!doc) {
       QMessageBox::critical(this, tr("Error"), tr("Error loading file."));
     } else {
-      doc->setName(path);
+      doc->setTitle(diag.title());
+      doc->setAuthor(diag.author());
       setActiveDocument(doc);
     }
   }

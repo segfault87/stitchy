@@ -13,20 +13,22 @@
 ColorManager::ColorManager(QObject *parent)
     : QObject(parent), name_(QObject::tr("My Colors"))
 {
-
+  isDependent_ = true;
 }
 
 ColorManager::ColorManager(const QString &id, const QString &name,
                            QObject *parent)
     : QObject(parent), id_(id), name_(name)
 {
-
+  isDependent_ = false;
 }
 
 ColorManager::ColorManager(const QString &id, const QString &name,
                            const QString &path, QObject *parent)
     : QObject(parent), id_(id), name_(name)
 {
+  isDependent_ = false;
+
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly))
     qFatal("Could not open color table!");
@@ -157,7 +159,6 @@ void ColorManager::clear()
 ColorUsageTracker::ColorUsageTracker(QObject *parent)
     : ColorManager(parent), total_(0.0)
 {
-  setDependent(true);
 }
 
 ColorUsageTracker::~ColorUsageTracker()

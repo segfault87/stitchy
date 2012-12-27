@@ -93,6 +93,7 @@ class MainWindow : public QMainWindow
   QAction *actionCopy_;
   QAction *actionPaste_;
   QAction *actionDeleteSelected_;
+  QAction *actionDocumentProperties_;
 
   /* view actions */
   QAction *actionZoomIn_;

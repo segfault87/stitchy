@@ -10,6 +10,8 @@ RESOURCES += stitchy.qrc
 
 FORMS += \
   coloreditor.ui \
+  documentpropertiesdialog.ui \
+  importdialog.ui \
   newdocumentdialog.ui
 
 HEADERS += \
@@ -21,9 +23,11 @@ HEADERS += \
   common.h \
   document.h \
   documentio.h \
+  documentpropertiesdialog.h \
   editor.h \
   editoractions.h \
   globalstate.h \
+  importdialog.h \
   kdtree.h \
   mainwindow.h \
   newdocumentdialog.h \
@@ -44,9 +48,11 @@ SOURCES += \
   colormanager.cpp \
   document.cpp \
   documentio.cpp \
+  documentpropertiesdialog.cpp \
   editor.cpp \
   editoractions.cpp \
   globalstate.cpp \
+  importdialog.cpp \
   kdtree.cpp \
   mainwindow.cpp \
   newdocumentdialog.cpp \
