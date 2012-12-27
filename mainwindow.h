@@ -35,6 +35,7 @@ class MainWindow : public QMainWindow
   void saveFile();
   void saveFileAs();
   void quit();
+  void about();
   void viewModeAction(QAction *action);
   void showColorEditor();
   void toolModeAction(QAction *action);
@@ -76,6 +77,7 @@ class MainWindow : public QMainWindow
   QMenu *menuView_;
   QMenu *menuTool_;
   QMenu *menuWindow_;
+  QMenu *menuHelp_;
 
   /* file actions */
   QAction *actionNewFile_;
@@ -118,6 +120,10 @@ class MainWindow : public QMainWindow
 
   /* window actions */
   QAction *actionColorEditor_;
+
+  /* help actions */
+  QAction *actionAbout_;
+  QAction *actionAboutQt_;
 
   QList<QAction *> documentActions_;
   QList<QAction *> selectionActions_;

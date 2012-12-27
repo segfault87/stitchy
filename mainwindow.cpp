@@ -175,6 +175,12 @@ void MainWindow::quit()
     qApp->quit();
 }
 
+void MainWindow::about()
+{
+  QMessageBox::about(this, tr("About Stitchy"),
+		     tr("<qt><h2>Stitchy - A free cross-stitch pattern designer for Windows, Mac OS X and Unix.</h2>Copyright (c) 2012 Park Joon-Kyu &lt;segfault87@gmail.com&gt;<br><br>This software is a free software. Visit <a href=\"https://github.com/segfault87/stitchy\">GitHub page</a> to find out more.</qt>"));
+}
+
 void MainWindow::viewModeAction(QAction *action)
 {
   RenderingMode rm;
@@ -560,6 +566,17 @@ void MainWindow::initActions()
                                     QKeySequence("F12"),
                                     QIcon());
 
+  actionAbout_ = createAction(tr("&About..."),
+			      this,
+			      SLOT(about()),
+			      QKeySequence(),
+			      QIcon());
+  actionAboutQt_ = createAction(tr("About &Qt..."),
+				qApp,
+				SLOT(aboutQt()),
+				QKeySequence(),
+				QIcon());
+
   documentActions_ << actionCloseFile_ << actionSaveFile_ <<
       actionSaveFileAs_ << actionZoomIn_ << actionZoomOut_ <<
       actionZoomReset_;
@@ -614,6 +631,10 @@ void MainWindow::initMenus()
 
   menuWindow_ = menuBar()->addMenu(tr("&Window"));
   menuWindow_->addAction(actionColorEditor_);
+
+  menuHelp_ = menuBar()->addMenu(tr("&Help"));
+  menuHelp_->addAction(actionAbout_);
+  menuHelp_->addAction(actionAboutQt_);
 }
 
 void MainWindow::initToolbars()
