@@ -102,6 +102,31 @@ void MainWindow::openFile()
   }
 }
 
+void MainWindow::importFile()
+{
+  closeFile();
+
+  QString path = QFileDialog::getOpenFileName(
+      this,
+      tr("Choose an image file to load"),
+      QString(),
+      tr("Image Files (*.png *.jpg *.bmp)"));
+
+  if (!path.isEmpty()) {
+    QImage image(path);
+    Document *doc = DocumentFactory::load(image, 
+					  GlobalState::self()->colorManager()->colorManager("dmc"),
+					  60,
+					  NULL);
+    if (!doc) {
+      QMessageBox::critical(this, tr("Error"), tr("Error loading file."));
+    } else {
+      doc->setName(path);
+      setActiveDocument(doc);
+    }
+  }
+}
+
 void MainWindow::closeFile()
 {
   if (!confirmClose())
@@ -379,6 +404,11 @@ void MainWindow::initActions()
                                  SLOT(openFile()),
                                  QKeySequence::Open,
                                  Utils::icon("document-open"));
+  actionImportFile_ = createAction(tr("&Import Image..."),
+				   this,
+				   SLOT(importFile()),
+				   QKeySequence(),
+				   Utils::icon("document-import"));
   actionCloseFile_ = createAction(tr("&Close"),
                                   this,
                                   SLOT(closeFile()),
@@ -522,6 +552,7 @@ void MainWindow::initMenus()
   menuFile_ = menuBar()->addMenu(tr("&File"));
   menuFile_->addAction(actionNewFile_);
   menuFile_->addAction(actionOpenFile_);
+  menuFile_->addAction(actionImportFile_);
   menuFile_->addSeparator();
   menuFile_->addAction(actionSaveFile_);
   menuFile_->addAction(actionSaveFileAs_);

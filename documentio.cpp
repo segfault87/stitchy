@@ -9,6 +9,7 @@
 #include "colormanager.h"
 #include "document.h"
 #include "globalstate.h"
+#include "kdtree.h"
 #include "sparsemap.h"
 
 #include "documentio.h"
@@ -266,6 +267,49 @@ Document* DocumentFactory::load(const QString &path, QString &error)
   }
 
   delete io;
+
+  return doc;
+}
+
+Document* DocumentFactory::load(const QImage &image, ColorManager *manager,
+				int width, const QColor *transparentColor)
+{
+  if (image.isNull())
+    return NULL;
+
+  int height = image.height() / (image.width() / (float) width);
+  QImage scaled = image.scaled(width + 1, height + 1, Qt::KeepAspectRatio);
+
+  Document *doc = new Document(QSize(width, height));
+  SparseMap *map = doc->map();
+  Color *transparent = NULL;
+  if (transparentColor)
+    transparent = new Color("Transparent color", "transparent", *transparentColor);
+
+  KdTree kdtree(manager, transparent);
+  
+  for (int x = 0; x < width; ++x) {
+    for (int y = 0; y < height; ++y) {
+      QRgb pix = scaled.pixel(x, y);
+
+      QColor c;
+      if (qAlpha(pix) < 64)
+	continue;
+      else
+	c = QColor(pix);
+
+      const Color *stitch = kdtree.nearest(c);
+      if (stitch == transparent || !stitch)
+	continue;
+
+      Cell *cell = map->cellAt(QPoint(x, y));
+      cell->addFullStitch(stitch);
+      cell->createGraphicsItems();
+    }
+  }
+  
+  if (transparent)
+    delete transparent;
 
   return doc;
 }

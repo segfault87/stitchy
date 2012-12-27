@@ -46,7 +46,16 @@ ColorManager::ColorManager(const QString &id, const QString &name,
 
 ColorManager::~ColorManager()
 {
-  
+  if (!isDependent_) {
+    for (QHash<QString, const Color *>::iterator it = colorMap_.begin();
+	 it != colorMap_.end();
+	 ++it) {
+      delete it.value();
+    }
+  }
+
+  colorMap_.clear();
+  colorList_.clear();
 }
 
 void ColorManager::load(const QVariant &l)
@@ -55,42 +64,42 @@ void ColorManager::load(const QVariant &l)
   foreach(const QVariant &i, list) {
     const QMap<QString, QVariant> &map = i.toMap();
 
-    Color c(map["name"].toString(),
-            map["id"].toString(),
-            QColor(map["color"].toString()));
-    c.setParent(this);
+    Color *c = new Color(map["name"].toString(),
+			 map["id"].toString(),
+			 QColor(map["color"].toString()));
+    c->setParent(this);
     
     add(c);
   }
 }
 
-void ColorManager::add(const Color &c)
+void ColorManager::add(const Color *c)
 {
-  if (!colorMap_.contains(c.id())) {
-    colorMap_.insert(c.id(), c);
+  if (!colorMap_.contains(c->id())) {
+    colorMap_.insert(c->id(), c);
     emit colorAppended();
-    colorList_.append(&colorMap_[c.id()]);
+    colorList_.append(colorMap_[c->id()]);
     emit listChanged();
   }
 }
 
-void ColorManager::insert(const Color &c, int before)
+void ColorManager::insert(const Color *c, int before)
 {
-  if (!colorMap_.contains(c.id())) {
-    colorMap_.insert(c.id(), c);
+  if (!colorMap_.contains(c->id())) {
+    colorMap_.insert(c->id(), c);
     emit colorInserted(before);
-    colorList_.insert(before, &colorMap_[c.id()]);
+    colorList_.insert(before, colorMap_[c->id()]);
     emit listChanged();
   }
 }
 
 void ColorManager::remove(const QString &id)
 {
-  QHash<QString, Color>::Iterator it = colorMap_.find(id);
+  QHash<QString, const Color *>::Iterator it = colorMap_.find(id);
   if (it == colorMap_.end())
     return;
 
-  int index = colorList_.indexOf(&(*it));
+  int index = colorList_.indexOf(*it);
   if (index >= 0) {
     colorList_.remove(index);
     emit colorDeleted(index);
@@ -119,11 +128,11 @@ void ColorManager::swap(int index1, int index2)
 
 const Color* ColorManager::get(const QString &id) const
 {
-  QHash<QString, Color>::const_iterator i = colorMap_.find(id);
+  QHash<QString, const Color *>::const_iterator i = colorMap_.find(id);
   if (i == colorMap_.end())
     return NULL;
 
-  return &(*i);
+  return *i;
 }
 
 const Color* ColorManager::itemAt(int index) const
@@ -148,7 +157,7 @@ void ColorManager::clear()
 ColorUsageTracker::ColorUsageTracker(QObject *parent)
     : ColorManager(parent), total_(0.0)
 {
-  
+  setDependent(true);
 }
 
 ColorUsageTracker::~ColorUsageTracker()
@@ -158,31 +167,32 @@ ColorUsageTracker::~ColorUsageTracker()
 
 void ColorUsageTracker::acquire(StitchItem *item)
 {
-  backrefMap_[item->color()].insert(item);
-  weightMap_[item->color()] += item->weight();
+  const Color *key = item->color();
+  backrefMap_[key].insert(item);
+  weightMap_[key] += item->weight();
   total_ += item->weight();
   const Color *c = item->color();
   if (colorMap_.find(c->id()) == colorMap_.end())
-    add(Color(*c));
+    add(c);
 }
 
 void ColorUsageTracker::release(StitchItem *item)
 {
-  QSet<StitchItem *> &set = backrefMap_[item->color()];
+  const Color *key = item->color();
+  QSet<StitchItem *> &set = backrefMap_[key];
   total_ -= item->weight();
-  weightMap_[item->color()] -= item->weight();
+  weightMap_[key] -= item->weight();
   set.remove(item);
   if (set.size() == 0) {
     remove(item->color()->id());
-    weightMap_.remove(item->color());
-    backrefMap_.remove(item->color());
+    weightMap_.remove(key);
+    backrefMap_.remove(key);
   }
 }
 
 const QSet<StitchItem *>* ColorUsageTracker::items(const Color *color) const
 {
-  QHash<const Color *, QSet<StitchItem *> >::ConstIterator it =
-      backrefMap_.find(color);
+  BackRefMap::ConstIterator it = backrefMap_.find(color);
 
   if (it == backrefMap_.end())
     return NULL;
@@ -193,7 +203,7 @@ const QSet<StitchItem *>* ColorUsageTracker::items(const Color *color) const
 MetaColorManager::MetaColorManager(QObject *parent)
     : QObject(parent)
 {
-
+  localSwatches_.setDependent(true);
 }
 
 MetaColorManager::MetaColorManager(const QString &path, QObject *parent)
@@ -241,7 +251,7 @@ void MetaColorManager::populateMyColors()
     QStringList fr = s.split("|");
     const Color *c = get(fr[0], fr[1]);
     if (c)
-      localSwatches_.add(Color(*c));
+      localSwatches_.add(c);
   }
 }
 

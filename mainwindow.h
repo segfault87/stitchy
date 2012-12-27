@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow
  private slots:
   void newFile();
   void openFile();
+  void importFile();
   void closeFile();
   void saveFile();
   void saveFileAs();
@@ -79,6 +80,7 @@ class MainWindow : public QMainWindow
   /* file actions */
   QAction *actionNewFile_;
   QAction *actionOpenFile_;
+  QAction *actionImportFile_;
   QAction *actionCloseFile_;
   QAction *actionSaveFile_;
   QAction *actionSaveFileAs_;

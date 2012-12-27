@@ -90,13 +90,13 @@ void ColorEditor::addColor()
   const Color *c = foreignColors_->itemAt(selection.indexes()[0].row());
 
   if (rs.indexes().size() == 0) {
-    myColors_->add(Color(*c));
+    myColors_->add(c);
   } else {
     int row = rs.indexes()[0].row();
     if (row == myColors_->count() - 1)
-      myColors_->add(Color(*c));
+      myColors_->add(c);
     else
-      myColors_->insert(Color(*c), row + 1);
+      myColors_->insert(c, row + 1);
   }
 }
 

@@ -154,9 +154,9 @@ FullStitchItem::~FullStitchItem()
 
 }
 
-qreal FullStitchItem::weight() const
+int FullStitchItem::weight() const
 {
-  return PI_2 * 2.0;
+  return 8;
 }
 
 void FullStitchItem::paintStitch(QPainter *painter)
@@ -183,9 +183,9 @@ PetiteStitchItem::~PetiteStitchItem()
 
 }
 
-qreal PetiteStitchItem::weight() const
+int PetiteStitchItem::weight() const
 {
-  return PI_2;
+  return 2;
 }
 
 void PetiteStitchItem::paintStitch(QPainter *painter)
@@ -214,9 +214,9 @@ HalfStitchItem::~HalfStitchItem()
 
 }
 
-qreal HalfStitchItem::weight() const
+int HalfStitchItem::weight() const
 {
-  return PI_2;
+  return 4;
 }
 
 void HalfStitchItem::paintStitch(QPainter *painter)
@@ -247,9 +247,9 @@ QuarterStitchItem::~QuarterStitchItem()
 
 }
 
-qreal QuarterStitchItem::weight() const
+int QuarterStitchItem::weight() const
 {
-  return PI_2 / 2.0;
+  return 1;
 }
 
 void QuarterStitchItem::paintStitch(QPainter *painter)

@@ -49,6 +49,8 @@ class DocumentFactory
  public:
   static DocumentIo* defaultSerializer(Document *d);
   static Document* load(const QString &path, QString &error);
+  static Document* load(const QImage &image, ColorManager *manager,
+			int width, const QColor *transparentColor);
   static bool save(Document *doc, const QString &path, QString &error);
 };
 

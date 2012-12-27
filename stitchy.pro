@@ -24,6 +24,7 @@ HEADERS += \
   editor.h \
   editoractions.h \
   globalstate.h \
+  kdtree.h \
   mainwindow.h \
   newdocumentdialog.h \
   palettemodel.h \
@@ -46,6 +47,7 @@ SOURCES += \
   editor.cpp \
   editoractions.cpp \
   globalstate.cpp \
+  kdtree.cpp \
   mainwindow.cpp \
   newdocumentdialog.cpp \
   palettemodel.cpp \

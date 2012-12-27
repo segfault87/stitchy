@@ -29,8 +29,11 @@ class ColorManager : public QObject
   const QString& name() const { return name_; }
   const QString& id() const { return id_; }
 
-  void add(const Color &c);
-  void insert(const Color &c, int before);
+  bool isDependent() const { return isDependent_; }
+  void setDependent(bool b) { isDependent_ = b; }
+
+  void add(const Color *c);
+  void insert(const Color *c, int before);
   void remove(const QString &key);
   void swap(int index1, int index2);
   const Color* get(const QString &key) const;
@@ -50,12 +53,15 @@ class ColorManager : public QObject
  protected:
   QString id_;
   QString name_;
-  QHash<QString, Color> colorMap_;
+  QHash<QString, const Color *> colorMap_;
   QVector<const Color *> colorList_;
+
+ private:
+  bool isDependent_;
 };
 
 typedef QHash<const Color *, QSet<StitchItem *> > BackRefMap;
-typedef QHash<const Color *, qreal> WeightMap;
+typedef QHash<const Color *, int> WeightMap;
 
 class ColorUsageTracker : public ColorManager
 {
